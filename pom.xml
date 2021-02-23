@@ -57,7 +57,7 @@
                     <artifactId>tomcat7-maven-plugin</artifactId>
                     <version>2.2</version>
                     <configuration>
-                        <url>http://localhost:8080/manager</url>
+                        <url>http://localhost:8080/test</url>
                         <server>LocalTomcat</server>
                         <path>/ers</path>
                         <update>true</update>
