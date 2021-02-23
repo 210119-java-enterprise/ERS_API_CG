@@ -3,6 +3,7 @@ Standup notes link : https://docs.google.com/document/d/1uAjWwGGjjiAIjUvkULk4KLv
 Todo list :
 X    Set up GitHub
 0    Add servlets to application
+0    Add Hibernate
 0    Set up Database on AWS
 0    Set up AWS S3 bucket to hold receipt images
 0    Determine authentication strategy (JWT of HTTP Session)
