@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.*;
 
 public class UserRepository {
-    private String baseQuery = "SELECT * FROM project_1.ers_users eu ";
+    private String baseQuery = "SELECT * FROM ers_users ";
     private String baseInsert = "INSERT INTO project_1.ers_users ";
     private String baseUpdate = "UPDATE project_1.ers_users eu ";
 
