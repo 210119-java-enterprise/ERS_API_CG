@@ -48,7 +48,6 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = Encryption.encrypt(req.getParameter("password"));
         PrintWriter out = resp.getWriter();
-        out.write(password);
 
         //User user = userService.authenticate(username, password);
 
