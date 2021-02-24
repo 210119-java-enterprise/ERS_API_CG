@@ -104,7 +104,7 @@ public class UserRepository {
     public Optional<User> getAUserByUsernameAndPassword(String userName, String password) {
         Optional<User> user = Optional.empty();
         try (Connection conn = ConnectionFactory.getInstance().getConnection()){
-            String sql = baseQuery + "WHERE username = ? AND  password = project_1.crypt(?, password)";
+            String sql = baseQuery + "WHERE username = ? AND  password = ?";
             PreparedStatement psmt = conn.prepareStatement(sql);
             psmt.setString(1,userName);
             psmt.setString(2,password);
