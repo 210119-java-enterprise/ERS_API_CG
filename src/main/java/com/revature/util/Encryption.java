@@ -1,16 +1,20 @@
 package com.revature.util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 /**
  * This is a singleton class that will encrypt a string that is passed
  * to it
  */
 public class Encryption {
+
+    private static final Logger logger = LogManager.getLogger(Encryption.class);
 
     /**
      * This method will encrypt the message passed to it with AES/ECB encryption
@@ -24,25 +28,32 @@ public class Encryption {
         byte[] encryptedMessage = null;
         Cipher cipher = null;
 
+        logger.info("Getting the cipher instance");
+
         try {
             cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+            //e.printStackTrace();
         }
 
         SecretKey secretKey = new SecretKeySpec(encryptionKeyBytes, "AES");
 
         try {
             if(cipher == null){
-                throw new RuntimeException("Cipher is null");
+                logger.error("Cipher is null");
+            }else {
+                cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+                encryptedMessage = cipher.doFinal(message.getBytes());
+                logger.info("Encrypted the password");
             }
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            encryptedMessage = cipher.doFinal(message.getBytes());
         } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+            //e.printStackTrace();
         }
 
         if(encryptedMessage == null){
+            logger.error("The encrypted password is null");
             return null;
         }
 

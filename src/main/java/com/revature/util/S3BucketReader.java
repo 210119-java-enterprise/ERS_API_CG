@@ -9,6 +9,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,6 +21,8 @@ import java.io.InputStreamReader;
  * information into the reader
  */
 public class S3BucketReader {
+
+    private static final Logger logger = LogManager.getLogger(S3BucketReader.class);
 
     private static String url;
     private static String username;
@@ -40,12 +44,16 @@ public class S3BucketReader {
                 .withRegion(Regions.US_EAST_2)
                 .build();
 
+        logger.info("Trying to connect to S3 Bucket");
+
         try (S3Object fullObject = s3Client.getObject(new GetObjectRequest(bucketName, aesSecretKeyKey))) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(fullObject.getObjectContent()));
             String line = null;
             aesPrivateKey = reader.readLine();
+            logger.info("Grabbed the AESPrivateKey from the S3 bucket");
         } catch (SdkClientException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+            //e.printStackTrace();
         }
 
         try (S3Object fullObject = s3Client.getObject(new GetObjectRequest(bucketName, propertiesKey))) {
@@ -66,8 +74,10 @@ public class S3BucketReader {
                 }
                 count--;
             }
+            logger.info("Grabbed the database connection information from the S3 bucket");
         } catch (SdkClientException | IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+            //e.printStackTrace();
         }
     }
 

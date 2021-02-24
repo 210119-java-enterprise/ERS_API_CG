@@ -1,5 +1,7 @@
 package com.revature.util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -19,18 +21,24 @@ import java.util.Properties;
  * A Class to get a connection from the connection factory
  */
 public class ConnectionFactory {
+
     private Properties props = new Properties();
     private static ConnectionFactory connFactory = new ConnectionFactory();
+
+    private static final Logger logger = LogManager.getLogger(ConnectionFactory.class);
     private static SessionFactory sessionFactory;
 
     private ConnectionFactory(){
 
+        logger.info("Creating configuration for hibernate");
         Configuration configuration = new Configuration().addResource("hibernate.cfg.xml")
                 .setProperty("hibernate.connection.url",S3BucketReader.getUrl())
                 .setProperty("hibernate.connection.username", S3BucketReader.getUsername())
                 .setProperty("hibernate.connection.password", S3BucketReader.getPassword());
+        logger.info("Creating service registry for hibernate");
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
                 configuration.getProperties()). build();
+        logger.info("Building session factory from service registry");
         sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 
     }
