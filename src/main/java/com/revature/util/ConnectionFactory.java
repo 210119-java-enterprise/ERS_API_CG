@@ -1,5 +1,11 @@
 package com.revature.util;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,22 +21,37 @@ import java.util.Properties;
 public class ConnectionFactory {
     private Properties props = new Properties();
     private static ConnectionFactory connFactory = new ConnectionFactory();
+    private static SessionFactory sessionFactory;
 
     private ConnectionFactory(){
-        try {
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            InputStream propsInput = loader.getResourceAsStream("application.properties");
-            if (propsInput == null) {
-                props.setProperty("url", System.getProperty("url"));
-                props.setProperty("username", System.getProperty("username"));
-                props.setProperty("password", System.getProperty("password"));
-            } else {
-                props.load(propsInput);
-            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        Configuration configuration = new Configuration().addResource("hibernate.cfg.xml")
+                .setProperty("hibernate.connection.url",S3BucketReader.getUrl())
+                .setProperty("hibernate.connection.username", S3BucketReader.getUsername())
+                .setProperty("hibernate.connection.password", S3BucketReader.getPassword());
+        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
+                configuration.getProperties()). build();
+        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
+    }
+
+    /**
+     * Gets the current instance of the session factory that is connected to the DB
+     * @return the instance of the session factory
+     */
+    public static SessionFactory getSessionFactory(){
+        return sessionFactory;
+    }
+
+    /**
+     * Gets a session that gives access to the database
+     * @return a session to the database
+     */
+    public static Session getSession(){
+        if(sessionFactory.getCurrentSession() == null){
+            return sessionFactory.openSession();
         }
+        return sessionFactory.getCurrentSession();
     }
 
     /**
