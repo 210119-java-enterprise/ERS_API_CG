@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 @WebServlet(name = "Login", displayName = "login", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
@@ -61,12 +62,18 @@ public class LoginServlet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
         resp.setContentType("application/json");
 
+        User authUser = null;
+
 //        try {
 
             Credentials creds = mapper.readValue(req.getInputStream(), Credentials.class);
 
             //LOG.info("Attempting to authenticate user, {}, with provided credentials", creds.getUsername());
-            User authUser = userService.authenticate(creds.getUsername(), creds.getPassword());
+        try {
+            authUser = userService.authenticate(creds.getUsername(), creds.getPassword());
+        }catch(SQLException e){
+            writer.write(e.getMessage());
+        }
 
             writer.write(creds.getUsername() + "\n" + creds.getPassword() + "\n");
             writer.write(mapper.writeValueAsString(authUser));

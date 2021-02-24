@@ -4,6 +4,7 @@ import com.revature.models.Role;
 import com.revature.models.User;
 import com.revature.repositories.UserRepository;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ public class UserService {
      * @param password password of the user
      * @return the object of the requested user
      */
-    public User authenticate(String username, String password){
+    public User authenticate(String username, String password) throws SQLException {
         if (username == null || username.trim().equals("") || password == null || password.trim().equals("")){
             throw new RuntimeException("Invalid credentials provided");
         }

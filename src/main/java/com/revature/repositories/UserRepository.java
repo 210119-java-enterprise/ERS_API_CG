@@ -101,18 +101,15 @@ public class UserRepository {
      * @return returns an optional user
      * @throws SQLException e
      */
-    public Optional<User> getAUserByUsernameAndPassword(String userName, String password) {
+    public Optional<User> getAUserByUsernameAndPassword(String userName, String password) throws SQLException {
         Optional<User> user = Optional.empty();
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()){
-            String sql = baseQuery + "WHERE username = ? AND  password = ?";
+        Connection conn = ConnectionFactory.getInstance().getConnection();
+            String sql = baseQuery + "WHERE username = ? AND  password = ? ";
             PreparedStatement psmt = conn.prepareStatement(sql);
             psmt.setString(1,userName);
             psmt.setString(2,password);
             ResultSet rs = psmt.executeQuery();
             user = mapResultSet(rs).stream().findFirst();
-        } catch (SQLException sqle) {
-            sqle.printStackTrace();
-        }
         System.out.println(user);
         return user;
     }
