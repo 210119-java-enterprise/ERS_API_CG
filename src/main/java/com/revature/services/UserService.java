@@ -19,7 +19,7 @@ public class UserService {
      * @return A list of Users
      */
     public List<User> getAllUsers(){
-        List<User> users = userRepo.getAllusers();
+        List<User> users = userRepo.getAllUsers();
         if (users.isEmpty()){
             throw new RuntimeException();
         }

@@ -64,8 +64,6 @@ public class LoginServlet extends HttpServlet {
         User authUser = null;
 
         try {
-
-
             Credentials creds = mapper.readValue(req.getInputStream(), Credentials.class);
 
             //LOG.info("Attempting to authenticate user, {}, with provided credentials", creds.getUsername());

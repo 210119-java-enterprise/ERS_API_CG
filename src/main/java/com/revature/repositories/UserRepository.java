@@ -46,10 +46,10 @@ public class UserRepository {
 
     //---------------------------------- READ -------------------------------------------- //
 
-    public List<User> getAllusers() {
+    public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
-            String sql = baseQuery + " order by eu.id";
+            String sql = "SELECT * FROM ers_users";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             users = mapResultSet(rs);
@@ -104,13 +104,13 @@ public class UserRepository {
     public Optional<User> getAUserByUsernameAndPassword(String userName, String password) throws SQLException {
         Optional<User> user = Optional.empty();
         Connection conn = ConnectionFactory.getInstance().getConnection();
-            String sql = baseQuery + "WHERE username = ? AND  password = ? ";
+            String sql = "SELECT * FROM ers_users WHERE username = ? AND  password = crypt(?, gen_salt('bf', 8))";
             PreparedStatement psmt = conn.prepareStatement(sql);
             psmt.setString(1,userName);
             psmt.setString(2,password);
             ResultSet rs = psmt.executeQuery();
             user = mapResultSet(rs).stream().findFirst();
-        System.out.println(user);
+        System.out.println(psmt + "\nreturns : " + user);
         return user;
     }
 
@@ -184,6 +184,7 @@ public class UserRepository {
             temp.setUserRole(rs.getInt("user_role_id"));
             users.add(temp);
         }
+        System.out.println("In mapResultSet : users count = " + users.size());
         return users;
     }
 
