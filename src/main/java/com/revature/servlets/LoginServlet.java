@@ -25,7 +25,7 @@ public class LoginServlet extends HttpServlet {
         printWriter.print("<html>");
         printWriter.print("<body>");
         printWriter.print("<div style=\"text-align: center\">\n" +
-                "        <h1>Admin Login</h1>\n" +
+                "        <h1>ERS Login</h1>\n" +
                 "        <form action=\"login\" method=\"post\">\n" +
                 "            <label for=\"username\">Username:</label>\n" +
                 "            <input name=\"username\" size=\"30\" />\n" +
