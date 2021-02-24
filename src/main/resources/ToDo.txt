@@ -1,0 +1,17 @@
+Standup notes link : https://docs.google.com/document/d/1uAjWwGGjjiAIjUvkULk4KLvP366bggxyjIs5o1PJneQ/edit?usp=sharing
+
+Todo list :
+X    Set up GitHub
+0    Add servlets to application
+0    Add Hibernate
+0    Set up Database on AWS
+0    Set up AWS S3 bucket to hold receipt images
+0    Determine authentication strategy (JWT of HTTP Session)
+0    Implement authentication strategy
+0    Document all methods
+0    Have test coverage for 80% of service layer
+0    Leverage Log4J
+0    Hash all passwords before storing them
+0    build CI/CD pipeline using AWS
+
+TESTING
