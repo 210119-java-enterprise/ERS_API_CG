@@ -1,7 +1,5 @@
 package com.revature.models;
 
-
-
 import javax.persistence.*;
 import java.io.File;
 import java.sql.Timestamp;
