@@ -14,5 +14,3 @@ X    Set up GitHub
 0    Hash all passwords before storing them
 0    create encryption class to take in and give back string
 0    build CI/CD pipeline using AWS
-
-TESTING
