@@ -30,6 +30,21 @@ public class ConnectionFactory {
 
     private ConnectionFactory(){
 
+        try {
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            InputStream propsInput = loader.getResourceAsStream("application.properties");
+            if (propsInput == null) {
+                props.setProperty("url", "jdbc:postgresql://java-enterprise-210119.cjx4h67gd9rh.us-east-2.rds.amazonaws.com:5432/ERS");
+                props.setProperty("username", "postgres");
+                props.setProperty("password", "Revature123");
+            } else {
+                props.load(propsInput);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         logger.info("Creating configuration for hibernate");
         Configuration configuration = new Configuration().addResource("hibernate.cfg.xml")
                 .setProperty("hibernate.connection.url",S3BucketReader.getUrl())
