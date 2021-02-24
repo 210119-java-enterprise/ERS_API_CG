@@ -13,3 +13,5 @@ X    Set up GitHub
 0    Leverage Log4J
 0    Hash all passwords before storing them
 0    build CI/CD pipeline using AWS
+
+TESTING
