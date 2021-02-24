@@ -61,25 +61,27 @@ public class LoginServlet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
         resp.setContentType("application/json");
 
-        try {
+//        try {
 
             Credentials creds = mapper.readValue(req.getInputStream(), Credentials.class);
 
             //LOG.info("Attempting to authenticate user, {}, with provided credentials", creds.getUsername());
             User authUser = userService.authenticate(creds.getUsername(), creds.getPassword());
 
+            writer.write(creds.getUsername() + "\n" + creds.getPassword() + "\n");
             writer.write(mapper.writeValueAsString(authUser));
 
             //LOG.info("Establishing a session for user, {}", creds.getUsername());
             req.getSession().setAttribute("this-user", authUser);
 
-        }catch (Exception e) {
-            resp.getWriter().write(e.toString());
-            e.printStackTrace();
-            //LOG.error(e.getMessage());
-            resp.setStatus(500);
-            //writer.write(errRespFactory.generateErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR).toJSON());
-        }
+
+//        }catch (Exception e) {
+//            resp.getWriter().write(e.toString());
+//            e.printStackTrace();
+//            //LOG.error(e.getMessage());
+//            resp.setStatus(500);
+//            //writer.write(errRespFactory.generateErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR).toJSON());
+//        }
         /*
         String username = req.getParameter("username");
         String password = Encryption.encrypt(req.getParameter("password"));
