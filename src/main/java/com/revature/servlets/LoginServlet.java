@@ -13,10 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/login")
+@WebServlet(name = "Login", displayName = "login", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
 
     private UserService userService = new UserService();
+
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+
+    }
+
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         String username = req.getParameter("username");
