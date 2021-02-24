@@ -1,5 +1,7 @@
 package com.revature.util;
 
+import com.revature.models.Reimbursement;
+import com.revature.models.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -36,6 +38,9 @@ public class ConnectionFactory {
 
 //        logger.info("Creating configuration for hibernate");
 //        Configuration configuration = new Configuration().addResource("hibernate.cfg.xml")
+//                .addAnnotatedClass(User.class)
+//                .addAnnotatedClass(Reimbursement.class)
+//                .setProperty("hibernate.connection.driver_class","org.postgresql.Driver")
 //                .setProperty("hibernate.connection.url",S3BucketReader.getUrl())
 //                .setProperty("hibernate.connection.username", S3BucketReader.getUsername())
 //                .setProperty("hibernate.connection.password", S3BucketReader.getPassword());

@@ -2,6 +2,10 @@ package com.revature.repositories;
 
 import com.revature.models.User;
 import com.revature.util.ConnectionFactory;
+import com.revature.util.HibernateUtil;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.sql.*;
 import java.util.*;
@@ -47,15 +51,31 @@ public class UserRepository {
     //---------------------------------- READ -------------------------------------------- //
 
     public List<User> getAllUsers() {
-        List<User> users = new ArrayList<>();
-        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
-            String sql = "SELECT * FROM ers_users";
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            users = mapResultSet(rs);
-        } catch (Exception e) {
+        List<User> users = null;
+
+        Session session = HibernateUtil.getSession();
+        Transaction t = null;
+
+        try{
+            t = session.beginTransaction();
+            users = session.createQuery("FROM User").getResultList();
+        }catch(HibernateException e){
+            if(t != null){
+                t.rollback();
+            }
             e.printStackTrace();
+        }finally{
+            session.close();
         }
+
+//        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+//            String sql = "SELECT * FROM ers_users";
+//            Statement stmt = conn.createStatement();
+//            ResultSet rs = stmt.executeQuery(sql);
+//            users = mapResultSet(rs);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         return users;
     }
 
@@ -103,8 +123,9 @@ public class UserRepository {
      */
     public Optional<User> getAUserByUsernameAndPassword(String userName, String password) throws SQLException {
         Optional<User> user = Optional.empty();
+
         Connection conn = ConnectionFactory.getInstance().getConnection();
-            String sql = "SELECT * FROM ers_users WHERE username = ? AND  password = crypt(?, gen_salt('bf', 8))";
+            String sql = "SELECT * FROM ers_users WHERE username = ? AND  password = ?";
             PreparedStatement psmt = conn.prepareStatement(sql);
             psmt.setString(1,userName);
             psmt.setString(2,password);

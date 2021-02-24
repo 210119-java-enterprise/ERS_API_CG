@@ -8,9 +8,5 @@
             org.hibernate.dialect.PostgreSQL82Dialect
         </property>
 
-        <property name = "hibernate.connection.driver_class">
-            org.postgresql.Driver
-        </property>
-
     </session-factory>
 </hibernate-configuration>

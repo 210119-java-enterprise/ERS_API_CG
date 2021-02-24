@@ -2,11 +2,15 @@ package com.revature.util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.base64.Base64Encoder;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+
+import java.util.Base64;
 
 /**
  * This is a singleton class that will encrypt a string that is passed
@@ -44,7 +48,7 @@ public class Encryption {
                 logger.error("Cipher is null");
             }else {
                 cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-                encryptedMessage = cipher.doFinal(message.getBytes());
+                encryptedMessage = cipher.doFinal(message.getBytes(StandardCharsets.UTF_8));
                 logger.info("Encrypted the password");
             }
         } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
@@ -57,6 +61,6 @@ public class Encryption {
             return null;
         }
 
-        return new String(encryptedMessage);
+        return Base64.getEncoder().encodeToString(encryptedMessage);
     }
 }

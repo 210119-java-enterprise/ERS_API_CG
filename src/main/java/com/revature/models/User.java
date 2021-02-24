@@ -12,7 +12,7 @@ import java.util.Objects;
 public class User {
     @Id
     @GeneratedValue
-    @Column(name = "ers_user_id")
+    @Column(name = "id")
     private int userId;
 
     @Column(name = "username")
