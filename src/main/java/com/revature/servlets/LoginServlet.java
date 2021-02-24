@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 @WebServlet(name = "Login", displayName = "login", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
@@ -60,19 +61,29 @@ public class LoginServlet extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         PrintWriter writer = resp.getWriter();
         resp.setContentType("application/json");
+        User authUser = null;
 
+        try {
 
 
             Credentials creds = mapper.readValue(req.getInputStream(), Credentials.class);
 
             //LOG.info("Attempting to authenticate user, {}, with provided credentials", creds.getUsername());
-            User authUser = userService.authenticate(creds.getUsername(), creds.getPassword());
+            authUser = userService.authenticate(creds.getUsername(), creds.getPassword());
 
+            writer.write(creds.getUsername() + "\n" + creds.getPassword() + "\n");
             writer.write(mapper.writeValueAsString(authUser));
 
             //LOG.info("Establishing a session for user, {}", creds.getUsername());
             req.getSession().setAttribute("this-user", authUser);
 
+        }catch (Exception e) {
+            resp.getWriter().write(e.toString());
+            e.printStackTrace();
+            //LOG.error(e.getMessage());
+            resp.setStatus(500);
+            //writer.write(errRespFactory.generateErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR).toJSON());
+        }
         /*
         String username = req.getParameter("username");
         String password = Encryption.encrypt(req.getParameter("password"));
