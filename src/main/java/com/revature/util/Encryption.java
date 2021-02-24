@@ -46,6 +46,6 @@ public class Encryption {
             return null;
         }
 
-        return Arrays.toString(encryptedMessage);
+        return new String(encryptedMessage);
     }
 }
