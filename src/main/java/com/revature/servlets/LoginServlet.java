@@ -46,17 +46,17 @@ public class LoginServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         String username = req.getParameter("username");
-        String password = Encryption.getEncryption().encrypt(req.getParameter("password"));
+        String password = Encryption.encrypt(req.getParameter("password"));
         PrintWriter out = resp.getWriter();
 
         //User user = userService.authenticate(username, password);
 
-        if(password.equals("pass123")){
-            RequestDispatcher rs = req.getRequestDispatcher("test");
-            rs.forward(req, resp);
-        }else{
-            out.write("Incorrect username or password");
-        }
+//        if(password.equals("pass123")){
+//            RequestDispatcher rs = req.getRequestDispatcher("test");
+//            rs.forward(req, resp);
+//        }else{
+//            out.write("Incorrect username or password");
+//        }
 
 
     }
