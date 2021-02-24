@@ -24,9 +24,19 @@ public class LoginServlet extends HttpServlet {
         PrintWriter printWriter = resp.getWriter();
         printWriter.print("<html>");
         printWriter.print("<body>");
-        printWriter.print("<h1>Login Form Data</h1>");
-        printWriter.print("<p> username :: " +  "</p>");
-        printWriter.print("<p> password :: " + "</p>");
+        printWriter.print("<div style=\"text-align: center\">\n" +
+                "        <h1>Admin Login</h1>\n" +
+                "        <form action=\"login\" method=\"post\">\n" +
+                "            <label for=\"username\">Username:</label>\n" +
+                "            <input name=\"username\" size=\"30\" />\n" +
+                "            <br><br>\n" +
+                "            <label for=\"password\">Password:</label>\n" +
+                "            <input type=\"password\" name=\"password\" size=\"30\" />\n" +
+                "            <br>${message}\n" +
+                "            <br><br>           \n" +
+                "            <button type=\"submit\">Login</button>\n" +
+                "        </form>\n" +
+                "    </div>");
         printWriter.print("</body>");
         printWriter.print("</html>");
         printWriter.close();
