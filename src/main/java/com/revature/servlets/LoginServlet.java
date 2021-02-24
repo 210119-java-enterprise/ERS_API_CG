@@ -74,6 +74,7 @@ public class LoginServlet extends HttpServlet {
             req.getSession().setAttribute("this-user", authUser);
 
         }catch (Exception e) {
+            resp.getWriter().write(e.getMessage());
             e.printStackTrace();
             //LOG.error(e.getMessage());
             resp.setStatus(500);
