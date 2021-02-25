@@ -2,6 +2,7 @@ package com.revature.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.Reimbursement;
+import com.revature.models.ReimbursementStatus;
 import com.revature.models.User;
 import com.revature.services.ReimbursementService;
 import org.apache.logging.log4j.LogManager;
@@ -91,8 +92,56 @@ public class ManageServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         //Update Reimbursement Status
+        PrintWriter writer = resp.getWriter();
+        ObjectMapper mapper = new ObjectMapper();
+        HttpSession session = req.getSession(false);
+        User requester = (session == null) ? null : (User) req.getSession(false).getAttribute("this-user");
+        resp.setContentType("application/json");
 
+        //Need a reimbursementId
+        String reimbId = req.getParameter("reimbId");
+        String statusId = req.getParameter("statusId");
+
+        try {
+            if (requester != null) {
+                if (requester.getUserRole().compareTo(2) == 0) {
+                    //Must be Finance Manager
+                    LOG.info("ReimbursementServlet.doGet() invoked by financial manager requester {}", requester);
+                    if (reimbId != null) {
+                        if (statusId != null) {
+                            //print all reimbursements by status id
+                            LOG.info("Updating reimbursement " + reimbId + " with status id " + statusId);
+                            Integer r = Integer.parseInt(reimbId);
+                            Integer s = Integer.parseInt(statusId);
+
+                            Reimbursement reimbursement = reimbursementService.getReimbByReimbId(r);
+                            reimbursement.setReimbursementStatus(ReimbursementStatus.getByNumber(s));
+                            
+                            reimbursementService.updateEMP(reimbursement);
+                            String reimbursementsJSON = mapper.writeValueAsString(reimbursement);
+                            writer.write(reimbursementsJSON);
+                        } else {
+                            LOG.warn("Request made by requester, {}, did not specify reimbursement status id", requester.getUsername());
+                            resp.setStatus(400);
+                        }
+                    } else {
+                        LOG.warn("Request made by requester, {}, did not specify reimbursement id", requester.getUsername());
+                        resp.setStatus(400);
+                    }
+
+                }else{
+                    LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
+                    resp.setStatus(403);
+                }
+            } else {
+                //User got past login or using invalidated session
+                LOG.warn("Unauthorized request made by unknown requester");
+                resp.setStatus(401);
+            }
+        }catch(Exception e){
+            LOG.error(e.getMessage());
+            resp.setStatus(500);
+        }
     }
 }
