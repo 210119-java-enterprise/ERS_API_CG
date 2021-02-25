@@ -91,7 +91,7 @@ public class UserServlet extends HttpServlet {
                 userService.register(newUser);
 
                 writer.write("New User created : \n");
-                writer.write(mapper.writeValueAsString(newUser));\
+                writer.write(mapper.writeValueAsString(newUser));
                 LOG.info("New User created : {}", newUser.getUsername());
             }else {
 
