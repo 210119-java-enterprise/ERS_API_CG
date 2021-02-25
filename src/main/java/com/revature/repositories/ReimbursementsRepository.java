@@ -2,6 +2,8 @@ package com.revature.repositories;
 
 import com.revature.models.Reimbursement;
 import com.revature.util.HibernateUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -15,18 +17,8 @@ import java.util.*;
  * A class to interact with the database to CRUD reimbursement objects
  */
 public class ReimbursementsRepository {
-    //base query that combines the name and resolver names from one query
-    private String baseQuery = "SELECT er.id, er.amount, er.description, er.reimbursement_status_id, \n" +
-            "er.reimbursement_type_id, er.resolved, er.submitted,  er.author_id , er.resolver_id,\n" +
-            "author.first_name as author_first_name , author.last_name as author_last_name , \n" +
-            "resolver.first_name as resolver_first_name, resolver.last_name as resolver_last_name\n" +
-            "FROM project_1.ers_reimbursements er\n" +
-            "left join project_1.ers_users author \n" +
-            "on er.author_id = author.id\n" +
-            "left join project_1.ers_users resolver \n" +
-            "on er.resolver_id = resolver.id ";
-    private String baseInsert = "INSERT INTO project_1.ers_reimbursements ";
-    private String baseUpdate = "UPDATE project_1.ers_reimbursements er ";
+
+    private static final Logger logger = LogManager.getLogger(ReimbursementsRepository.class);
 
     public ReimbursementsRepository(){
         super();
@@ -53,7 +45,7 @@ public class ReimbursementsRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }
@@ -76,7 +68,7 @@ public class ReimbursementsRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }
@@ -99,7 +91,7 @@ public class ReimbursementsRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }
@@ -127,7 +119,7 @@ public class ReimbursementsRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }
@@ -156,7 +148,7 @@ public class ReimbursementsRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }
@@ -187,7 +179,7 @@ public class ReimbursementsRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }
@@ -217,7 +209,7 @@ public class ReimbursementsRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }
@@ -244,7 +236,7 @@ public class ReimbursementsRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }
@@ -272,7 +264,7 @@ public class ReimbursementsRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }
@@ -303,7 +295,7 @@ public class ReimbursementsRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }
@@ -334,7 +326,7 @@ public class ReimbursementsRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }
@@ -355,7 +347,7 @@ public class ReimbursementsRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }
@@ -381,7 +373,7 @@ public class ReimbursementsRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }

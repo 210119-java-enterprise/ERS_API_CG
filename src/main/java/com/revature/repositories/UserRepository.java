@@ -2,6 +2,8 @@ package com.revature.repositories;
 
 import com.revature.models.User;
 import com.revature.util.HibernateUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -11,6 +13,8 @@ import java.sql.*;
 import java.util.*;
 
 public class UserRepository {
+
+    private static final Logger logger = LogManager.getLogger(UserRepository.class);
 
     //INSERT --------------------------------------------------------
     /**
@@ -40,7 +44,7 @@ public class UserRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }
@@ -128,7 +132,7 @@ public class UserRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }
@@ -155,7 +159,7 @@ public class UserRepository {
             if(t != null){
                 t.rollback();
             }
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }finally{
             session.close();
         }
