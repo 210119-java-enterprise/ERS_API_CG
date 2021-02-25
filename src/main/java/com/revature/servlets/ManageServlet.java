@@ -2,7 +2,6 @@ package com.revature.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.Reimbursement;
-import com.revature.models.ReimbursementStatus;
 import com.revature.models.User;
 import com.revature.services.ReimbursementService;
 import org.apache.logging.log4j.LogManager;
@@ -16,14 +15,29 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * This class is a servlet intended to handle all financial manager
+ * updates to the reimbursements within the database. Only users
+ * that are finincial managers are able to hit this endpoint
+ * <p>Endpoint : /manage</p>
+ * @author Cole Space
+ * @author Gabrielle Luna
+ */
 @WebServlet(name = "manage", displayName = "manage", urlPatterns = "/manage/*")
 public class ManageServlet extends HttpServlet {
     private final ReimbursementService reimbursementService = new ReimbursementService();
     private static final Logger LOG = LogManager.getLogger(ReimbursementServlet.class);
 
+    /**
+     * The Get HTTP verb, this will list all or a select amount of reimbursements for
+     * all users across the web application
+     * @param req the user request
+     * @param resp the response back to the user
+     * @throws ServletException e
+     * @throws IOException e
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //View all reimbursements, allow filter by type, or view by id
@@ -91,6 +105,14 @@ public class ManageServlet extends HttpServlet {
     }
 
 
+    /**
+     * The Put HTTP verb, this will allow for a financial manager to update
+     * the status of a specific reimbursement
+     * @param req the user request
+     * @param resp the response back to the user
+     * @throws ServletException e
+     * @throws IOException e
+     */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //Update Reimbursement Status
