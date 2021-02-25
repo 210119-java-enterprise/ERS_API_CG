@@ -1,5 +1,8 @@
 package com.revature.models;
 
+import com.revature.util.ReimbursementStatusAttributeConverter;
+import com.revature.util.ReimbursementTypeAttributeConverter;
+
 import javax.persistence.*;
 import java.io.File;
 import java.sql.Timestamp;
@@ -9,10 +12,10 @@ import java.util.Objects;
  * The base unit of the ERS system. ready to include images
  */
 @Entity
-@Table(name = "ers_reimbursement")
+@Table(name = "ers_reimbursements")
 public class Reimbursement {
-    @Id @GeneratedValue
-    @Column(name = "reimb_id")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
 
     @Column(name = "amount")
@@ -27,7 +30,7 @@ public class Reimbursement {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "receipt")
+    @Column(name = "reciept")
     private File receipt;
 
     @Column(name = "author_id")
@@ -36,10 +39,12 @@ public class Reimbursement {
     @Column(name = "resolver_id")
     private int resolverId;
 
-    @Column(name = "reimb_status_id")
+    @Column(name = "reimbursement_status_id")
+    @Convert(converter = ReimbursementStatusAttributeConverter.class)
     private ReimbursementStatus reimbursementStatus;
 
-    @Column(name = "reimb_type_id")
+    @Column(name = "reimbursement_type_id")
+    @Convert(converter = ReimbursementTypeAttributeConverter.class)
     private ReimbursementType reimbursementType;
 
     public Reimbursement() {
