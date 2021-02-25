@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static com.revature.util.Encryption.encrypt;
 
-public class DemoDriver {
+public class UserDriver {
 
     public static UserService userService = new UserService();
 
@@ -71,7 +71,7 @@ public class DemoDriver {
                     "Borring", "Name", "admin@sonoma.edu", 1);
 
             System.out.println("Inserting new user: " + newUser);
-            userRepo.addUser(newUser);
+            //userRepo.addUser(newUser);
 
         }catch(Exception e){
             e.printStackTrace();
