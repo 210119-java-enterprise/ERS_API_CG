@@ -2,6 +2,7 @@ package com.revature.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dtos.Credentials;
+import com.revature.exceptions.InvalidCredentialsException;
 import com.revature.models.User;
 import com.revature.services.UserService;
 
@@ -78,18 +79,24 @@ public class LoginServlet extends HttpServlet {
             //Print new user to screen
             if (authUser != null)
                 writer.write(mapper.writeValueAsString(authUser));
-            else
-                writer.write("Invalid Login!");
+            else throw new InvalidCredentialsException();
 
             //Save new user to session
             LOG.info("Establishing a session for user, {}", credentials.getUsername());
             req.getSession().setAttribute("this-user", authUser);
+
         }catch (SQLException e) {
-            //Authentication failure
-            writer.write("Authentication error!");
+            //Authentication failure in UserService
+            writer.write("SQL Authentication error!");
             e.printStackTrace();
             LOG.error(e.getMessage());
             resp.setStatus(500);
+        }catch (InvalidCredentialsException e){
+            //Bad login
+            writer.write("Invalid Login!");
+            e.printStackTrace();
+            LOG.error(e.getMessage());
+            resp.setStatus(401);
         }
     }
 }
