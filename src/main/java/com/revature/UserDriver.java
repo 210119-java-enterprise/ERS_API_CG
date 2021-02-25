@@ -1,6 +1,7 @@
 package com.revature;
 
 import com.revature.dtos.Credentials;
+import com.revature.models.Role;
 import com.revature.models.User;
 import com.revature.repositories.UserRepository;
 import com.revature.services.UserService;
@@ -61,17 +62,27 @@ public class UserDriver {
 //            user01.ifPresent(userRepo::updateAUser);
 //            System.out.println(user01.get());
 
-//            userRepo.deleteAUserById(9);
+//             userRepo.deleteAUserById(22);
 //
 //            userList = userRepo.getAllUsers();
 //            for(User u : userList){
 //                System.out.println(u.toString());
 //            }
-            User newUser = new User("Admin", "Boss",
-                    "Borring", "Name", "admin@sonoma.edu", 1);
+//            User newUser = new User("Admin", "Boss",
+//                    "Borring", "Name", "admin@sonoma.edu", Role.EMPLOYEE.ordinal());
+//
+//            System.out.println("Inserting new user: " + newUser);
+//            userService.register(newUser);
 
-            System.out.println("Inserting new user: " + newUser);
-            //userRepo.addUser(newUser);
+            User admin = userService.getUserById(23);
+            admin.setUserRole(1);
+            userService.update(admin);
+
+            userList = userRepo.getAllUsers();
+            for(User u : userList){
+                System.out.println(u.toString());
+            }
+
 
         }catch(Exception e){
             e.printStackTrace();

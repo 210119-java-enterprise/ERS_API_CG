@@ -71,38 +71,41 @@ public class UserService {
      * @param newUser completed user object
      */
     // TODO: encrypt all user passwords before persisting to data source
-    public void register(User newUser) {
+    public boolean register(User newUser) {
         if (!isUserValid(newUser)) {
             logger.error("Invalid user field values provided during registration!", new InvalidInputException());
-            return;
+            return false;
         }
         Optional<User> existingUser = userRepo.getAUserByUsername(newUser.getUsername());
         if (existingUser.isPresent()) {
             logger.error("Username is already in use", new InvalidCredentialsException());
-            return;
+            return false;
         }
         Optional<User> existingUserEmail = userRepo.getAUserByEmail(newUser.getEmail());
         if (existingUserEmail.isPresent()) {
             logger.error("Email is already in use",new InvalidCredentialsException());
-            return;
+            return false;
         }
         newUser.setUserRole(Role.EMPLOYEE.ordinal() + 1);
         newUser.setPassword(encrypt(newUser.getPassword()));
         userRepo.addUser(newUser);
+        return true;
     }
 
     /**
      * Update a user in the DB.
      * @param newUser user to update
      */
-    public void update(User newUser) {
+    public boolean update(User newUser) {
         if (!isUserValid(newUser)) {
             logger.error("Invalid user field values provided during registration!", new InvalidInputException());
-            return;
+            return false;
         }
         if (!userRepo.updateAUser(newUser)){
             logger.error("", new DatabaseException());
+            return false;
         }
+        return true;
     }
 
     /**

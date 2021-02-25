@@ -477,3 +477,83 @@
 09:19:36.640 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
 09:19:36.640 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
 09:19:36.645 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+09:42:36.749 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+09:42:37.655 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+09:42:38.252 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+09:42:38.367 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+09:42:38.367 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+09:42:38.375 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+09:43:01.065 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+09:43:01.965 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+09:43:02.519 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+09:43:02.616 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+09:43:02.617 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+09:43:02.622 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+09:43:09.923 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+09:43:10.868 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+09:43:11.498 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+09:43:11.598 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+09:43:11.598 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+09:43:11.613 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+09:44:37.514 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+09:44:38.391 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+09:44:39.061 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+09:44:39.158 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+09:44:39.158 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+09:44:39.163 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+09:44:50.887 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+09:44:51.795 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+09:44:52.586 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+09:44:53.076 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+09:44:53.076 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+09:44:53.080 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+09:45:35.106 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+09:45:36.598 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+09:45:37.192 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+09:45:37.293 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+09:45:37.293 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+09:45:37.298 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+09:45:40.251 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+09:45:40.254 [main] INFO  com.revature.util.Encryption - Encrypted the password
+09:45:57.376 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+09:45:58.236 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+09:45:58.921 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+09:45:59.065 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+09:45:59.065 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+09:45:59.070 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+09:49:31.737 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+09:49:32.736 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+09:49:33.376 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+09:49:33.471 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+09:49:33.471 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+09:49:33.476 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+09:49:36.540 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+09:49:36.543 [main] INFO  com.revature.util.Encryption - Encrypted the password
+09:49:48.246 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+09:49:49.175 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+09:49:49.799 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+09:49:49.904 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+09:49:49.905 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+09:49:49.921 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+09:53:54.164 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+09:53:55.066 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+09:53:55.672 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+09:53:55.768 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+09:53:55.768 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+09:53:55.776 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+09:53:58.801 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+09:53:58.801 [main] INFO  com.revature.util.Encryption - Encrypted the password
+09:55:51.138 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+09:55:52.069 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+09:55:52.785 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+09:55:52.879 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+09:55:52.879 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+09:55:52.884 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+09:55:55.871 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+09:55:55.871 [main] INFO  com.revature.util.Encryption - Encrypted the password
+11:13:46.086 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+11:13:47.015 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+11:13:47.731 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+11:13:47.841 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+11:13:47.841 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+11:13:47.845 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry

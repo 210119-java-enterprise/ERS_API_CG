@@ -89,11 +89,17 @@ public class UserServlet extends HttpServlet {
                 LOG.info("UserServlet.doPost() invoked by requester {}", requester);
 
                 User newUser = mapper.readValue(req.getInputStream(), User.class);
-                userService.register(newUser);
-
-                writer.write("New User created : \n");
-                writer.write(mapper.writeValueAsString(newUser));
-                LOG.info("New User created : {}", newUser.getUsername());
+                if (userService.isUserValid(newUser)) {
+                    //SUCCESS
+                    userService.update(newUser);
+                    writer.write("New User created : \n");
+                    writer.write(mapper.writeValueAsString(newUser));
+                    LOG.info("New User created : {}", newUser.getUsername());
+                }else{
+                    //FAILURE
+                    LOG.error("Invalid User created {}", newUser.toString());
+                    writer.write("Invalid user created\n");
+                }
             }else {
 
                 if (requester == null) {
@@ -131,13 +137,17 @@ public class UserServlet extends HttpServlet {
                 LOG.info("UserServlet.doPut() invoked by requester {}", requester);
 
                 User newUser = mapper.readValue(req.getInputStream(), User.class);
-                userService.register(newUser);
-
-                writer.write("New User created : \n");
-                writer.write(mapper.writeValueAsString(newUser));
-                LOG.info("New User created : {}", newUser.getUsername());
+                if (userService.update(newUser)) {
+                    //SUCCESS
+                    writer.write("User Updated: \n");
+                    writer.write(mapper.writeValueAsString(newUser));
+                    LOG.info("User updated : {}", newUser.getUsername());
+                }else{
+                    //FAILURE
+                    LOG.error("Invalid User update {}", newUser.toString());
+                    writer.write("Invalid user update\n");
+                }
             }else {
-
                 if (requester == null) {
                     //User got past login or using invalidated session
                     LOG.warn("Unauthorized request made by unknown requester");
@@ -158,6 +168,46 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+        PrintWriter writer = resp.getWriter();
+        ObjectMapper mapper = new ObjectMapper();
+        HttpSession session = req.getSession(false);
+        User requester = (session == null) ? null : (User) req.getSession(false).getAttribute("this-user");
+        resp.setContentType("application/json");
+
+        //Delete User
+        try {
+            //Must be admin
+            if (requester != null && requester.getUserRole().compareTo(1) == 0) {
+
+                LOG.info("UserServlet.doDelete() invoked by requester {}", requester);
+
+                User user = mapper.readValue(req.getInputStream(), User.class);
+                if (userService.deleteUserById(user.getUserId())) {
+                    //SUCCESS
+                    writer.write("User Deleted: \n");
+                    writer.write(mapper.writeValueAsString(user));
+                    LOG.info("User deleted : {}", user.getUsername());
+                }else{
+                    //FAILURE
+                    LOG.error("Failure to delete user: {}", user.toString());
+                    writer.write("Failed to delete user\n");
+                }
+            }else {
+                if (requester == null) {
+                    //User got past login or using invalidated session
+                    LOG.warn("Unauthorized request made by unknown requester");
+                    resp.setStatus(401);
+                } else {
+                    //User is not an Admin/authorized user
+                    LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
+                    resp.setStatus(403);
+                }
+
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            LOG.error(e.getMessage());
+            resp.setStatus(500);
+        }
     }
 }
