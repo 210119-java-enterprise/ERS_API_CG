@@ -46,14 +46,14 @@ public class ReimbursementServlet extends HttpServlet {
                         if(typeId != null){
                             //print all reimbursements by type id
                             LOG.info("Retrieving all reimbursements with type id " + typeId);
-                            Integer i = Integer.getInteger(typeId);
+                            Integer i = Integer.parseInt(typeId);
                             List<Reimbursement> reimbursements = reimbursementService.getReimbByType(i);
                             String usersJSON = mapper.writeValueAsString(reimbursements);
                             writer.write(usersJSON);
                         }else if(statusId != null){
                             //print all reimbursements by status id
                             LOG.info("Retrieving all reimbursements with status id " + statusId);
-                            Integer i = Integer.getInteger(statusId);
+                            Integer i = Integer.parseInt(statusId);
                             List<Reimbursement> reimbursements = reimbursementService.getReimbByStatus(i);
                             String reimbursementsJSON = mapper.writeValueAsString(reimbursements);
                             writer.write(reimbursementsJSON);
@@ -67,7 +67,7 @@ public class ReimbursementServlet extends HttpServlet {
                     }else{
                         //print specific reimbursement
                         LOG.info("Retrieving all reimbursements with reimbursement id " + reimbId);
-                        Integer i = Integer.getInteger(reimbId);
+                        Integer i = Integer.parseInt(reimbId);
                         Reimbursement reimbursement = reimbursementService.getReimbByReimbId(i);
                         String reimbursementsJSON = mapper.writeValueAsString(reimbursement);
                         writer.write(reimbursementsJSON);
@@ -78,7 +78,7 @@ public class ReimbursementServlet extends HttpServlet {
                     LOG.info("ReimbursementServlet.doGet() invoked by admin/employee requester {}", requester);
                     if(reimbId != null){
                         LOG.info("Retrieving reimbursement " + reimbId + " for user " + requester.getUsername());
-                        Integer i = Integer.getInteger(reimbId);
+                        Integer i = Integer.parseInt(reimbId);
                         Reimbursement reimbursement = reimbursementService.getReimbByReimbId(i);
                         String reimbursementsJSON = mapper.writeValueAsString(reimbursement);
                         writer.write(reimbursementsJSON);

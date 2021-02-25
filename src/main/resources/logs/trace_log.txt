@@ -452,3 +452,4 @@
 17:24:41.786 [main] INFO  com.revature.util.ConnectionFactory - Creating service registry for hibernate
 17:24:41.791 [main] INFO  com.revature.util.ConnectionFactory - Building session factory from service registry
 >>>>>>> 09278e7b7633a1f51641c409bd57e00bb16d4d95
+10:06:18.396 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
