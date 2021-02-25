@@ -123,12 +123,12 @@ public class UserServlet extends HttpServlet {
         User requester = (session == null) ? null : (User) req.getSession(false).getAttribute("this-user");
         resp.setContentType("application/json");
 
-        //Add new User
+        //UpdateUser
         try {
             //Must be admin
             if (requester != null && requester.getUserRole().compareTo(1) == 0) {
 
-                LOG.info("UserServlet.doPost() invoked by requester {}", requester);
+                LOG.info("UserServlet.doPut() invoked by requester {}", requester);
 
                 User newUser = mapper.readValue(req.getInputStream(), User.class);
                 userService.register(newUser);
