@@ -11,7 +11,7 @@ import java.util.Objects;
 @Table(name = "ers_users")
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int userId;
 
@@ -38,12 +38,13 @@ public class User {
         super();
     }
 
-    public User(String username, String password, String firstname, String lastname, String email) {
+    public User(String username, String password, String firstname, String lastname, String email, int userRole) {
         this.username = username;
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
+        this.userRole = userRole;
     }
 
     public User(int userId, String username, String password, String firstname, String lastname, String email, Integer userRole) {
