@@ -1,10 +1,17 @@
 package com.revature.services;
 
+//TODO when writing tests, make sure to add the checks for status and type ids
+//TODO to not be outside the range they should be
+
 import com.revature.dtos.RbDTO;
 import com.revature.models.Reimbursement;
+import com.revature.models.ReimbursementStatus;
 import com.revature.repositories.ReimbursementsRepository;
 
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service layer for validating reimbursements before sending to or from the Database
@@ -16,8 +23,8 @@ public class ReimbursementService {
      * Gets all Reimbursements from the DataBase
      * @return A list of RbDTO objects
      */
-    public List<RbDTO> getAllReimb(){
-        List<RbDTO> reimbursements = reimbRepo.getAllReimbursements();
+    public List<Reimbursement> getAllReimb(){
+        List<Reimbursement> reimbursements = reimbRepo.getAllReimbursements();
         if (reimbursements.isEmpty()){
             throw new RuntimeException();
         }
@@ -29,13 +36,131 @@ public class ReimbursementService {
      * @param userId user id requested
      * @return A list of RbDTO objects
      */
-    public List<RbDTO> getReimbByUserId(Integer userId){
+    public List<Reimbursement> getReimbByUserId(Integer userId){
         if (userId <= 0){
             throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
         }
-        List<RbDTO> reimb = reimbRepo.getAllReimbSetByAuthorId(userId);
+        List<Reimbursement> reimb = reimbRepo.getAllReimbSetByAuthorId(userId);
         if (reimb.isEmpty()){
             throw new RuntimeException();
+        }
+        return reimb;
+    }
+
+    /**
+     *
+     * @param authorId
+     * @param reStat
+     * @return
+     */
+    public List<Reimbursement> getReimbByAuthorAndStatus(Integer authorId, Integer reStat){
+        if (authorId <= 0){
+            throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+        }
+
+        List<Reimbursement> reimb = null;
+
+        try {
+            reimb = reimbRepo.getAllReimbSetByAuthorIdAndStatus(authorId, reStat);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (reimb.isEmpty()){
+            throw new RuntimeException();
+        }
+        return reimb;
+    }
+
+    /**
+     *
+     * @param authorId
+     * @param reType
+     * @return
+     */
+    public List<Reimbursement> getReimbByAuthorAndType(Integer authorId, Integer reType){
+        if (authorId <= 0){
+            throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+        }
+
+        List<Reimbursement> reimb = null;
+
+        try {
+            reimb = reimbRepo.getAllReimbSetByAuthorIdAndType(authorId, reType);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (reimb.isEmpty()){
+            throw new RuntimeException();
+        }
+        return reimb;
+    }
+
+    /**
+     *
+     * @param resolverId
+     * @param reStat
+     * @return
+     */
+    public List<Reimbursement> getReimbByResolverAndStatus(Integer resolverId, Integer reStat){
+        if (resolverId <= 0){
+            throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+        }
+
+        List<Reimbursement> reimb = null;
+
+        try {
+            reimb = reimbRepo.getAllReimbSetByResolverIdAndStatus(resolverId, reStat);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (reimb.isEmpty()){
+            throw new RuntimeException();
+        }
+        return reimb;
+    }
+
+    /**
+     *
+     * @param resolverId
+     * @param reType
+     * @return
+     */
+    public List<Reimbursement> getReimbByResolverAndType(Integer resolverId, Integer reType){
+        if (resolverId <= 0){
+            throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+        }
+
+        List<Reimbursement> reimb = null;
+
+        try {
+            reimb = reimbRepo.getAllReimbSetByResolverIdAndType(resolverId, reType);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (reimb.isEmpty()){
+            throw new RuntimeException();
+        }
+        return reimb;
+    }
+
+    /**
+     *
+     * @param reimbId
+     * @return
+     */
+    public Reimbursement getReimbByReimbId(Integer reimbId){
+        if (reimbId <= 0){
+            throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+        }
+        Reimbursement reimb = null;
+        try {
+            reimb = reimbRepo.getAReimbByReimbId(reimbId).get();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return reimb;
     }
@@ -45,11 +170,11 @@ public class ReimbursementService {
      * @param typeId ordinal number of the type requested, between 1-4
      * @return A list of RbDTO objects
      */
-    public List<RbDTO> getReimbByType(Integer typeId){
+    public List<Reimbursement> getReimbByType(Integer typeId){
         if (typeId <= 0 || typeId >=5){
             throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
         }
-        List<RbDTO> reimb = reimbRepo.getAllReimbSetByType(typeId);
+        List<Reimbursement> reimb = reimbRepo.getAllReimbSetByType(typeId);
         if (reimb.isEmpty()){
             throw new RuntimeException();
         }
@@ -61,14 +186,39 @@ public class ReimbursementService {
      * @param statusId ordinal number of the type requested, between 1-3
      * @return A list of RbDTO objects
      */
-    public List<RbDTO> getReimbByStatus(Integer statusId){
+    public List<Reimbursement> getReimbByStatus(Integer statusId){
         if (statusId <= 0 || statusId >= 4){
             throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
         }
-        List<RbDTO> reimb = reimbRepo.getAllReimbSetByStatus(statusId);
+        List<Reimbursement> reimb = reimbRepo.getAllReimbSetByStatus(statusId);
         if (reimb.isEmpty()){
             throw new RuntimeException();
         }
+        return reimb;
+    }
+
+    /**
+     *
+     * @param resolverId
+     * @return
+     */
+    public List<Reimbursement> getReimbByResolver(Integer resolverId){
+        if (resolverId <= 0){
+            throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+        }
+
+        List<Reimbursement> reimb = null;
+
+        try {
+            reimb = reimbRepo.getAllReimbSetByResolverId(resolverId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        if (reimb.isEmpty()){
+            throw new RuntimeException();
+        }
+
         return reimb;
     }
 
@@ -109,8 +259,19 @@ public class ReimbursementService {
         if (reimbId <= 0 || resolverId <=0){
             throw new RuntimeException("Invalid user field values provided!");
         }
-        if(!reimbRepo.updateFIN(resolverId, 2, reimbId)){
-            throw new RuntimeException("Something went wrong trying to approve this reimbursement");
+        Reimbursement r = null;
+        try {
+            Optional<Reimbursement> o = reimbRepo.getAReimbByReimbId(reimbId);
+            if(!o.isPresent()){
+                throw new RuntimeException("No entry in database");
+            }
+            r = o.get();
+            r.setResolverId(resolverId);
+            r.setReimbursementStatus(ReimbursementStatus.APPROVED);
+            r.setResolved(new Timestamp(System.currentTimeMillis()));
+            updateEMP(r);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -123,8 +284,19 @@ public class ReimbursementService {
         if (reimbId <= 0){
             throw new RuntimeException("Invalid user field values provided!");
         }
-        if(!reimbRepo.updateFIN(resolverId, 3, reimbId)){
-            throw new RuntimeException("Something went wrong trying to deny this reimbursement");
+        Reimbursement r = null;
+        try {
+            Optional<Reimbursement> o = reimbRepo.getAReimbByReimbId(reimbId);
+            if(!o.isPresent()){
+                throw new RuntimeException("No entry in database");
+            }
+            r = o.get();
+            r.setResolverId(resolverId);
+            r.setReimbursementStatus(ReimbursementStatus.DENIED);
+            r.setResolved(new Timestamp(System.currentTimeMillis()));
+            reimbRepo.updateEMP(r);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
