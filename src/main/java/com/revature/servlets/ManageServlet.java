@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.List;
 
 @WebServlet(name = "manage", displayName = "manage", urlPatterns = "/manage/*")
@@ -117,7 +118,9 @@ public class ManageServlet extends HttpServlet {
 
                             Reimbursement reimbursement = reimbursementService.getReimbByReimbId(r);
                             reimbursement.setReimbursementStatus(ReimbursementStatus.getByNumber(s));
-                            
+                            reimbursement.setResolved(new Timestamp(System.currentTimeMillis()));
+                            reimbursement.setResolverId(requester.getUserId());
+
                             reimbursementService.updateEMP(reimbursement);
                             String reimbursementsJSON = mapper.writeValueAsString(reimbursement);
                             writer.write(reimbursementsJSON);

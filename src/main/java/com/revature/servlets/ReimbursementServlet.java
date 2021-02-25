@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.List;
 
 @WebServlet(name = "reimbursements", displayName = "reimbursements", urlPatterns = "/reimbursements/*")
@@ -41,7 +42,7 @@ public class ReimbursementServlet extends HttpServlet {
                 //Must be a registered user
                 if(requester.getUserRole() >= 1 && requester.getUserRole() <= 3){
                     //Either an Admin or Employee user
-                    LOG.info("ReimbursementServlet.doGet() invoked by admin/employee requester {}", requester);
+                    LOG.info("ReimbursementServlet.doGet() invoked by admin/employee/manager requester {}", requester);
                     if(reimbId != null){
                         LOG.info("Retrieving reimbursement " + reimbId + " for user " + requester.getUsername());
                         Integer i = Integer.parseInt(reimbId);
@@ -86,7 +87,43 @@ public class ReimbursementServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //super.doPost(req, resp);
+        PrintWriter writer = resp.getWriter();
+        ObjectMapper mapper = new ObjectMapper();
+        HttpSession session = req.getSession(false);
+        User requester = (session == null) ? null : (User) req.getSession(false).getAttribute("this-user");
+        resp.setContentType("application/json");
+
+        try{
+            if (requester != null){
+                //Must be a registered user
+                if(requester.getUserRole() >= 1 && requester.getUserRole() <= 3){
+                    //Allowing for any user to create a reimbursement for another user
+                    LOG.info("ReimbursementServlet.doPost() invoked by admin/employee/manager requester {}", requester);
+                    Reimbursement newReimbursement = mapper.readValue(req.getInputStream(), Reimbursement.class);
+                    //No need to worry about inputting time
+                    newReimbursement.setSubmitted(new Timestamp(System.currentTimeMillis()));
+                    reimbursementService.save(newReimbursement);
+
+                    writer.write("New Reimbursement created : \n");
+                    writer.write(mapper.writeValueAsString(newReimbursement));
+
+                    LOG.info("New Reimbursement created : {}", newReimbursement.getId());
+                }else{
+                    //User is deleted
+                    LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
+                    resp.setStatus(403);
+                }
+            }else{
+                //User got past login or using invalidated session
+                LOG.warn("Unauthorized request made by unknown requester");
+                resp.setStatus(401);
+            }
+
+        }catch(Exception e){
+            LOG.error(e.getMessage());
+            writer.write(e.getMessage());
+            resp.setStatus(500);
+        }
     }
 
     @Override
