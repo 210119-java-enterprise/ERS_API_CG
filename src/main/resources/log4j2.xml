@@ -2,6 +2,12 @@
 <Configuration status="WARN">
     <Appenders>
 
+        <!-- Console Appender -->
+        <Console name="stdout" target="SYSTEM_OUT">
+            <!-- Pattern of log messages for the console appender -->
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
         <!-- File Appender -->
         <File name="info_fileout" fileName="src/main/resources/logs/info_log.txt" append="true">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
@@ -18,6 +24,10 @@
     </Appenders>
 
     <Loggers>
+
+        <Root level="OFF">
+            <AppenderRef ref="stdout"/>
+        </Root>
 
         <Logger name="com.revature" level="ALL">
             <AppenderRef ref="error_fileout" level="ERROR"/>
