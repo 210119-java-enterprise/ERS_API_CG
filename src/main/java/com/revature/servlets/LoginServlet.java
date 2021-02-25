@@ -39,6 +39,8 @@ public class LoginServlet extends HttpServlet {
      * @throws IOException          not thrown
      */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+        PrintWriter writer = resp.getWriter();
+
         //Get current session
         HttpSession session = req.getSession(false);
 
@@ -48,6 +50,8 @@ public class LoginServlet extends HttpServlet {
             LOG.info("Invalidating session for user, {}", username);
             req.getSession().invalidate();
         }
+
+        writer.write("Please Log In!");
     }
 
     /**
@@ -72,7 +76,10 @@ public class LoginServlet extends HttpServlet {
             authUser = userService.authenticate(credentials.getUsername(), credentials.getPassword());
 
             //Print new user to screen
-            writer.write(mapper.writeValueAsString(authUser));
+            if (authUser != null)
+                writer.write(mapper.writeValueAsString(authUser));
+            else
+                writer.write("Invalid Login!");
 
             //Save new user to session
             LOG.info("Establishing a session for user, {}", credentials.getUsername());
