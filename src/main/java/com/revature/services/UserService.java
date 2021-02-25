@@ -36,8 +36,12 @@ public class UserService {
         if (username == null || username.trim().equals("") || password == null || password.trim().equals("")){
             throw new RuntimeException("Invalid credentials provided");
         }
-        return userRepo.getAUserByUsernameAndPassword(username,password)
-                .orElseThrow(RuntimeException::new);
+        Optional<User> authUser =userRepo.getAUserByUsernameAndPassword(username,password);
+        if (authUser .isPresent())
+            return authUser.get();
+        else
+            throw new RuntimeException("authentication error");
+
     }
 
     /**
