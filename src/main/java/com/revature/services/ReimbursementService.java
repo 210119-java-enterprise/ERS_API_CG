@@ -334,9 +334,13 @@ public class ReimbursementService {
             Optional<Reimbursement> old = reimbRepo.getAReimbByReimbId(reimb.getId());
             if(old.isPresent()){
                 Reimbursement r = old.get();
-                if(r.getAuthorId() != requesterId){
+                if(r.getAuthorId() != requesterId || r.getReimbursementStatus().compareTo(ReimbursementStatus.PENDING) != 0){
                     return false;
                 }
+                reimb.setSubmitted(r.getSubmitted());
+                reimb.setReimbursementStatus(r.getReimbursementStatus());
+                reimb.setAuthorId(r.getAuthorId());
+                reimb.setResolverId(r.getResolverId());
             }else{
                 return false;
             }

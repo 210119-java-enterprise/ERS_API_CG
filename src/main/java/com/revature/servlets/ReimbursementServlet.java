@@ -150,6 +150,7 @@ public class ReimbursementServlet extends HttpServlet {
                     }else{
                         writer.write("Reimbursement could not be updated");
                         LOG.warn("Reimbursement could not be saved");
+                        resp.setStatus(400);
                     }
                 }else{
                     //User is deleted
