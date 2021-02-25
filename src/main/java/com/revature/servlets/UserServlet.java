@@ -1,6 +1,8 @@
 package com.revature.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.exceptions.DatabaseException;
+import com.revature.exceptions.InvalidInputException;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -17,9 +19,14 @@ import java.io.PrintWriter;
 import java.util.List;
 
 /**
- * This class is a servlet intended to handle an admins user management, including viewing users,
- * adding new users, updating users, and deleting users.
- * <p>Endpoint : /users/*</p>
+ * This class is a servlet intended to handle an admins user management needs, including:
+ * <ul>
+ *     <li>viewing users</li>
+ *     <li>adding new users</li>
+ *     <li>updating users</li>
+ *     <li>deleting users</li>
+ * </ul>
+ * Endpoint : /users/*
  * @author Cole Space
  * @author Gabrielle Luna
  */
@@ -30,6 +37,14 @@ public class UserServlet extends HttpServlet {
     private static final Logger LOG = LogManager.getLogger(UserServlet.class);
 
     //Http Verbs ----------------------------------------------------
+    /**
+     * Get request will allow requester to view users. If given parameters like the users id
+     * the list will be narrowed down to that user
+     * @param req                   request may contain parameter with userId
+     * @param resp                  response sends users
+     * @throws ServletException     not thrown
+     * @throws IOException          thrown by mapper logic
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter writer = resp.getWriter();
@@ -37,6 +52,8 @@ public class UserServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         User requester = (session == null) ? null : (User) req.getSession(false).getAttribute("this-user");
         resp.setContentType("application/json");
+
+        //Retrieve userId param if provided
         String userIdParam = req.getParameter("userId");
 
         //Retrieve all or a specific user
@@ -49,21 +66,29 @@ public class UserServlet extends HttpServlet {
                 //No params posted
                 if (userIdParam == null) {
                     LOG.info("Retrieving all users");
-                    writer.write("All Users \n");
+                    writer.write("All Users: \n");
                     List<User> users = userService.getAllUsers();
-                    String usersJSON = mapper.writeValueAsString(users);
-                    writer.write(usersJSON);
+
+                    if (!users.isEmpty()){
+                        String usersJSON = mapper.writeValueAsString(users);
+                        writer.write(usersJSON);
+                    }else throw new DatabaseException(); //should be unreachable
+
                 } else { //Id given
                     int soughtId = Integer.parseInt(userIdParam);
                     LOG.info("Retrieving users with id, {}" , soughtId);
+                    writer.write("Requested User: \n");
+
                     User user = userService.getUserById(soughtId);
-                    String userJSON = mapper.writeValueAsString(user);
-                    writer.write(userJSON);
+                    if (user != null){
+                        String userJSON = mapper.writeValueAsString(user);
+                        writer.write(userJSON);
+                    }else throw new InvalidInputException();
+
                 }
             }else {
-
                 if (requester == null) {
-                    //User got past login or using invalidated session
+                    //User skipped login or using invalidated session
                     LOG.warn("Unauthorized request made by unknown requester");
                     resp.setStatus(401);
                 } else {
@@ -73,6 +98,12 @@ public class UserServlet extends HttpServlet {
                 }
 
             }
+        }catch(InvalidInputException e){
+            //User matching provided id could not be found
+            e.printStackTrace();
+            LOG.error("Invalid user Id provided");
+            writer.write("No user matching the userId could be found");
+            resp.setStatus(404);
         }catch (Exception e) {
             e.printStackTrace();
             LOG.error(e.getMessage());
