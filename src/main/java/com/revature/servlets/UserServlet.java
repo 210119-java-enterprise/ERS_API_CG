@@ -91,7 +91,7 @@ public class UserServlet extends HttpServlet {
                 User newUser = mapper.readValue(req.getInputStream(), User.class);
                 if (userService.isUserValid(newUser)) {
                     //SUCCESS
-                    userService.update(newUser);
+                    userService.register(newUser);
                     writer.write("New User created : \n");
                     writer.write(mapper.writeValueAsString(newUser));
                     LOG.info("New User created : {}", newUser.getUsername());
