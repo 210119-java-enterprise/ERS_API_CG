@@ -136,6 +136,8 @@ public class UserServlet extends HttpServlet {
                 LOG.info("UserServlet.doPost() invoked by requester {}", requester);
 
                 User newUser = mapper.readValue(req.getInputStream(), User.class);
+                if (newUser == null) throw new InvalidInputException();
+
                 if (userService.register(newUser)) {
                     writer.write("New User created : \n");
                     writer.write(mapper.writeValueAsString(newUser));
@@ -154,7 +156,7 @@ public class UserServlet extends HttpServlet {
                     resp.setStatus(403);
                 }
             }
-        }catch(RegistrationException e){
+        }catch(InvalidInputException | RegistrationException e){
             //Invalid new user
             LOG.error("Invalid User created");
             writer.write("Invalid user created\n");
