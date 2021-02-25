@@ -121,6 +121,7 @@ public class ReimbursementServlet extends HttpServlet {
 
         }catch(Exception e){
             LOG.error(e.getMessage());
+            writer.write(e.getMessage());
             resp.setStatus(500);
         }
     }
