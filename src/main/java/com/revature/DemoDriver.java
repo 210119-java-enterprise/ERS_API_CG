@@ -61,12 +61,17 @@ public class DemoDriver {
 //            user01.ifPresent(userRepo::updateAUser);
 //            System.out.println(user01.get());
 
-            userRepo.deleteAUserById(9);
+//            userRepo.deleteAUserById(9);
+//
+//            userList = userRepo.getAllUsers();
+//            for(User u : userList){
+//                System.out.println(u.toString());
+//            }
+            User newUser = new User("Gab", "Moon",
+                    "Gabby", "Luna", "lunagab@sonoma.edu", 3);
 
-            userList = userRepo.getAllUsers();
-            for(User u : userList){
-                System.out.println(u.toString());
-            }
+            System.out.println("Inserting new user: " + newUser);
+            userRepo.addUser(newUser);
 
         }catch(Exception e){
             e.printStackTrace();

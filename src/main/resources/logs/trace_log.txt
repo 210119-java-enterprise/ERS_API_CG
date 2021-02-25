@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 09:25:22.907 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
 09:25:23.608 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
 09:25:23.711 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
@@ -434,3 +435,5 @@
 17:53:30.653 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
 17:53:30.653 [main] INFO  com.revature.util.ConnectionFactory - Creating service registry for hibernate
 17:53:30.665 [main] INFO  com.revature.util.ConnectionFactory - Building session factory from service registry
+=======
+>>>>>>> ba204a7e24ef6dfffbb03812960bf7abee944032
