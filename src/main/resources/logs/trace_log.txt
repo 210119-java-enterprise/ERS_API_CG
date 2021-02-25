@@ -46,3 +46,68 @@
 13:38:35.132 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
 13:38:37.895 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
 13:38:37.895 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+15:01:44.565 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+15:01:45.455 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+15:01:45.578 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+15:01:45.578 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:01:45.579 [main] INFO  com.revature.util.Encryption - Encrypted the password
+15:02:52.886 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+15:02:53.735 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+15:02:53.813 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+15:02:53.814 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:04:11.057 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+15:04:11.964 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+15:04:12.061 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+15:04:12.061 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:04:41.438 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+15:04:42.349 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+15:04:42.450 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+15:04:42.451 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:06:05.227 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+15:06:06.071 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+15:06:06.170 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+15:06:06.171 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:06:06.176 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:06:06.178 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:06:06.180 [main] INFO  com.revature.util.Encryption - Encrypted the password
+15:06:06.182 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:09:38.659 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+15:09:39.528 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+15:09:39.619 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+15:09:39.619 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:09:39.621 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:09:39.622 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:09:39.623 [main] INFO  com.revature.util.Encryption - Encrypted the password
+15:09:39.624 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:12:57.838 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+15:12:58.762 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+15:12:58.849 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+15:12:58.850 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:12:58.853 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:12:58.854 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:12:58.855 [main] INFO  com.revature.util.Encryption - Encrypted the password
+15:12:58.858 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:14:11.692 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+15:14:12.553 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+15:14:12.650 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+15:14:12.652 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:14:12.662 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:14:12.667 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:14:12.671 [main] INFO  com.revature.util.Encryption - Encrypted the password
+15:14:12.677 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:18:16.221 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+15:18:17.147 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+15:18:17.270 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+15:18:17.270 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:18:17.274 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:18:17.277 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:18:17.278 [main] INFO  com.revature.util.Encryption - Encrypted the password
+15:18:17.280 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:44:48.537 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+15:44:49.694 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+15:44:49.799 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+15:44:49.800 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:44:49.804 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:44:49.806 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+15:44:49.807 [main] INFO  com.revature.util.Encryption - Encrypted the password
+15:44:49.808 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
