@@ -67,8 +67,8 @@ public class DemoDriver {
 //            for(User u : userList){
 //                System.out.println(u.toString());
 //            }
-            User newUser = new User("Gab", "Moon",
-                    "Gabby", "Luna", "lunagab@sonoma.edu", 3);
+            User newUser = new User("Admin", "Boss",
+                    "Borring", "Name", "admin@sonoma.edu", 1);
 
             System.out.println("Inserting new user: " + newUser);
             userRepo.addUser(newUser);

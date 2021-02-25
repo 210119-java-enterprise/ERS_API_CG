@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Set;
 
 @WebServlet(name = "users", displayName = "users", urlPatterns = "/users/*")
 public class UserServlet extends HttpServlet {
@@ -30,11 +29,10 @@ public class UserServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         User rqstr = (session == null) ? null : (User) req.getSession(false).getAttribute("this-user");
         resp.setContentType("application/json");
-        writer.write("Landed");
         String userIdParam = req.getParameter("userId");
 
         try {
-
+            //Must be admin
             if (rqstr != null && rqstr.getUserRole().compareTo(1) == 0) {
 
                 LOG.info("UserServlet.doGet() invoked by requester {}", rqstr);
@@ -44,20 +42,22 @@ public class UserServlet extends HttpServlet {
                     List<User> users = userService.getAllUsers();
                     String usersJSON = mapper.writeValueAsString(users);
                     writer.write(usersJSON);
-                } //else {
+                } else {
 //                    int soughtId = Integer.parseInt(userIdParam);
 //                    LOG.info("Retrieving users with id, {}" , soughtId);
-//                    User user = userService.getUserById(soughtId);
+//                    //User user = userService.(soughtId);
 //                    String userJSON = mapper.writeValueAsString(user);
 //                    writer.write(userJSON);
-//                }
+                }
 
             }else {
 
                 if (rqstr == null) {
+                    //User got past login or using invalidated session
                     LOG.warn("Unauthorized request made by unknown requester");
                     resp.setStatus(401);
                 } else {
+                    //User is not an Admin/authorized user
                     LOG.warn("Request made by requester, {}, who lacks proper authorities", rqstr.getUsername());
                     resp.setStatus(403);
                 }
