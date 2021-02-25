@@ -63,8 +63,6 @@ public class LoginServlet extends HttpServlet {
             LOG.info("Establishing a session for user, {}", creds.getUsername());
             req.getSession().setAttribute("this-user", authUser);
 
-
-
         }catch (Exception e) {
             resp.getWriter().write(e.toString());
             e.printStackTrace();
