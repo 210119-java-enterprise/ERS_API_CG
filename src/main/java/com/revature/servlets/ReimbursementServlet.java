@@ -1,6 +1,7 @@
 package com.revature.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.models.Reimbursement;
 import com.revature.models.User;
 import com.revature.services.ReimbursementService;
 import org.apache.logging.log4j.LogManager;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 @WebServlet(name = "reimbursements", displayName = "reimbursements", urlPatterns = "/reimbursements/*")
 public class ReimbursementServlet extends HttpServlet {
@@ -26,29 +28,64 @@ public class ReimbursementServlet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
         ObjectMapper mapper = new ObjectMapper();
         HttpSession session = req.getSession(false);
-        User requester = session == null? (User) req.getSession(false).getAttribute("this-user");
+        User requester = (session == null) ? null : (User) req.getSession(false).getAttribute("this-user");
         resp.setContentType("application/json");
 
         //Need a reimbursementId
-        //String userIdParam = req.getParameter("userId");
+        String reimbId = req.getParameter("reimbId");
+        String typeId = req.getParameter("typeId");
+        String statusId = req.getParameter("statusId");
 
         try{
-            //Must be Finance Manager
-            if (requester != null && requester.getUserRole().compareTo(2) == 0){
-                LOG.info("UserServlet.doGet() invoked by requester {}", requester);
+            if (requester != null){
+                //Must be a registered user
+                if(requester.getUserRole().compareTo(2) == 0) {
+                    //Must be Finance Manager
+                    LOG.info("ReimbursementServlet.doGet() invoked by financial manager requester {}", requester);
+                    if(reimbId == null){
+                        if(typeId != null){
+                            //print all reimbursements by type id
+                            LOG.info("Retrieving all reimbursements with type id " + typeId);
+                            Integer i = Integer.getInteger(typeId);
+                            List<Reimbursement> reimbursements = reimbursementService.getReimbByType(i);
+                            String usersJSON = mapper.writeValueAsString(reimbursements);
+                            writer.write(usersJSON);
+                        }else if(statusId != null){
+                            //print all reimbursements by status id
+                            LOG.info("Retrieving all reimbursements with status id " + statusId);
+                            Integer i = Integer.getInteger(statusId);
+                            List<Reimbursement> reimbursements = reimbursementService.getReimbByStatus(i);
+                            String reimbursementsJSON = mapper.writeValueAsString(reimbursements);
+                            writer.write(reimbursementsJSON);
+                        }else{
+                            //print all reimbursements
+                            LOG.info("Retrieving all reimbursements");
+                            List<Reimbursement> reimbursements = reimbursementService.getAllReimb();
+                            String reimbursementsJSON = mapper.writeValueAsString(reimbursements);
+                            writer.write(reimbursementsJSON);
+                        }
+                    }else{
+                        //print specific reimbursement
+                        LOG.info("Retrieving all reimbursements with reimbursement id " + reimbId);
+                        Integer i = Integer.getInteger(reimbId);
+                        Reimbursement reimbursement = reimbursementService.getReimbByReimbId(i);
+                        String reimbursementsJSON = mapper.writeValueAsString(reimbursement);
+                        writer.write(reimbursementsJSON);
+                    }
 
+                }else if(requester.getUserRole().compareTo(3) == 0 || requester.getUserRole().compareTo(1) == 0){
+                    //Either an Admin or Employee user
+                    LOG.info("ReimbursementServlet.doGet() invoked by admin/employee requester {}", requester);
 
-
-            }else{
-                if (requester == null){
-                    //User got past login or using invalidated session
-                    LOG.warn("Unauthorized request made by unknown requester");
-                    resp.setStatus(401);
                 }else{
-                    //User is not a Finance Manager/authorized user
+                    //User is deleted
                     LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
                     resp.setStatus(403);
                 }
+            }else{
+                //User got past login or using invalidated session
+                LOG.warn("Unauthorized request made by unknown requester");
+                resp.setStatus(401);
             }
 
         }catch(Exception e){
