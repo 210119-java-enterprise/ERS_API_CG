@@ -1,0 +1,48 @@
+13:15:29.321 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+13:15:31.645 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+13:15:32.408 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+13:15:32.517 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+13:15:32.518 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+13:15:32.544 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+13:15:35.255 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+13:15:35.259 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+13:30:11.356 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+13:30:13.809 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+13:30:14.634 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+13:30:14.746 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+13:30:14.747 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+13:30:14.771 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+13:30:17.626 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+13:30:17.626 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+13:31:20.502 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+13:31:22.926 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+13:31:23.728 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+13:31:23.806 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+13:31:23.806 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+13:31:23.826 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+13:31:26.531 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+13:31:26.532 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+13:33:55.664 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+13:33:57.980 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+13:33:58.786 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+13:33:58.912 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+13:33:58.914 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+13:33:58.935 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+13:34:01.666 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+13:34:01.667 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+13:34:36.519 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+13:34:38.824 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+13:34:39.614 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+13:34:39.729 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+13:34:39.730 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+13:34:39.759 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+13:34:42.513 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+13:34:42.514 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+13:38:31.653 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+13:38:34.095 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+13:38:35.006 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+13:38:35.109 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+13:38:35.109 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+13:38:35.132 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
+13:38:37.895 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+13:38:37.895 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database

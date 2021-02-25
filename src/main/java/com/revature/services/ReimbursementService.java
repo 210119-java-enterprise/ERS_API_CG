@@ -306,13 +306,53 @@ public class ReimbursementService {
      * Update a reimbursement
      * @param reimb the completed reimbursement object
      */
-    public void updateEMP(Reimbursement reimb) {
+    public boolean updateEMP(Reimbursement reimb) {
         if (!isReimbursementValid(reimb)){
             logger.error("Reimbursement object is invalid", new InvalidInputException());
+            return false;
         }
         if(!reimbRepo.updateEMP(reimb)){
             logger.error("Unable to update the reimbursement into the database");
+            return false;
         }
+        return true;
+    }
+
+    /**
+     *
+     * @param requesterId
+     * @param reimb
+     * @return
+     */
+    public boolean updateEMP(Integer requesterId, Reimbursement reimb){
+        if (!isReimbursementValid(reimb)){
+            logger.error("Reimbursement object is invalid", new InvalidInputException());
+            return false;
+        }
+
+        try {
+            Optional<Reimbursement> old = reimbRepo.getAReimbByReimbId(reimb.getId());
+            if(old.isPresent()){
+                Reimbursement r = old.get();
+                if(r.getAuthorId() != requesterId || r.getReimbursementStatus().compareTo(ReimbursementStatus.PENDING) != 0){
+                    return false;
+                }
+                reimb.setSubmitted(r.getSubmitted());
+                reimb.setReimbursementStatus(r.getReimbursementStatus());
+                reimb.setAuthorId(r.getAuthorId());
+                reimb.setResolverId(r.getResolverId());
+            }else{
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(!reimbRepo.updateEMP(reimb)){
+            logger.error("Unable to update the reimbursement into the database");
+            return false;
+        }
+        return true;
     }
 
     /**

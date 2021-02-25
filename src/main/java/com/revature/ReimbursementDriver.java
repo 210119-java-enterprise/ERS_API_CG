@@ -25,50 +25,8 @@ public class ReimbursementDriver {
         reimbursement.setReimbursementStatus(ReimbursementStatus.PENDING);
         reimbursement.setSubmitted(new Timestamp(System.currentTimeMillis()));
 
-        Reimbursement reimbursement2 = new Reimbursement();
-        reimbursement2.setAmount(50.00);
-        reimbursement2.setAuthorId(18);
-        reimbursement2.setResolverId(5);
-        reimbursement2.setDescription("Built the room out of lincoln logs");
-        reimbursement2.setReimbursementType(ReimbursementType.LODGING);
-        reimbursement2.setReimbursementStatus(ReimbursementStatus.PENDING);
-        reimbursement2.setSubmitted(new Timestamp(System.currentTimeMillis()));
-
-        Reimbursement reimbursement3 = new Reimbursement();
-        reimbursement3.setAmount(100.00);
-        reimbursement3.setAuthorId(18);
-        reimbursement3.setResolverId(5);
-        reimbursement3.setDescription("Full tank of gas, half a pack of cigarettes, it's night, and we're wearing sunglasses");
-        reimbursement3.setReimbursementType(ReimbursementType.TRAVEL);
-        reimbursement3.setReimbursementStatus(ReimbursementStatus.PENDING);
-        reimbursement3.setSubmitted(new Timestamp(System.currentTimeMillis()));
-
-        Reimbursement reimbursement4 = new Reimbursement();
-        reimbursement4.setAmount(25.00);
-        reimbursement4.setAuthorId(17);
-        reimbursement4.setResolverId(5);
-        reimbursement4.setDescription("Visited the MothMan museum to try and reconnect with my father");
-        reimbursement4.setReimbursementType(ReimbursementType.OTHER);
-        reimbursement4.setReimbursementStatus(ReimbursementStatus.PENDING);
-        reimbursement4.setSubmitted(new Timestamp(System.currentTimeMillis()));
 
         rs.save(reimbursement);
-        rs.save(reimbursement2);
-        rs.save(reimbursement3);
-        rs.save(reimbursement4);
-
-        String s = "encryptthisplease";
-        System.out.println(encrypt(s));
-
-        User newUser = new User();
-        newUser.setUsername("manboi");
-        newUser.setPassword("encryptthisplease");
-        newUser.setFirstname("man");
-        newUser.setLastname("boi");
-        newUser.setEmail("manboi@man.boi");
-        newUser.setUserRole(Role.ADMIN.ordinal()+1);
-
-        UserService us = new UserService();
 
 //        us.register(newUser);
 

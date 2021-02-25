@@ -2,6 +2,8 @@ package com.revature.models;
 
 import com.revature.util.ReimbursementStatusAttributeConverter;
 import com.revature.util.ReimbursementTypeAttributeConverter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.File;
@@ -12,6 +14,8 @@ import java.util.Objects;
  * The base unit of the ERS system. ready to include images
  */
 @Entity
+@DynamicInsert
+@DynamicUpdate
 @Table(name = "ers_reimbursements")
 public class Reimbursement {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +40,7 @@ public class Reimbursement {
     @Column(name = "author_id")
     private int authorId;
 
-    @Column(name = "resolver_id")
+    @Column(name = "resolver_id", columnDefinition = "int4 NULL")
     private int resolverId;
 
     @Column(name = "reimbursement_status_id")
