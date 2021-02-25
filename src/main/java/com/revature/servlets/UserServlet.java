@@ -112,6 +112,13 @@ public class UserServlet extends HttpServlet {
 
     }
 
+    /**
+     * Post will add a new user to the database
+     * @param req               request body holds the description of a user
+     * @param resp              response holds a confirmation
+     * @throws ServletException not thrown
+     * @throws IOException      thrown by object mapper
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter writer = resp.getWriter();
@@ -134,13 +141,13 @@ public class UserServlet extends HttpServlet {
                     writer.write("New User created : \n");
                     writer.write(mapper.writeValueAsString(newUser));
                     LOG.info("New User created : {}", newUser.getUsername());
+                    resp.setStatus(201);
                 }else{
                     //FAILURE
                     LOG.error("Invalid User created {}", newUser.toString());
                     writer.write("Invalid user created\n");
                 }
             }else {
-
                 if (requester == null) {
                     //User got past login or using invalidated session
                     LOG.warn("Unauthorized request made by unknown requester");
@@ -206,6 +213,7 @@ public class UserServlet extends HttpServlet {
         }
     }
 
+    //Disallow a self delete
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter writer = resp.getWriter();
