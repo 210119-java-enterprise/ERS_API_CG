@@ -26,7 +26,7 @@ public class ReimbursementServlet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
         ObjectMapper mapper = new ObjectMapper();
         HttpSession session = req.getSession(false);
-        User requester = session == null? (User) req.getSession(false).getAttribute("this-user");
+        User requester = session == null? null : (User) req.getSession(false).getAttribute("this-user");
         resp.setContentType("application/json");
 
         //Need a reimbursementId

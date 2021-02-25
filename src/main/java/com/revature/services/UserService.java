@@ -34,6 +34,15 @@ public class UserService {
         return users;
     }
 
+    public User getUserById(int id){
+        Optional<User> user = userRepo.getAUserById(id);
+        if (!user.isPresent()){
+            logger.error("No user matching id in the database", new DatabaseException());
+            return null;
+        }
+        return user.get();
+    }
+
     /**
      * Authentication method used by the authentication servlet
      * @param username username of the user
