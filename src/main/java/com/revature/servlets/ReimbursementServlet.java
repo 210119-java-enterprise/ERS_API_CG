@@ -2,6 +2,7 @@ package com.revature.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.Reimbursement;
+import com.revature.models.ReimbursementStatus;
 import com.revature.models.User;
 import com.revature.services.ReimbursementService;
 import org.apache.logging.log4j.LogManager;
@@ -101,13 +102,13 @@ public class ReimbursementServlet extends HttpServlet {
                     LOG.info("ReimbursementServlet.doPost() invoked by admin/employee/manager requester {}", requester);
                     Reimbursement newReimbursement = mapper.readValue(req.getInputStream(), Reimbursement.class);
                     //No need to worry about inputting time
-                    newReimbursement.setSubmitted(new Timestamp(System.currentTimeMillis()));
-                    reimbursementService.save(newReimbursement);
-
-                    writer.write("New Reimbursement created : \n");
-                    writer.write(mapper.writeValueAsString(newReimbursement));
-
-                    LOG.info("New Reimbursement created : {}", newReimbursement.getId());
+                    if(reimbursementService.save(newReimbursement)){
+                        writer.write("New Reimbursement created");
+                        LOG.info("New Reimbursement created");
+                    }else{
+                        writer.write("Reimbursement could not be saved, please check your inpute");
+                        LOG.warn("Reimbursement could not be saved");
+                    }
                 }else{
                     //User is deleted
                     LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());

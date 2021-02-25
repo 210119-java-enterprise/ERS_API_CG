@@ -114,16 +114,19 @@ public class ManageServlet extends HttpServlet {
                             //print all reimbursements by status id
                             LOG.info("Updating reimbursement " + reimbId + " with status id " + statusId);
                             Integer r = Integer.parseInt(reimbId);
-                            Integer s = Integer.parseInt(statusId);
 
-                            Reimbursement reimbursement = reimbursementService.getReimbByReimbId(r);
-                            reimbursement.setReimbursementStatus(ReimbursementStatus.getByNumber(s));
-                            reimbursement.setResolved(new Timestamp(System.currentTimeMillis()));
-                            reimbursement.setResolverId(requester.getUserId());
-
-                            reimbursementService.updateEMP(reimbursement);
-                            String reimbursementsJSON = mapper.writeValueAsString(reimbursement);
-                            writer.write(reimbursementsJSON);
+                            if(statusId.equals("2")){
+                                //approve
+                                reimbursementService.approve(requester.getUserId(), r);
+                                writer.write("Successfully approved");
+                            }else if(statusId.equals("3")){
+                                //deny
+                                reimbursementService.deny(requester.getUserId(), r);
+                                writer.write("Successfully denied");
+                            }else{
+                                LOG.warn("Request made by requester, {}, incorrect reimbursement status id", requester.getUsername());
+                                resp.setStatus(400);
+                            }
                         } else {
                             LOG.warn("Request made by requester, {}, did not specify reimbursement status id", requester.getUsername());
                             resp.setStatus(400);

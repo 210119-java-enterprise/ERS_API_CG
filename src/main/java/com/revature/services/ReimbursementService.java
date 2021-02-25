@@ -288,13 +288,18 @@ public class ReimbursementService {
      * Saves a reimbursement after validation
      * @param reimb the completed reimbursement object
      */
-    public void save(Reimbursement reimb){
+    public boolean save(Reimbursement reimb){
         if (!isReimbursementValid(reimb)){
             logger.error("Reimbursement object is invalid", new InvalidInputException());
+            return false;
         }
+        reimb.setSubmitted(new Timestamp(System.currentTimeMillis()));
+        reimb.setReimbursementStatus(ReimbursementStatus.PENDING);
         if(!reimbRepo.addReimbursement(reimb)){
             logger.error("Unable to save the reimbursement into the database");
+            return false;
         }
+        return true;
     }
 
     /**
