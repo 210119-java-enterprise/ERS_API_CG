@@ -48,6 +48,9 @@ public class Encryption {
                 logger.error("Cipher is null");
             }else {
                 cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+                if(message == null || message.trim().equals("")){
+                    return null;
+                }
                 encryptedMessage = cipher.doFinal(message.getBytes(StandardCharsets.UTF_8));
                 logger.info("Encrypted the password");
             }
