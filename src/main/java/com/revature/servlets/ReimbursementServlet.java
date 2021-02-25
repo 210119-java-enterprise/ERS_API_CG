@@ -76,7 +76,18 @@ public class ReimbursementServlet extends HttpServlet {
                 }else if(requester.getUserRole().compareTo(3) == 0 || requester.getUserRole().compareTo(1) == 0){
                     //Either an Admin or Employee user
                     LOG.info("ReimbursementServlet.doGet() invoked by admin/employee requester {}", requester);
-
+                    if(reimbId != null){
+                        LOG.info("Retrieving reimbursement " + reimbId + " for user " + requester.getUsername());
+                        Integer i = Integer.getInteger(reimbId);
+                        Reimbursement reimbursement = reimbursementService.getReimbByReimbId(i);
+                        String reimbursementsJSON = mapper.writeValueAsString(reimbursement);
+                        writer.write(reimbursementsJSON);
+                    }else{
+                        LOG.info("Retrieving all reimbursements for user " + requester.getUsername());
+                        List<Reimbursement> reimbursements = reimbursementService.getReimbByUserId(requester.getUserId());
+                        String reimbursementsJSON = mapper.writeValueAsString(reimbursements);
+                        writer.write(reimbursementsJSON);
+                    }
                 }else{
                     //User is deleted
                     LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
