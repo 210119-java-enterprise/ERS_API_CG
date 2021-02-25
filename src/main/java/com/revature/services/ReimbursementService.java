@@ -306,13 +306,16 @@ public class ReimbursementService {
      * Update a reimbursement
      * @param reimb the completed reimbursement object
      */
-    public void updateEMP(Reimbursement reimb) {
+    public boolean updateEMP(Reimbursement reimb) {
         if (!isReimbursementValid(reimb)){
             logger.error("Reimbursement object is invalid", new InvalidInputException());
+            return false;
         }
         if(!reimbRepo.updateEMP(reimb)){
             logger.error("Unable to update the reimbursement into the database");
+            return false;
         }
+        return true;
     }
 
     /**
