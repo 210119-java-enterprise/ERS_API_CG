@@ -39,7 +39,7 @@ public class ReimbursementServlet extends HttpServlet {
         try{
             if (requester != null){
                 //Must be a registered user
-                if(requester.getUserRole().compareTo(3) == 0 || requester.getUserRole().compareTo(1) == 0){
+                if(requester.getUserRole() >= 1 && requester.getUserRole() <= 3){
                     //Either an Admin or Employee user
                     LOG.info("ReimbursementServlet.doGet() invoked by admin/employee requester {}", requester);
                     if(reimbId != null){
@@ -48,15 +48,25 @@ public class ReimbursementServlet extends HttpServlet {
                         Reimbursement reimbursement = reimbursementService.getReimbByReimbId(i);
                         String reimbursementsJSON = mapper.writeValueAsString(reimbursement);
                         writer.write(reimbursementsJSON);
-                    }else{
+                    }else if(typeId != null){
+                        LOG.info("Retrieving reimbursement of type " + typeId + " for user " + requester.getUsername());
+                        Integer i = Integer.parseInt(typeId);
+                        List<Reimbursement> reimbursements = reimbursementService.getReimbByAuthorAndType(requester.getUserId(), i);
+                        String reimbursementsJSON = mapper.writeValueAsString(reimbursements);
+                        writer.write(reimbursementsJSON);
+                    }else if(statusId != null){
+                        LOG.info("Retrieving reimbursement of status " + statusId + " for user " + requester.getUsername());
+                        Integer i = Integer.parseInt(statusId);
+                        List<Reimbursement> reimbursements = reimbursementService.getReimbByAuthorAndStatus(requester.getUserId(), i);
+                        String reimbursementsJSON = mapper.writeValueAsString(reimbursements);
+                        writer.write(reimbursementsJSON);
+                    } else{
                         LOG.info("Retrieving all reimbursements for user " + requester.getUsername());
                         List<Reimbursement> reimbursements = reimbursementService.getReimbByUserId(requester.getUserId());
                         String reimbursementsJSON = mapper.writeValueAsString(reimbursements);
                         writer.write(reimbursementsJSON);
                     }
-                }else if(requester.getUserRole().compareTo(2) == 0){
-                    //forward to the manage servlet since they can do everything there
-                } else{
+                }else{
                     //User is deleted
                     LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
                     resp.setStatus(403);
