@@ -52,8 +52,18 @@ public class UserServlet extends HttpServlet {
 //                    writer.write(userJSON);
 //                }
 
+            }else {
+
+                if (rqstr == null) {
+                    LOG.warn("Unauthorized request made by unknown requester");
+                    resp.setStatus(401);
+                } else {
+                    LOG.warn("Request made by requester, {}, who lacks proper authorities", rqstr.getUsername());
+                    resp.setStatus(403);
+                }
+
             }
-        } catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
             LOG.error(e.getMessage());
             resp.setStatus(500);
