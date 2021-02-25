@@ -17,14 +17,19 @@ import java.io.PrintWriter;
 import java.util.List;
 
 /**
- *
+ * This class is a servlet intended to handle an admins user management, including viewing users,
+ * adding new users, updating users, and deleting users.
+ * <p>Endpoint : /users/*</p>
+ * @author Cole Space
+ * @author Gabrielle Luna
  */
 @WebServlet(name = "users", displayName = "users", urlPatterns = "/users/*")
 public class UserServlet extends HttpServlet {
-
+    //attributes ----------------------------------------------------
     private final UserService userService = new UserService();
     private static final Logger LOG = LogManager.getLogger(UserServlet.class);
 
+    //Http Verbs ----------------------------------------------------
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter writer = resp.getWriter();

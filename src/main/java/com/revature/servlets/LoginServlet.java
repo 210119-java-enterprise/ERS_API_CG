@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
     private final UserService userService = new UserService();
     private static final Logger LOG = LogManager.getLogger(LoginServlet.class);
 
-    //HTTP verbs ----------------------------------------------------
+    //Http Verbs ----------------------------------------------------
     /**
      * Get will invalidate any pre-existing session, to allow for a new user to login.
      * @param req                   get request
