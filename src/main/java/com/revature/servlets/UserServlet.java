@@ -137,7 +137,6 @@ public class UserServlet extends HttpServlet {
 
                 User newUser = mapper.readValue(req.getInputStream(), User.class);
                 if (userService.register(newUser)) {
-                    //SUCCESS
                     writer.write("New User created : \n");
                     writer.write(mapper.writeValueAsString(newUser));
                     LOG.info("New User created : {}", newUser.getUsername());
@@ -166,7 +165,13 @@ public class UserServlet extends HttpServlet {
         }
     }
 
-
+    /**
+     * Put updates an existing user
+     * @param req               request holds a complete user with updated fields
+     * @param resp              response holds a confirmation with the uspdated users info
+     * @throws ServletException not thrown
+     * @throws IOException      thrown by object mapper
+     */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter writer = resp.getWriter();
@@ -188,11 +193,8 @@ public class UserServlet extends HttpServlet {
                     writer.write("User Updated: \n");
                     writer.write(mapper.writeValueAsString(newUser));
                     LOG.info("User updated : {}", newUser.getUsername());
-                }else{
-                    //FAILURE
-                    LOG.error("Invalid User update {}", newUser.toString());
-                    writer.write("Invalid user update\n");
-                }
+                }else throw new InvalidInputException();
+
             }else {
                 if (requester == null) {
                     //User got past login or using invalidated session
@@ -203,8 +205,12 @@ public class UserServlet extends HttpServlet {
                     LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
                     resp.setStatus(403);
                 }
-
             }
+        }catch(InvalidInputException e){
+            //Error in UserService due to invalid input by user
+            LOG.error("Invalid User update attempted");
+            writer.write("Invalid user update\n");
+            resp.setStatus(400);
         }catch (Exception e) {
             writer.write(e.getMessage());
             e.printStackTrace();
@@ -213,6 +219,13 @@ public class UserServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Delete will delete the specified user from the database
+     * @param req               request hold details about a user to be deleted
+     * @param resp              response holds a confirmation of the deleted user
+     * @throws ServletException not thrown
+     * @throws IOException      thrown by object mapper
+     */
     //Disallow a self delete
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -231,15 +244,11 @@ public class UserServlet extends HttpServlet {
 
                 User user = mapper.readValue(req.getInputStream(), User.class);
                 if (userService.deleteUserById(user.getUserId())) {
-                    //SUCCESS
                     writer.write("User Deleted: \n");
                     writer.write(mapper.writeValueAsString(user));
                     LOG.info("User deleted : {}", user.getUsername());
-                }else{
-                    //FAILURE
-                    LOG.error("Failure to delete user: {}", user.toString());
-                    writer.write("Failed to delete user\n");
-                }
+                }else throw new InvalidInputException();
+
             }else {
                 if (requester == null) {
                     //User got past login or using invalidated session
@@ -252,7 +261,12 @@ public class UserServlet extends HttpServlet {
                 }
 
             }
-        }catch (Exception e) {
+        }catch(InvalidInputException e){
+            LOG.error("Failure to delete user");
+            writer.write("Failed to delete user\n");
+            resp.setStatus(400);
+        }
+        catch (Exception e) {
             e.printStackTrace();
             LOG.error(e.getMessage());
             resp.setStatus(500);
