@@ -39,15 +39,16 @@ public class UserServlet extends HttpServlet {
 
                 if (userIdParam == null) {
                     LOG.info("Retrieving all users");
+                    writer.write("All Users \n");
                     List<User> users = userService.getAllUsers();
                     String usersJSON = mapper.writeValueAsString(users);
                     writer.write(usersJSON);
                 } else {
-//                    int soughtId = Integer.parseInt(userIdParam);
-//                    LOG.info("Retrieving users with id, {}" , soughtId);
-//                    //User user = userService.(soughtId);
-//                    String userJSON = mapper.writeValueAsString(user);
-//                    writer.write(userJSON);
+                    int soughtId = Integer.parseInt(userIdParam);
+                    LOG.info("Retrieving users with id, {}" , soughtId);
+                    User user = userService.getUserById(soughtId);
+                    String userJSON = mapper.writeValueAsString(user);
+                    writer.write(userJSON);
                 }
 
             }else {

@@ -92,6 +92,24 @@ public class UserRepository {
         return user;
     }
 
+    public Optional<User> getAUserById(int id) {
+        Optional<User> user = Optional.empty();
+
+        Session session = HibernateUtil.getSession();
+        Transaction t = session.beginTransaction();
+
+        Query query = session.createQuery("FROM User u WHERE u.id = :id");
+        query.setParameter("id", id);
+        user = query.stream().findFirst();
+
+        if(t != null){
+            t.rollback();
+        }
+        session.close();
+
+        return user;
+    }
+
     /**
      * A method to get a single user by a given username and password
      * @param userName the users username
