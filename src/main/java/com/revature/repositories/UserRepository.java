@@ -1,7 +1,6 @@
 package com.revature.repositories;
 
 import com.revature.models.User;
-import com.revature.util.ConnectionFactory;
 import com.revature.util.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
