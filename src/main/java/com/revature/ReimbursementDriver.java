@@ -1,12 +1,14 @@
 package com.revature;
 
-import com.revature.models.Reimbursement;
-import com.revature.models.ReimbursementStatus;
-import com.revature.models.ReimbursementType;
+import com.revature.models.*;
 import com.revature.services.ReimbursementService;
+import com.revature.services.UserService;
+import com.revature.util.Encryption;
 
 import java.sql.Timestamp;
 import java.util.List;
+
+import static com.revature.util.Encryption.encrypt;
 
 public class ReimbursementDriver {
 
@@ -54,6 +56,21 @@ public class ReimbursementDriver {
         rs.save(reimbursement2);
         rs.save(reimbursement3);
         rs.save(reimbursement4);
+
+        String s = "encryptthisplease";
+        System.out.println(encrypt(s));
+
+        User newUser = new User();
+        newUser.setUsername("manboi");
+        newUser.setPassword("encryptthisplease");
+        newUser.setFirstname("man");
+        newUser.setLastname("boi");
+        newUser.setEmail("manboi@man.boi");
+        newUser.setUserRole(Role.ADMIN.ordinal()+1);
+
+        UserService us = new UserService();
+
+//        us.register(newUser);
 
 //        System.out.println("Get all reimbursements");
 //
