@@ -3,6 +3,7 @@ package com.revature.models;
 import com.revature.util.ReimbursementStatusAttributeConverter;
 import com.revature.util.ReimbursementTypeAttributeConverter;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.File;
@@ -14,6 +15,7 @@ import java.util.Objects;
  */
 @Entity
 @DynamicInsert
+@DynamicUpdate
 @Table(name = "ers_reimbursements")
 public class Reimbursement {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -319,6 +319,39 @@ public class ReimbursementService {
     }
 
     /**
+     *
+     * @param requesterId
+     * @param reimb
+     * @return
+     */
+    public boolean updateEMP(Integer requesterId, Reimbursement reimb){
+        if (!isReimbursementValid(reimb)){
+            logger.error("Reimbursement object is invalid", new InvalidInputException());
+            return false;
+        }
+
+        try {
+            Optional<Reimbursement> old = reimbRepo.getAReimbByReimbId(reimb.getId());
+            if(old.isPresent()){
+                Reimbursement r = old.get();
+                if(r.getAuthorId() != requesterId){
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if(!reimbRepo.updateEMP(reimb)){
+            logger.error("Unable to update the reimbursement into the database");
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Approve a Reimb.
      * @param resolverId the Id of the fin manager resolving the reimb.
      * @param reimbId id of the Reimb. to approve or disapprove.

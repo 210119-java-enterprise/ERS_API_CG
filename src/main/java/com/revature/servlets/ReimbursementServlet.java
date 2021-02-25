@@ -144,7 +144,7 @@ public class ReimbursementServlet extends HttpServlet {
                     LOG.info("ReimbursementServlet.doPost() invoked by admin/employee/manager requester {}", requester);
                     Reimbursement newReimbursement = mapper.readValue(req.getInputStream(), Reimbursement.class);
                     //No need to worry about inputting time
-                    if(reimbursementService.updateEMP(newReimbursement)){
+                    if(reimbursementService.updateEMP(requester.getUserId(), newReimbursement)){
                         writer.write("Reimbursement updated");
                         LOG.info("New Reimbursement created");
                     }else{
