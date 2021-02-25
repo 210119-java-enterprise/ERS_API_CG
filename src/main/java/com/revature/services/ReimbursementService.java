@@ -193,6 +193,34 @@ public class ReimbursementService {
     }
 
     /**
+     *
+     * @param requesterId
+     * @param reimbId
+     * @return
+     */
+    public Reimbursement getReimbByReimbId(Integer requesterId, Integer reimbId){
+        if (reimbId <= 0){
+            logger.error("THE PROVIDED REIMBURSEMENT ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
+            return null;
+        }
+        Reimbursement reimb = null;
+        try {
+            Optional<Reimbursement> o = reimbRepo.getAReimbByReimbId(reimbId);
+            if(!o.isPresent()){
+                logger.error("No reimbursement found", new DatabaseException());
+                return null;
+            }
+            reimb = o.get();
+            if(requesterId != reimb.getAuthorId()){
+                return null;
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        return reimb;
+    }
+
+    /**
      * Gets all reimbursements by a specified type
      * @param typeId ordinal number of the type requested, between 1-4
      * @return A list of RbDTO objects

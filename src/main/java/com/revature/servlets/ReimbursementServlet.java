@@ -45,7 +45,7 @@ public class ReimbursementServlet extends HttpServlet {
                     if(reimbId != null){
                         LOG.info("Retrieving reimbursement " + reimbId + " for user " + requester.getUsername());
                         Integer i = Integer.parseInt(reimbId);
-                        Reimbursement reimbursement = reimbursementService.getReimbByReimbId(i);
+                        Reimbursement reimbursement = reimbursementService.getReimbByReimbId(requester.getUserId(), i);
                         String reimbursementsJSON = mapper.writeValueAsString(reimbursement);
                         writer.write(reimbursementsJSON);
                     }else if(typeId != null){
