@@ -39,50 +39,28 @@ public class ReimbursementServlet extends HttpServlet {
         try{
             if (requester != null){
                 //Must be a registered user
-                if(requester.getUserRole().compareTo(2) == 0) {
-                    //Must be Finance Manager
-                    LOG.info("ReimbursementServlet.doGet() invoked by financial manager requester {}", requester);
-                    if(reimbId == null){
-                        if(typeId != null){
-                            //print all reimbursements by type id
-                            LOG.info("Retrieving all reimbursements with type id " + typeId);
-                            Integer i = Integer.parseInt(typeId);
-                            List<Reimbursement> reimbursements = reimbursementService.getReimbByType(i);
-                            String usersJSON = mapper.writeValueAsString(reimbursements);
-                            writer.write(usersJSON);
-                        }else if(statusId != null){
-                            //print all reimbursements by status id
-                            LOG.info("Retrieving all reimbursements with status id " + statusId);
-                            Integer i = Integer.parseInt(statusId);
-                            List<Reimbursement> reimbursements = reimbursementService.getReimbByStatus(i);
-                            String reimbursementsJSON = mapper.writeValueAsString(reimbursements);
-                            writer.write(reimbursementsJSON);
-                        }else{
-                            //print all reimbursements
-                            LOG.info("Retrieving all reimbursements");
-                            List<Reimbursement> reimbursements = reimbursementService.getAllReimb();
-                            String reimbursementsJSON = mapper.writeValueAsString(reimbursements);
-                            writer.write(reimbursementsJSON);
-                        }
-                    }else{
-                        //print specific reimbursement
-                        LOG.info("Retrieving all reimbursements with reimbursement id " + reimbId);
-                        Integer i = Integer.parseInt(reimbId);
-                        Reimbursement reimbursement = reimbursementService.getReimbByReimbId(i);
-                        String reimbursementsJSON = mapper.writeValueAsString(reimbursement);
-                        writer.write(reimbursementsJSON);
-                    }
-
-                }else if(requester.getUserRole().compareTo(3) == 0 || requester.getUserRole().compareTo(1) == 0){
+                if(requester.getUserRole() >= 1 && requester.getUserRole() <= 3){
                     //Either an Admin or Employee user
                     LOG.info("ReimbursementServlet.doGet() invoked by admin/employee requester {}", requester);
                     if(reimbId != null){
                         LOG.info("Retrieving reimbursement " + reimbId + " for user " + requester.getUsername());
                         Integer i = Integer.parseInt(reimbId);
-                        Reimbursement reimbursement = reimbursementService.getReimbByReimbId(i);
+                        Reimbursement reimbursement = reimbursementService.getReimbByReimbId(requester.getUserId(), i);
                         String reimbursementsJSON = mapper.writeValueAsString(reimbursement);
                         writer.write(reimbursementsJSON);
-                    }else{
+                    }else if(typeId != null){
+                        LOG.info("Retrieving reimbursement of type " + typeId + " for user " + requester.getUsername());
+                        Integer i = Integer.parseInt(typeId);
+                        List<Reimbursement> reimbursements = reimbursementService.getReimbByAuthorAndType(requester.getUserId(), i);
+                        String reimbursementsJSON = mapper.writeValueAsString(reimbursements);
+                        writer.write(reimbursementsJSON);
+                    }else if(statusId != null){
+                        LOG.info("Retrieving reimbursement of status " + statusId + " for user " + requester.getUsername());
+                        Integer i = Integer.parseInt(statusId);
+                        List<Reimbursement> reimbursements = reimbursementService.getReimbByAuthorAndStatus(requester.getUserId(), i);
+                        String reimbursementsJSON = mapper.writeValueAsString(reimbursements);
+                        writer.write(reimbursementsJSON);
+                    } else{
                         LOG.info("Retrieving all reimbursements for user " + requester.getUsername());
                         List<Reimbursement> reimbursements = reimbursementService.getReimbByUserId(requester.getUserId());
                         String reimbursementsJSON = mapper.writeValueAsString(reimbursements);
@@ -100,7 +78,6 @@ public class ReimbursementServlet extends HttpServlet {
             }
 
         }catch(Exception e){
-            e.printStackTrace();
             LOG.error(e.getMessage());
             resp.setStatus(500);
         }

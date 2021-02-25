@@ -1,0 +1,18 @@
+10:24:38.009 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+10:24:38.010 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+10:24:38.187 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+10:24:38.188 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+10:24:38.365 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+10:24:38.365 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+10:25:19.124 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+10:25:19.125 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+10:25:19.301 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+10:25:19.302 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+10:25:19.478 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+10:25:19.479 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+10:28:18.684 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+10:28:18.685 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+10:28:18.858 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+10:28:18.859 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+10:28:19.037 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+10:28:19.038 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
