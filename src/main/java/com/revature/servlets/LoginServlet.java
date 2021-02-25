@@ -77,9 +77,9 @@ public class LoginServlet extends HttpServlet {
             authUser = userService.authenticate(credentials.getUsername(), credentials.getPassword());
 
             //Print new user to screen
-            if (authUser != null)
-                writer.write(mapper.writeValueAsString(authUser));
-            else throw new InvalidCredentialsException();
+            if (authUser != null) {
+                writer.write("Welcome Back " + authUser.getFirstname() + " " + authUser.getLastname());
+            }else throw new InvalidCredentialsException();
 
             //Save new user to session
             LOG.info("Establishing a session for user, {}", credentials.getUsername());
