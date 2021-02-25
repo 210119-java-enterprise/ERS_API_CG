@@ -37,8 +37,7 @@ public class Encryption {
         try {
             cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            logger.error(e.getMessage());
-            //e.printStackTrace();
+            logger.fatal(e.getMessage());
         }
 
         SecretKey secretKey = new SecretKeySpec(encryptionKeyBytes, "AES");
@@ -52,8 +51,7 @@ public class Encryption {
                 logger.info("Encrypted the password");
             }
         } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
-            logger.error(e.getMessage());
-            //e.printStackTrace();
+            logger.fatal(e.getMessage());
         }
 
         if(encryptedMessage == null){

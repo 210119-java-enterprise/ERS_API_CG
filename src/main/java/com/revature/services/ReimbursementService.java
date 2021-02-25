@@ -301,6 +301,25 @@ public class ReimbursementService {
     }
 
     /**
+     *
+     * @param reimbId
+     * @return
+     */
+    public boolean delete(Integer reimbId){
+        try {
+            Optional<Reimbursement> o = reimbRepo.getAReimbByReimbId(reimbId);
+            if(!o.isPresent()){
+                throw new RuntimeException("Cannot delete what isn't there");
+            }
+            Reimbursement r = o.get();
+            return reimbRepo.delete(r);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
      * Validates feilds of a reimbursement
      * @param reimb reimb. to be validated
      * @return true or false based on fields

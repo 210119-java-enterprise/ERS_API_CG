@@ -374,71 +374,26 @@ public class ReimbursementsRepository {
 
     /**
      * A method to delete a single Reimbursement from the database
-     * @param reimbId the ID of the record to be deleted
+     * @param reimbursement the ID of the record to be deleted
      * @return returns true if one and only one record is updated
      * @throws SQLException e
      */
-    public boolean delete(Integer reimbId) throws SQLException {
-        try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
-            String sql = "DELETE FROM project_1.ers_reimbursements\n" +
-                         "WHERE id=? ";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1,reimbId);
-            //get the number of affected rows
-            int rowsInserted = ps.executeUpdate();
-            return rowsInserted != 0;
-        }
-    }
+    public boolean delete(Reimbursement reimbursement) throws SQLException {
+        Session session = HibernateUtil.getSession();
+        Transaction t = null;
 
-    //---------------------------------- UTIL -------------------------------------------- //
-    /**
-     * A method to map the result sets from the reimbursement queries
-     * @param rs a resultset
-     * @return a set of reimbursements
-     * @throws SQLException e
-     */
-    private Set<Reimbursement> mapResultSet(ResultSet rs) throws SQLException {
-        Set<Reimbursement> reimbursements = new HashSet<>();
-        while (rs.next()){
-            Reimbursement temp = new Reimbursement();
-            temp.setId(rs.getInt("id"));
-            temp.setAmount(rs.getDouble("amount"));
-            temp.setSubmitted(rs.getTimestamp("submitted"));
-            temp.setResolved(rs.getTimestamp("resolved"));
-            temp.setDescription(rs.getString("description"));
-            temp.setAuthorId(rs.getInt("author_id"));
-            temp.setResolverId(rs.getInt("resolver_id"));
-            temp.setReimbursementStatus(ReimbursementStatus.getByNumber(rs.getInt("reimbursement_status_id")));
-            temp.setReimbursementType(ReimbursementType.getByNumber(rs.getInt("reimbursement_type_id")));
-
-            reimbursements.add(temp);
-        }
-        return reimbursements;
-    }
-
-    private List<RbDTO> mapResultSetDTO(ResultSet rs) throws SQLException {
-        List<RbDTO> reimbs = new ArrayList<>();
-        while (rs.next()){
-            RbDTO temp = new RbDTO();
-            temp.setId(rs.getInt("id"));
-            temp.setAmount(rs.getDouble("amount"));
-            temp.setSubmitted(rs.getTimestamp("submitted").toString().substring(0,19));
-            temp.setDescription(rs.getString("description"));
-            temp.setAuthorName(rs.getString("author_first_name") + " " + rs.getString("author_last_name"));
-            temp.setStatus(ReimbursementStatus.getByNumber(rs.getInt("reimbursement_status_id")).toString());
-            temp.setType(ReimbursementType.getByNumber(rs.getInt("reimbursement_type_id")).toString());
-            try {
-                temp.setResolved(rs.getTimestamp("resolved").toString().substring(0,19));
-                temp.setResolverName(rs.getString("resolver_first_name") + " " + rs.getString("resolver_last_name"));
-            } catch (NullPointerException e){
-                //If Reimb. has not been resolved DB will return null for these values:
-                temp.setResolved("");
-                temp.setResolverName("");
+        try{
+            t = session.beginTransaction();
+            session.delete(reimbursement);
+            t.commit();
+        }catch(HibernateException e){
+            if(t != null){
+                t.rollback();
             }
-
-            reimbs.add(temp);
+            e.printStackTrace();
+        }finally{
+            session.close();
         }
-        System.out.println(reimbs);
-        return reimbs;
+        return true;
     }
 }
