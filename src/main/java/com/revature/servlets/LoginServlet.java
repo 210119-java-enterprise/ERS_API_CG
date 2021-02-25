@@ -34,8 +34,8 @@ public class LoginServlet extends HttpServlet {
     //Http Verbs ----------------------------------------------------
     /**
      * Get will invalidate any pre-existing session, to allow for a new user to login.
-     * @param req                   get request
-     * @param resp                  empty response
+     * @param req                   request is empty
+     * @param resp                  response reminds user to login
      * @throws ServletException     not thrown
      * @throws IOException          not thrown
      */
@@ -57,10 +57,10 @@ public class LoginServlet extends HttpServlet {
 
     /**
      * Post will activate user authentication logic.
-     * @param req               request
-     * @param resp              response
+     * @param req               request body has JSON with login info
+     * @param resp              response has information regarding the success or failure of login
      * @throws ServletException not thrown
-     * @throws IOException      thrown by the authenticate logic in userService
+     * @throws IOException      thrown by mapper logic
      */
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         ObjectMapper mapper = new ObjectMapper();
@@ -78,7 +78,7 @@ public class LoginServlet extends HttpServlet {
 
             //Print new user to screen
             if (authUser != null) {
-                writer.write("Welcome Back " + authUser.getFirstname() + " " + authUser.getLastname());
+                writer.write("Welcome back " + authUser.getFirstname() + " " + authUser.getLastname());
             }else throw new InvalidCredentialsException();
 
             //Save new user to session
