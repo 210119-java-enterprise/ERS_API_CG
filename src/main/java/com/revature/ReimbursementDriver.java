@@ -27,7 +27,7 @@ public class ReimbursementDriver {
 
         Reimbursement reimbursement2 = new Reimbursement();
         reimbursement2.setAmount(50.00);
-        reimbursement2.setAuthorId(12);
+        reimbursement2.setAuthorId(18);
         reimbursement2.setResolverId(5);
         reimbursement2.setDescription("Built the room out of lincoln logs");
         reimbursement2.setReimbursementType(ReimbursementType.LODGING);
@@ -36,7 +36,7 @@ public class ReimbursementDriver {
 
         Reimbursement reimbursement3 = new Reimbursement();
         reimbursement3.setAmount(100.00);
-        reimbursement3.setAuthorId(11);
+        reimbursement3.setAuthorId(18);
         reimbursement3.setResolverId(5);
         reimbursement3.setDescription("Full tank of gas, half a pack of cigarettes, it's night, and we're wearing sunglasses");
         reimbursement3.setReimbursementType(ReimbursementType.TRAVEL);
@@ -45,7 +45,7 @@ public class ReimbursementDriver {
 
         Reimbursement reimbursement4 = new Reimbursement();
         reimbursement4.setAmount(25.00);
-        reimbursement4.setAuthorId(12);
+        reimbursement4.setAuthorId(17);
         reimbursement4.setResolverId(5);
         reimbursement4.setDescription("Visited the MothMan museum to try and reconnect with my father");
         reimbursement4.setReimbursementType(ReimbursementType.OTHER);
