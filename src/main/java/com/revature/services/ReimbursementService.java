@@ -4,9 +4,13 @@ package com.revature.services;
 //TODO to not be outside the range they should be
 
 import com.revature.dtos.RbDTO;
+import com.revature.exceptions.DatabaseException;
+import com.revature.exceptions.InvalidInputException;
 import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementStatus;
 import com.revature.repositories.ReimbursementsRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -17,6 +21,8 @@ import java.util.Optional;
  * Service layer for validating reimbursements before sending to or from the Database
  */
 public class ReimbursementService {
+
+    private static final Logger logger = LogManager.getLogger(ReimbursementService.class);
     private final ReimbursementsRepository reimbRepo = new ReimbursementsRepository();
 
     /**
@@ -26,7 +32,8 @@ public class ReimbursementService {
     public List<Reimbursement> getAllReimb(){
         List<Reimbursement> reimbursements = reimbRepo.getAllReimbursements();
         if (reimbursements.isEmpty()){
-            throw new RuntimeException();
+            logger.error("No reimbursements found in database", new DatabaseException());
+            return null;
         }
         return reimbursements;
     }
@@ -38,11 +45,13 @@ public class ReimbursementService {
      */
     public List<Reimbursement> getReimbByUserId(Integer userId){
         if (userId <= 0){
-            throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+            logger.error("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
+            return null;
         }
         List<Reimbursement> reimb = reimbRepo.getAllReimbSetByAuthorId(userId);
         if (reimb.isEmpty()){
-            throw new RuntimeException();
+            logger.error("No reimbursements found in database", new DatabaseException());
+            return null;
         }
         return reimb;
     }
@@ -55,7 +64,8 @@ public class ReimbursementService {
      */
     public List<Reimbursement> getReimbByAuthorAndStatus(Integer authorId, Integer reStat){
         if (authorId <= 0){
-            throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+            logger.error("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
+            return null;
         }
 
         List<Reimbursement> reimb = null;
@@ -63,11 +73,13 @@ public class ReimbursementService {
         try {
             reimb = reimbRepo.getAllReimbSetByAuthorIdAndStatus(authorId, reStat);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+            return null;
         }
 
         if (reimb.isEmpty()){
-            throw new RuntimeException();
+            logger.error("No reimbursements found in database", new DatabaseException());
+            return null;
         }
         return reimb;
     }
@@ -80,7 +92,8 @@ public class ReimbursementService {
      */
     public List<Reimbursement> getReimbByAuthorAndType(Integer authorId, Integer reType){
         if (authorId <= 0){
-            throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+            logger.error("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
+            return null;
         }
 
         List<Reimbursement> reimb = null;
@@ -88,11 +101,13 @@ public class ReimbursementService {
         try {
             reimb = reimbRepo.getAllReimbSetByAuthorIdAndType(authorId, reType);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+            return null;
         }
 
         if (reimb.isEmpty()){
-            throw new RuntimeException();
+            logger.error("No reimbursements found in database", new DatabaseException());
+            return null;
         }
         return reimb;
     }
@@ -105,7 +120,8 @@ public class ReimbursementService {
      */
     public List<Reimbursement> getReimbByResolverAndStatus(Integer resolverId, Integer reStat){
         if (resolverId <= 0){
-            throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+            logger.error("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
+            return null;
         }
 
         List<Reimbursement> reimb = null;
@@ -113,11 +129,13 @@ public class ReimbursementService {
         try {
             reimb = reimbRepo.getAllReimbSetByResolverIdAndStatus(resolverId, reStat);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+            return null;
         }
 
         if (reimb.isEmpty()){
-            throw new RuntimeException();
+            logger.error("No reimbursements found in database", new DatabaseException());
+            return null;
         }
         return reimb;
     }
@@ -130,7 +148,8 @@ public class ReimbursementService {
      */
     public List<Reimbursement> getReimbByResolverAndType(Integer resolverId, Integer reType){
         if (resolverId <= 0){
-            throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+            logger.error("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
+            return null;
         }
 
         List<Reimbursement> reimb = null;
@@ -138,11 +157,13 @@ public class ReimbursementService {
         try {
             reimb = reimbRepo.getAllReimbSetByResolverIdAndType(resolverId, reType);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
+            return null;
         }
 
         if (reimb.isEmpty()){
-            throw new RuntimeException();
+            logger.error("No reimbursements found in database", new DatabaseException());
+            return null;
         }
         return reimb;
     }
@@ -154,13 +175,19 @@ public class ReimbursementService {
      */
     public Reimbursement getReimbByReimbId(Integer reimbId){
         if (reimbId <= 0){
-            throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+            logger.error("THE PROVIDED REIMBURSEMENT ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
+            return null;
         }
         Reimbursement reimb = null;
         try {
-            reimb = reimbRepo.getAReimbByReimbId(reimbId).get();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            Optional<Reimbursement> o = reimbRepo.getAReimbByReimbId(reimbId);
+            if(!o.isPresent()){
+                logger.error("No reimbursement found", new DatabaseException());
+                return null;
+            }
+            reimb = o.get();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
         return reimb;
     }
@@ -172,11 +199,13 @@ public class ReimbursementService {
      */
     public List<Reimbursement> getReimbByType(Integer typeId){
         if (typeId <= 0 || typeId >=5){
-            throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+            logger.error("THE PROVIDED TYPE ID CANNOT BE LESS THAN OR EQUAL TO ZERO OR GREATER THAN OR EQUAL TO 5", new InvalidInputException());
+            return null;
         }
         List<Reimbursement> reimb = reimbRepo.getAllReimbSetByType(typeId);
         if (reimb.isEmpty()){
-            throw new RuntimeException();
+            logger.error("No reimbursements found in database", new DatabaseException());
+            return null;
         }
         return reimb;
     }
@@ -188,11 +217,13 @@ public class ReimbursementService {
      */
     public List<Reimbursement> getReimbByStatus(Integer statusId){
         if (statusId <= 0 || statusId >= 4){
-            throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+            logger.error("THE PROVIDED STATUS ID CANNOT BE LESS THAN OR EQUAL TO ZERO OR GREATER THAN OR EQUAL TO 4", new InvalidInputException());
+            return null;
         }
         List<Reimbursement> reimb = reimbRepo.getAllReimbSetByStatus(statusId);
         if (reimb.isEmpty()){
-            throw new RuntimeException();
+            logger.error("No reimbursements found in database", new DatabaseException());
+            return null;
         }
         return reimb;
     }
@@ -204,19 +235,22 @@ public class ReimbursementService {
      */
     public List<Reimbursement> getReimbByResolver(Integer resolverId){
         if (resolverId <= 0){
-            throw new RuntimeException("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+            logger.error("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO OR GREATER THAN OR EQUAL TO 4", new InvalidInputException());
+            return null;
         }
 
         List<Reimbursement> reimb = null;
 
         try {
             reimb = reimbRepo.getAllReimbSetByResolverId(resolverId);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            return null;
         }
 
         if (reimb.isEmpty()){
-            throw new RuntimeException();
+            logger.error("No reimbursements found in database", new DatabaseException());
+            return null;
         }
 
         return reimb;
@@ -228,12 +262,11 @@ public class ReimbursementService {
      */
     public void save(Reimbursement reimb){
         if (!isReimbursementValid(reimb)){
-            throw new RuntimeException("Invalid user field values provided!");
+            logger.error("Reimbursement object is invalid", new InvalidInputException());
         }
         if(!reimbRepo.addReimbursement(reimb)){
-            throw new RuntimeException("Something went wrong trying to save this reimbursement");
+            logger.error("Unable to save the reimbursement into the database");
         }
-        System.out.println(reimb);
     }
 
     /**
@@ -242,12 +275,11 @@ public class ReimbursementService {
      */
     public void updateEMP(Reimbursement reimb) {
         if (!isReimbursementValid(reimb)){
-            throw new RuntimeException("Invalid user field values provided!");
+            logger.error("Reimbursement object is invalid", new InvalidInputException());
         }
         if(!reimbRepo.updateEMP(reimb)){
-            throw new RuntimeException("Something went wrong trying to save this reimbursement");
+            logger.error("Unable to update the reimbursement into the database");
         }
-        System.out.println(reimb);
     }
 
     /**
@@ -257,21 +289,22 @@ public class ReimbursementService {
      */
     public void approve(Integer resolverId, Integer reimbId) {
         if (reimbId <= 0 || resolverId <=0){
-            throw new RuntimeException("Invalid user field values provided!");
+            logger.error("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
         }
         Reimbursement r = null;
         try {
             Optional<Reimbursement> o = reimbRepo.getAReimbByReimbId(reimbId);
             if(!o.isPresent()){
-                throw new RuntimeException("No entry in database");
+                logger.error("No entry in database", new DatabaseException());
+            }else {
+                r = o.get();
+                r.setResolverId(resolverId);
+                r.setReimbursementStatus(ReimbursementStatus.APPROVED);
+                r.setResolved(new Timestamp(System.currentTimeMillis()));
+                updateEMP(r);
             }
-            r = o.get();
-            r.setResolverId(resolverId);
-            r.setReimbursementStatus(ReimbursementStatus.APPROVED);
-            r.setResolved(new Timestamp(System.currentTimeMillis()));
-            updateEMP(r);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
     }
 
@@ -282,21 +315,22 @@ public class ReimbursementService {
      */
     public void deny(Integer resolverId, Integer reimbId) {
         if (reimbId <= 0){
-            throw new RuntimeException("Invalid user field values provided!");
+            logger.error("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
         }
         Reimbursement r = null;
         try {
             Optional<Reimbursement> o = reimbRepo.getAReimbByReimbId(reimbId);
             if(!o.isPresent()){
-                throw new RuntimeException("No entry in database");
+                logger.error("No entry in database", new DatabaseException());
+            }else {
+                r = o.get();
+                r.setResolverId(resolverId);
+                r.setReimbursementStatus(ReimbursementStatus.DENIED);
+                r.setResolved(new Timestamp(System.currentTimeMillis()));
+                reimbRepo.updateEMP(r);
             }
-            r = o.get();
-            r.setResolverId(resolverId);
-            r.setReimbursementStatus(ReimbursementStatus.DENIED);
-            r.setResolved(new Timestamp(System.currentTimeMillis()));
-            reimbRepo.updateEMP(r);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
         }
     }
 
@@ -309,12 +343,13 @@ public class ReimbursementService {
         try {
             Optional<Reimbursement> o = reimbRepo.getAReimbByReimbId(reimbId);
             if(!o.isPresent()){
-                throw new RuntimeException("Cannot delete what isn't there");
+                logger.error("No entry in database", new DatabaseException());
+                return false;
             }
             Reimbursement r = o.get();
             return reimbRepo.delete(r);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return false;
     }
