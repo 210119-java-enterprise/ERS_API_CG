@@ -133,6 +133,7 @@ public class UserServlet extends HttpServlet {
         try {
             //Must be admin
             if (requester != null && requester.getUserRole().compareTo(1) == 0) {
+                writer.write("Welcome Admin");
 
                 LOG.info("UserServlet.doPut() invoked by requester {}", requester);
 
