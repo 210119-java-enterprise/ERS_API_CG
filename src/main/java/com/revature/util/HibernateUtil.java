@@ -10,11 +10,9 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import java.util.Properties;
-
 public class HibernateUtil {
 
-    private static final Logger logger = LogManager.getLogger(ConnectionFactory.class);
+    private static final Logger logger = LogManager.getLogger(HibernateUtil.class);
     private static SessionFactory sessionFactory;
 
     static{

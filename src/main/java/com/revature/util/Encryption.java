@@ -2,7 +2,6 @@ package com.revature.util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.base64.Base64Encoder;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;

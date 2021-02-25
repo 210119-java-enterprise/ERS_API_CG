@@ -53,7 +53,6 @@ public class S3BucketReader {
             logger.info("Grabbed the AESPrivateKey from the S3 bucket");
         } catch (SdkClientException | IOException e) {
             logger.error(e.getMessage());
-            //e.printStackTrace();
         }
 
         try (S3Object fullObject = s3Client.getObject(new GetObjectRequest(bucketName, propertiesKey))) {
@@ -77,7 +76,6 @@ public class S3BucketReader {
             logger.info("Grabbed the database connection information from the S3 bucket");
         } catch (SdkClientException | IOException e) {
             logger.error(e.getMessage());
-            //e.printStackTrace();
         }
     }
 

@@ -1,13 +1,26 @@
 package com.revature.util;
 
 import com.revature.models.ReimbursementStatus;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
+/**
+ * Class used to convert enums in the POJO to integers that can be stored in
+ * the database, and vice versa
+ */
 @Converter(autoApply = true)
 public class ReimbursementStatusAttributeConverter implements AttributeConverter<ReimbursementStatus, Integer> {
 
+    private static Logger logger = LogManager.getLogger(ReimbursementTypeAttributeConverter.class);
+
+    /**
+     * Converts a reimbursement status enum to a number for the database
+     * @param status the reimbursement status enum
+     * @return the number it represents in the DB
+     */
     @Override
     public Integer convertToDatabaseColumn(ReimbursementStatus status){
         if(status == null){
@@ -23,10 +36,17 @@ public class ReimbursementStatusAttributeConverter implements AttributeConverter
             case CLOSED:
                 return 4;
             default:
-                throw new IllegalArgumentException("Wrong reimbursement status");
+                logger.error("Wrong reimbursement status enum", new IllegalArgumentException());
+                return -1;
         }
     }
 
+    /**
+     * Converts an integer grabbed from the database into the reimbursement
+     * status enum
+     * @param integer the DB representation of the enum
+     * @return the enum that the DB integer represents
+     */
     @Override
     public ReimbursementStatus convertToEntityAttribute(Integer integer){
         if(integer == null){
@@ -42,7 +62,8 @@ public class ReimbursementStatusAttributeConverter implements AttributeConverter
             case 4:
                 return ReimbursementStatus.CLOSED;
             default:
-                throw new IllegalArgumentException("Wrong reimbursement status integer");
+                logger.error("Wrong reimbursement status integer", new IllegalArgumentException());
+                return null;
         }
     }
 }
