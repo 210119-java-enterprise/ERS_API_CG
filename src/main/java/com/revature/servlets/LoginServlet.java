@@ -13,19 +13,33 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
+/**
+ * This class is a servlet intended to handle all logins after which an HttpSession is initiated.
+ * <p>Endpoint : /login</p>
+ * @author Cole Space
+ * @author Gabrielle Luna
+ */
 @WebServlet(name = "Login", displayName = "login", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
-
-    private UserService userService = new UserService();
+    //Attributes ----------------------------------------------------
+    private final UserService userService = new UserService();
     private static final Logger LOG = LogManager.getLogger(LoginServlet.class);
 
+    //HTTP verbs ----------------------------------------------------
+    /**
+     * Get will invalidate any pre-existing session, to allow for a new user to login.
+     * @param req                   get request
+     * @param resp                  empty response
+     * @throws ServletException     not thrown
+     * @throws IOException          not thrown
+     */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        //Returns the current session associated with this request, or if the request does not have a session, creates one.
+        //Get current session
         HttpSession session = req.getSession(false);
 
         //invalidate pre-existing session
@@ -34,41 +48,41 @@ public class LoginServlet extends HttpServlet {
             LOG.info("Invalidating session for user, {}", username);
             req.getSession().invalidate();
         }
-
-        resp.setContentType("application/json");
-        PrintWriter printWriter = resp.getWriter();
-        printWriter.print("{\n" +
-                "    \"username\": \" \",\n" +
-                "    \"password\": \" \"\n" +
-                "}");
-        printWriter.close();
-
     }
 
-
+    /**
+     * Post will activate user authentication logic.
+     * @param req               request
+     * @param resp              response
+     * @throws ServletException not thrown
+     * @throws IOException      thrown by the authenticate logic in userService
+     */
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         ObjectMapper mapper = new ObjectMapper();
         PrintWriter writer = resp.getWriter();
         resp.setContentType("application/json");
+
         User authUser = null;
 
+        //Initialize new session for new user
         try {
-            Credentials creds = mapper.readValue(req.getInputStream(), Credentials.class);
+            //Retrieve and authenticate credentials
+            Credentials credentials = mapper.readValue(req.getInputStream(), Credentials.class);
+            LOG.info("Attempting to authenticate user, {}, with provided credentials", credentials.getUsername());
+            authUser = userService.authenticate(credentials.getUsername(), credentials.getPassword());
 
-            LOG.info("Attempting to authenticate user, {}, with provided credentials", creds.getUsername());
-            authUser = userService.authenticate(creds.getUsername(), creds.getPassword());
-
+            //Print new user to screen
             writer.write(mapper.writeValueAsString(authUser));
 
-            LOG.info("Establishing a session for user, {}", creds.getUsername());
+            //Save new user to session
+            LOG.info("Establishing a session for user, {}", credentials.getUsername());
             req.getSession().setAttribute("this-user", authUser);
-
-        }catch (Exception e) {
-            resp.getWriter().write(e.toString());
+        }catch (SQLException e) {
+            //Authentication failure
+            writer.write("Authentication error!");
             e.printStackTrace();
             LOG.error(e.getMessage());
             resp.setStatus(500);
-            //writer.write(errRespFactory.generateErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR).toJSON());
         }
     }
 }

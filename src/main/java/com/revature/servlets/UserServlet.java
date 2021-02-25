@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+/**
+ *
+ */
 @WebServlet(name = "users", displayName = "users", urlPatterns = "/users/*")
 public class UserServlet extends HttpServlet {
 
@@ -133,7 +136,6 @@ public class UserServlet extends HttpServlet {
         try {
             //Must be admin
             if (requester != null && requester.getUserRole().compareTo(1) == 0) {
-                writer.write("Welcome Admin");
 
                 LOG.info("UserServlet.doPut() invoked by requester {}", requester);
 
@@ -161,6 +163,7 @@ public class UserServlet extends HttpServlet {
 
             }
         }catch (Exception e) {
+            writer.write(e.getMessage());
             e.printStackTrace();
             LOG.error(e.getMessage());
             resp.setStatus(500);
