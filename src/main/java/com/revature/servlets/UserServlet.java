@@ -3,6 +3,7 @@ package com.revature.servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.exceptions.DatabaseException;
 import com.revature.exceptions.InvalidInputException;
+import com.revature.exceptions.RegistrationException;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -135,18 +136,14 @@ public class UserServlet extends HttpServlet {
                 LOG.info("UserServlet.doPost() invoked by requester {}", requester);
 
                 User newUser = mapper.readValue(req.getInputStream(), User.class);
-                if (userService.isUserValid(newUser)) {
+                if (userService.register(newUser)) {
                     //SUCCESS
-                    userService.register(newUser);
                     writer.write("New User created : \n");
                     writer.write(mapper.writeValueAsString(newUser));
                     LOG.info("New User created : {}", newUser.getUsername());
                     resp.setStatus(201);
-                }else{
-                    //FAILURE
-                    LOG.error("Invalid User created {}", newUser.toString());
-                    writer.write("Invalid user created\n");
-                }
+                }else throw new RegistrationException();
+
             }else {
                 if (requester == null) {
                     //User got past login or using invalidated session
@@ -157,8 +154,11 @@ public class UserServlet extends HttpServlet {
                     LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
                     resp.setStatus(403);
                 }
-
             }
+        }catch(RegistrationException e){
+            //Invalid new user
+            LOG.error("Invalid User created");
+            writer.write("Invalid user created\n");
         }catch (Exception e) {
             e.printStackTrace();
             LOG.error(e.getMessage());
