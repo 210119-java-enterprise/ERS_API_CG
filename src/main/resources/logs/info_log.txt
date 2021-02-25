@@ -416,3 +416,21 @@
 16:05:09.530 [main] INFO  com.revature.util.ConnectionFactory - Creating service registry for hibernate
 16:05:09.535 [main] INFO  com.revature.util.ConnectionFactory - Building session factory from service registry
 >>>>>>> 6a188849c802a9a935858dfad1a50bc22518e7f3
+17:49:12.493 [main] INFO  com.revature.util.ConnectionFactory - Creating configuration for hibernate
+17:49:15.290 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+17:49:16.197 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+17:49:16.307 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+17:49:16.307 [main] INFO  com.revature.util.ConnectionFactory - Creating service registry for hibernate
+17:49:16.322 [main] INFO  com.revature.util.ConnectionFactory - Building session factory from service registry
+17:50:36.489 [main] INFO  com.revature.util.ConnectionFactory - Creating configuration for hibernate
+17:50:39.056 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+17:50:39.887 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+17:50:40.009 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+17:50:40.010 [main] INFO  com.revature.util.ConnectionFactory - Creating service registry for hibernate
+17:50:40.027 [main] INFO  com.revature.util.ConnectionFactory - Building session factory from service registry
+17:53:27.089 [main] INFO  com.revature.util.ConnectionFactory - Creating configuration for hibernate
+17:53:29.743 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+17:53:30.553 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+17:53:30.653 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+17:53:30.653 [main] INFO  com.revature.util.ConnectionFactory - Creating service registry for hibernate
+17:53:30.665 [main] INFO  com.revature.util.ConnectionFactory - Building session factory from service registry

@@ -26,108 +26,110 @@ public class ReimbursementDriver {
 
         //rs.save(reimbursement);
 
-        System.out.println("Get all reimbursements");
+//        System.out.println("Get all reimbursements");
+//
+//        List<Reimbursement> reimbursements = rs.getAllReimb();
+//
+//        for(Reimbursement r : reimbursements){
+//            System.out.println(r.toString());
+//        }
+//
+//        System.out.println("+--------------------------------------+");
+//
+//        System.out.println("Get all reimbursements by status number");
+//
+//        reimbursements = rs.getReimbByStatus(1);
+//
+//        for(Reimbursement r : reimbursements){
+//            System.out.println(r.toString());
+//        }
+//
+//        System.out.println("+--------------------------------------+");
+//
+//        System.out.println("Get all reimbursements by reimbursement id");
+//
+//        Reimbursement r1 = rs.getReimbByReimbId(4);
+//        System.out.println(r1.toString());
+//
+//        System.out.println("+--------------------------------------+");
+//
+//        System.out.println("Get all reimbursements by author id");
+//
+//        reimbursements = rs.getReimbByUserId(5);
+//
+//        for(Reimbursement r : reimbursements){
+//            System.out.println(r.toString());
+//        }
+//
+//        System.out.println("+--------------------------------------+");
+//
+//        System.out.println("Get all reimbursements by author id and status id");
+//
+//        reimbursements = rs.getReimbByAuthorAndStatus(5, 1);
+//
+//        for(Reimbursement r : reimbursements){
+//            System.out.println(r.toString());
+//        }
+//
+//        System.out.println("+--------------------------------------+");
+//
+//        System.out.println("Get all reimbursements by author id and type id");
+//
+//        reimbursements = rs.getReimbByAuthorAndType(5, 3);
+//
+//        for(Reimbursement r : reimbursements){
+//            System.out.println(r.toString());
+//        }
+//
+//        System.out.println("+--------------------------------------+");
+//
+//        System.out.println("Get all reimbursements by type id");
+//
+//        reimbursements = rs.getReimbByType(3);
+//
+//        for(Reimbursement r : reimbursements){
+//            System.out.println(r.toString());
+//        }
+//
+//        System.out.println("+--------------------------------------+");
+//
+//        System.out.println("Get all reimbursements by resolver id");
+//
+//        reimbursements = rs.getReimbByResolver(5);
+//
+//        for(Reimbursement r : reimbursements){
+//            System.out.println(r.toString());
+//        }
+//
+//        System.out.println("+--------------------------------------+");
+//
+//        System.out.println("Get all reimbursements by resolver id and status id");
+//
+//        reimbursements = rs.getReimbByResolverAndStatus(5, 1);
+//
+//        for(Reimbursement r : reimbursements){
+//            System.out.println(r.toString());
+//        }
+//
+//        System.out.println("+--------------------------------------+");
+//
+//        System.out.println("Get all reimbursements by resolver id and type id");
+//
+//        reimbursements = rs.getReimbByResolverAndStatus(5, 1);
+//
+//        for(Reimbursement r : reimbursements){
+//            System.out.println(r.toString());
+//        }
+//
+//        System.out.println("+--------------------------------------+");
+//
+//        rs.approve(5, 4);
+//
+//        System.out.println("+--------------------------------------+");
+//
+//        rs.deny(5, 4);
 
-        List<Reimbursement> reimbursements = rs.getAllReimb();
-
-        for(Reimbursement r : reimbursements){
-            System.out.println(r.toString());
-        }
-
-        System.out.println("+--------------------------------------+");
-
-        System.out.println("Get all reimbursements by status number");
-
-        reimbursements = rs.getReimbByStatus(1);
-
-        for(Reimbursement r : reimbursements){
-            System.out.println(r.toString());
-        }
-
-        System.out.println("+--------------------------------------+");
-
-        System.out.println("Get all reimbursements by reimbursement id");
-
-        Reimbursement r1 = rs.getReimbByReimbId(4);
-        System.out.println(r1.toString());
-
-        System.out.println("+--------------------------------------+");
-
-        System.out.println("Get all reimbursements by author id");
-
-        reimbursements = rs.getReimbByUserId(5);
-
-        for(Reimbursement r : reimbursements){
-            System.out.println(r.toString());
-        }
-
-        System.out.println("+--------------------------------------+");
-
-        System.out.println("Get all reimbursements by author id and status id");
-
-        reimbursements = rs.getReimbByAuthorAndStatus(5, 1);
-
-        for(Reimbursement r : reimbursements){
-            System.out.println(r.toString());
-        }
-
-        System.out.println("+--------------------------------------+");
-
-        System.out.println("Get all reimbursements by author id and type id");
-
-        reimbursements = rs.getReimbByAuthorAndType(5, 3);
-
-        for(Reimbursement r : reimbursements){
-            System.out.println(r.toString());
-        }
-
-        System.out.println("+--------------------------------------+");
-
-        System.out.println("Get all reimbursements by type id");
-
-        reimbursements = rs.getReimbByType(3);
-
-        for(Reimbursement r : reimbursements){
-            System.out.println(r.toString());
-        }
-
-        System.out.println("+--------------------------------------+");
-
-        System.out.println("Get all reimbursements by resolver id");
-
-        reimbursements = rs.getReimbByResolver(5);
-
-        for(Reimbursement r : reimbursements){
-            System.out.println(r.toString());
-        }
-
-        System.out.println("+--------------------------------------+");
-
-        System.out.println("Get all reimbursements by resolver id and status id");
-
-        reimbursements = rs.getReimbByResolverAndStatus(5, 1);
-
-        for(Reimbursement r : reimbursements){
-            System.out.println(r.toString());
-        }
-
-        System.out.println("+--------------------------------------+");
-
-        System.out.println("Get all reimbursements by resolver id and type id");
-
-        reimbursements = rs.getReimbByResolverAndStatus(5, 1);
-
-        for(Reimbursement r : reimbursements){
-            System.out.println(r.toString());
-        }
-
-        System.out.println("+--------------------------------------+");
-
-        rs.approve(5, 4);
-
-        System.out.println("+--------------------------------------+");
-
-        rs.deny(5, 4);
+//        rs.delete(4);
 
 //        System.out.println("Trying to update reimbursement");
 //
