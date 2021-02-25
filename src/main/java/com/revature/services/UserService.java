@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+import static com.revature.util.Encryption.encrypt;
+
 /**
  * Constitutes the SERVICE LAYER for users. concerned with validating all user
  * input before being sent to the database.
@@ -54,7 +56,7 @@ public class UserService {
             logger.error("Invalid credentials provided", new InvalidCredentialsException());
             return null;
         }
-        Optional<User> authUser =userRepo.getAUserByUsernameAndPassword(username,password);
+        Optional<User> authUser =userRepo.getAUserByUsernameAndPassword(username,encrypt(password));
         if (authUser .isPresent())
             return authUser.get();
         else {
@@ -85,6 +87,7 @@ public class UserService {
             return;
         }
         newUser.setUserRole(Role.EMPLOYEE.ordinal() + 1);
+        newUser.setPassword(encrypt(newUser.getPassword()));
         userRepo.addUser(newUser);
     }
 

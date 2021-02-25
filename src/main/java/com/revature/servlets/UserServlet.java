@@ -31,6 +31,7 @@ public class UserServlet extends HttpServlet {
         resp.setContentType("application/json");
         String userIdParam = req.getParameter("userId");
 
+        //Retrieve all or a specific user
         try {
             //Must be admin
             if (requester != null && requester.getUserRole().compareTo(1) == 0) {
@@ -116,7 +117,43 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
+        PrintWriter writer = resp.getWriter();
+        ObjectMapper mapper = new ObjectMapper();
+        HttpSession session = req.getSession(false);
+        User requester = (session == null) ? null : (User) req.getSession(false).getAttribute("this-user");
+        resp.setContentType("application/json");
+
+        //Add new User
+        try {
+            //Must be admin
+            if (requester != null && requester.getUserRole().compareTo(1) == 0) {
+
+                LOG.info("UserServlet.doPost() invoked by requester {}", requester);
+
+                User newUser = mapper.readValue(req.getInputStream(), User.class);
+                userService.register(newUser);
+
+                writer.write("New User created : \n");
+                writer.write(mapper.writeValueAsString(newUser));
+                LOG.info("New User created : {}", newUser.getUsername());
+            }else {
+
+                if (requester == null) {
+                    //User got past login or using invalidated session
+                    LOG.warn("Unauthorized request made by unknown requester");
+                    resp.setStatus(401);
+                } else {
+                    //User is not an Admin/authorized user
+                    LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
+                    resp.setStatus(403);
+                }
+
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            LOG.error(e.getMessage());
+            resp.setStatus(500);
+        }
     }
 
     @Override
