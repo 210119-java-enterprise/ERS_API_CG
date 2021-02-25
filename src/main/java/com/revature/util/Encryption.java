@@ -14,6 +14,8 @@ import java.util.Base64;
 /**
  * This is a singleton class that will encrypt a string that is passed
  * to it
+ * @author Cole Space
+ * @author Gabrielle Luna
  */
 public class Encryption {
 

@@ -10,6 +10,8 @@ import javax.persistence.Converter;
 /**
  * Class used to convert enums in the POJO to integers that can be stored in
  * the database, and vice versa
+ * @author Cole Space
+ * @author Gabrielle Luna
  */
 @Converter(autoApply = true)
 public class ReimbursementTypeAttributeConverter implements AttributeConverter<ReimbursementType, Integer> {

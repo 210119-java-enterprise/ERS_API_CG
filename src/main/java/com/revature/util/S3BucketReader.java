@@ -19,6 +19,8 @@ import java.io.InputStreamReader;
 /**
  * This class reads files from the remote S3 bucket and stores that
  * information into the reader
+ * @author Cole Space
+ * @author Gabrielle Luna
  */
 public class S3BucketReader {
 

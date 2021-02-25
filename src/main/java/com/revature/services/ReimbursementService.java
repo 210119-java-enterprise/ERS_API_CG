@@ -57,10 +57,10 @@ public class ReimbursementService {
     }
 
     /**
-     *
-     * @param authorId
-     * @param reStat
-     * @return
+     * Will get all reimbursements by a specific author id and status id
+     * @param authorId the author of the reimbursements
+     * @param reStat the status id of the reimbursements
+     * @return the list of reimbursements
      */
     public List<Reimbursement> getReimbByAuthorAndStatus(Integer authorId, Integer reStat){
         if (authorId <= 0){
@@ -85,10 +85,10 @@ public class ReimbursementService {
     }
 
     /**
-     *
-     * @param authorId
-     * @param reType
-     * @return
+     * Will get all reimbursements by an author and a specific type id
+     * @param authorId the author id of the reimbursements
+     * @param reType the type id of the reimbursements
+     * @return a list of all reimbursements of a specific author and type
      */
     public List<Reimbursement> getReimbByAuthorAndType(Integer authorId, Integer reType){
         if (authorId <= 0){
@@ -113,10 +113,10 @@ public class ReimbursementService {
     }
 
     /**
-     *
-     * @param resolverId
-     * @param reStat
-     * @return
+     * Gets all the reimbursements by a specific resolver and status id
+     * @param resolverId the id of the resolver
+     * @param reStat the id of the status
+     * @return the list of reimbursements resolved by a user and of a status
      */
     public List<Reimbursement> getReimbByResolverAndStatus(Integer resolverId, Integer reStat){
         if (resolverId <= 0){
@@ -141,10 +141,10 @@ public class ReimbursementService {
     }
 
     /**
-     *
-     * @param resolverId
-     * @param reType
-     * @return
+     * Will retrieve all reimbursements resolved by a specific user and of a type
+     * @param resolverId the resolver of the reimbursements
+     * @param reType the type of the reimbursement
+     * @return a list of all the reimbursements
      */
     public List<Reimbursement> getReimbByResolverAndType(Integer resolverId, Integer reType){
         if (resolverId <= 0){
@@ -169,9 +169,9 @@ public class ReimbursementService {
     }
 
     /**
-     *
-     * @param reimbId
-     * @return
+     * Gets a reimbursements by a specific id
+     * @param reimbId the id of the reimbursement
+     * @return the reimbursement
      */
     public Reimbursement getReimbByReimbId(Integer reimbId){
         if (reimbId <= 0){
@@ -193,10 +193,10 @@ public class ReimbursementService {
     }
 
     /**
-     *
-     * @param requesterId
-     * @param reimbId
-     * @return
+     * Overloaded method that can get a reimbursement by id of a specific user
+     * @param requesterId the user id
+     * @param reimbId the reimbursement id
+     * @return the reimbursement
      */
     public Reimbursement getReimbByReimbId(Integer requesterId, Integer reimbId){
         if (reimbId <= 0){
@@ -257,9 +257,9 @@ public class ReimbursementService {
     }
 
     /**
-     *
-     * @param resolverId
-     * @return
+     * Gets the reimbursement by the resolver, not used
+     * @param resolverId the resolver id
+     * @return the list of reimbursements resolved by the user
      */
     public List<Reimbursement> getReimbByResolver(Integer resolverId){
         if (resolverId <= 0){
@@ -319,10 +319,10 @@ public class ReimbursementService {
     }
 
     /**
-     *
-     * @param requesterId
-     * @param reimb
-     * @return
+     * Updates a reimbursement with a specific user id
+     * @param requesterId the requester asking for an update
+     * @param reimb the reimbursement id
+     * @return true if updated, false if not
      */
     public boolean updateEMP(Integer requesterId, Reimbursement reimb){
         if (!isReimbursementValid(reimb)){
@@ -408,9 +408,9 @@ public class ReimbursementService {
     }
 
     /**
-     *
-     * @param reimbId
-     * @return
+     * Deletes a reimbursement, not used
+     * @param reimbId the reimbursement id to be deleted
+     * @return true if deleted, false if not
      */
     public boolean delete(Integer reimbId){
         try {

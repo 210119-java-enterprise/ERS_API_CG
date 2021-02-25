@@ -2,7 +2,6 @@ package com.revature.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.models.Reimbursement;
-import com.revature.models.ReimbursementStatus;
 import com.revature.models.User;
 import com.revature.services.ReimbursementService;
 import org.apache.logging.log4j.LogManager;
@@ -16,15 +15,30 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Timestamp;
 import java.util.List;
 
+/**
+ * This class is a servlet intended to handle all updates that non financial
+ * managers are able to do to the reimbursements. Reimbursements can be added
+ * or updated given certain criteria
+ * <p>Endpoint : /reimbursements</p>
+ * @author Cole Space
+ * @author Gabrielle Luna
+ */
 @WebServlet(name = "reimbursements", displayName = "reimbursements", urlPatterns = "/reimbursements/*")
 public class ReimbursementServlet extends HttpServlet {
 
     private final ReimbursementService reimbursementService = new ReimbursementService();
     private static final Logger LOG = LogManager.getLogger(ReimbursementServlet.class);
 
+    /**
+     * The Get HTTP verb, this will list all or a select amount of reimbursements for
+     * any user that is connected to the web server
+     * @param req the user request
+     * @param resp the response back to the user
+     * @throws ServletException e
+     * @throws IOException e
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter writer = resp.getWriter();
@@ -86,6 +100,14 @@ public class ReimbursementServlet extends HttpServlet {
 
     }
 
+    /**
+     * The Post HTTP verb, this will create new reimbursements for whichever
+     * user is connected to the endpoint on the webserver
+     * @param req the user request
+     * @param resp the response back to the user
+     * @throws ServletException e
+     * @throws IOException e
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter writer = resp.getWriter();
@@ -127,6 +149,14 @@ public class ReimbursementServlet extends HttpServlet {
         }
     }
 
+    /**
+     * The Put HTTP verb, this will update a specific reimbursement entry for
+     * whichever user is connected to the endpoint on the web server
+     * @param req the user request
+     * @param resp the response back to the user
+     * @throws ServletException e
+     * @throws IOException e
+     */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doPut(req, resp);

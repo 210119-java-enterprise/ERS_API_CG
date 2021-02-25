@@ -54,6 +54,10 @@ public class ReimbursementsRepository {
 
     //---------------------------------- READ -------------------------------------------- //
 
+    /**
+     * Gets all the reimbursements in the database
+     * @return the list of all reimbursements
+     */
     public List<Reimbursement> getAllReimbursements() {
         List<Reimbursement> reimbursements = null;
 
@@ -75,6 +79,11 @@ public class ReimbursementsRepository {
         return reimbursements;
     }
 
+    /**
+     * Gets all reimbursements of a specific status id
+     * @param statusId the status id of the reimbursements
+     * @return a list of reimbursements
+     */
     public List<Reimbursement> getAllReimbSetByStatus(Integer statusId) {
         List<Reimbursement> reimbursements = null;
 
@@ -217,9 +226,9 @@ public class ReimbursementsRepository {
     }
 
     /**
-     *
-     * @param typeId
-     * @return
+     * Gets all reimbursements of a certain type
+     * @param typeId the type of the reimbursement
+     * @return the list of reimbursements
      */
     public List<Reimbursement> getAllReimbSetByType(Integer typeId)  {
         List<Reimbursement> reimbursements = null;
@@ -334,6 +343,12 @@ public class ReimbursementsRepository {
     }
 
     //---------------------------------- UPDATE -------------------------------------------- //
+
+    /**
+     * Updates the reimbursement in the database
+     * @param reimb the reimbursement with the updated data
+     * @return true if successful, false if not
+     */
     public boolean updateEMP(Reimbursement reimb) {
         Session session = HibernateUtil.getSession();
         Transaction t = null;
