@@ -30,7 +30,7 @@ public class UserServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         User rqstr = (session == null) ? null : (User) req.getSession(false).getAttribute("this-user");
         resp.setContentType("application/json");
-
+        writer.write("Landed");
         String userIdParam = req.getParameter("userId");
 
         try {
