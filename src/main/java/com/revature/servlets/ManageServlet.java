@@ -117,7 +117,7 @@ public class ManageServlet extends HttpServlet {
 
                             Reimbursement reimbursement = reimbursementService.getReimbByReimbId(r);
                             reimbursement.setReimbursementStatus(ReimbursementStatus.getByNumber(s));
-                            
+
                             reimbursementService.updateEMP(reimbursement);
                             String reimbursementsJSON = mapper.writeValueAsString(reimbursement);
                             writer.write(reimbursementsJSON);
