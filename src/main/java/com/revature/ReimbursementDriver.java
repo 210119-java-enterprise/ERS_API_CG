@@ -1,6 +1,5 @@
 package com.revature;
 
-import com.revature.dtos.RbDTO;
 import com.revature.models.Reimbursement;
 import com.revature.models.ReimbursementStatus;
 import com.revature.models.ReimbursementType;
