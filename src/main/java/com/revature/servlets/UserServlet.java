@@ -256,10 +256,9 @@ public class UserServlet extends HttpServlet {
                     int id = Integer.parseInt(userIdParam);
                     if (id == requester.getUserId()) throw new DatabaseException();
                     LOG.info("UserServlet.doDelete() invoked by requester {}", requester);
-                    writer.write("Requested User: \n");
 
                     User user = userService.getUserById(id);
-                    if (userService.deleteUserById(id)) {
+                    if (user!= null && userService.deleteUserById(id)) {
                         writer.write("User Deleted: \n");
                         writer.write(mapper.writeValueAsString(user));
                         LOG.info("User deleted : {}", user.getUsername());
