@@ -10,8 +10,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ReimbursementRepositoryTest {
     ReimbursementsRepository repo = new ReimbursementsRepository();
@@ -82,9 +81,11 @@ public class ReimbursementRepositoryTest {
         //Arrange
         Reimbursement reimbursement = setUp();
         //Act
-        boolean worked = repo.addReimbursement(reimbursement);
+        int numBefore = repo.getAllReimbursements().size();
+        repo.addReimbursement(reimbursement);
+        int numAfter = repo.getAllReimbursements().size();
         //Assert
-        assertTrue(worked);
+        assertEquals(1, numAfter - numBefore);
         teardown(reimbursement);
     }
 }
