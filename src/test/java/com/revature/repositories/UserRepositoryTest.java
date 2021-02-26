@@ -5,10 +5,8 @@ import com.revature.models.User;
 import com.revature.services.UserService;
 import org.junit.Test;
 
-import javax.persistence.PersistenceException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -67,7 +65,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void test_getAllReimb(){
+    public void test_getAllUsers(){
         //Arrange
         User user = setUp();
         //Act

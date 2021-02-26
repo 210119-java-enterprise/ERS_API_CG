@@ -88,4 +88,17 @@ public class ReimbursementRepositoryTest {
         assertEquals(1, numAfter - numBefore);
         teardown(reimbursement);
     }
+
+    @Test
+    public void test_getReimbByStatus(){
+        //Arrange
+        Reimbursement reimbursement = setUp();
+        //Act
+        int numBefore = repo.getAllReimbSetByStatus(ReimbursementStatus.PENDING.ordinal()).size();
+        repo.addReimbursement(reimbursement);
+        int numAfter = repo.getAllReimbSetByStatus(ReimbursementStatus.PENDING.ordinal()).size();
+        //Assert
+        assertEquals(1, numAfter - numBefore);
+        teardown(reimbursement);
+    }
 }

@@ -252,6 +252,7 @@ public class UserServlet extends HttpServlet {
 
                 Principal principal = mapper.readValue(req.getInputStream(), Principal.class);
                 User user = userService.getUserById(principal.getId());
+                writer.write("Trying to delete: "+ user.toString());
                 if (user == null) throw new InvalidInputException();
                 if (user == requester) throw new DatabaseException();
 

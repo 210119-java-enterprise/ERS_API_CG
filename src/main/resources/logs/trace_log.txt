@@ -18706,3 +18706,9 @@ com.revature.exceptions.InvalidInputException: null
 21:46:05.390 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
 21:46:05.390 [main] INFO  com.revature.util.Encryption - Encrypted the password
 21:46:05.391 [main] INFO  com.revature.util.Encryption - Getting the cipher instance
+08:08:49.397 [main] INFO  com.revature.util.HibernateUtil - Creating configuration for hibernate
+08:08:50.338 [main] INFO  com.revature.util.S3BucketReader - Trying to connect to S3 Bucket
+08:08:51.035 [main] INFO  com.revature.util.S3BucketReader - Grabbed the AESPrivateKey from the S3 bucket
+08:08:51.140 [main] INFO  com.revature.util.S3BucketReader - Grabbed the database connection information from the S3 bucket
+08:08:51.140 [main] INFO  com.revature.util.HibernateUtil - Creating service registry for hibernate
+08:08:51.149 [main] INFO  com.revature.util.HibernateUtil - Building session factory from service registry
