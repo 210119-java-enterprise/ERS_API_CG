@@ -190,17 +190,15 @@ public class UserServlet extends HttpServlet {
 
                 LOG.info("UserServlet.doPut() invoked by requester {}", requester);
 
-                Principal principal = mapper.readValue(req.getInputStream(), Principal.class);
-                User newUser = userService.getUserById(principal.getId());
-                if (newUser == null) throw new InvalidInputException();
-                newUser.setUserRole(principal.getRole());
-                newUser.setEmail(principal.getEmail());
+                User user = mapper.readValue(req.getInputStream(), User.class);
+                if (user == null) throw new InvalidInputException();
+                if (user == requester) throw new DatabaseException();
 
-                if (userService.update(newUser)) {
+                if (userService.update(user)) {
                     //SUCCESS
                     writer.write("User Updated: \n");
-                    writer.write(mapper.writeValueAsString(newUser));
-                    LOG.info("User updated : {}", newUser.getUsername());
+                    writer.write(mapper.writeValueAsString(user));
+                    LOG.info("User updated : {}", user.getUsername());
                 }else throw new InvalidInputException();
 
             }else {
@@ -250,9 +248,7 @@ public class UserServlet extends HttpServlet {
 
                 LOG.info("UserServlet.doDelete() invoked by requester {}", requester);
 
-                Principal principal = mapper.readValue(req.getInputStream(), Principal.class);
-                User user = userService.getUserById(principal.getId());
-                writer.write("Trying to delete: "+ user.toString());
+                User user = mapper.readValue(req.getInputStream(), User.class);
                 if (user == null) throw new InvalidInputException();
                 if (user == requester) throw new DatabaseException();
 
