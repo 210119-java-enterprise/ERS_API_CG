@@ -1,13 +1,15 @@
 package com.revature.repositories;
 
-
-import com.revature.models.Reimbursement;
 import com.revature.models.Role;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import org.junit.Test;
 
+import javax.persistence.PersistenceException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -83,10 +85,61 @@ public class UserRepositoryTest {
         User user = setUp();
         //Act
         repo.addUser(user);
-        User userFound = repo.getAUserByEmail("bRoss@happyTrees.paintDEMODEMODEMODEMODEMODEMODEMODEMODEMO");
-        int numAfter = repo.getAllUsers().size();
+        Optional<User> userFound = repo.getAUserByEmail("bRoss@happyTrees.paintDEMODEMODEMODEMODEMODEMODEMODEMODEMO");
         //Assert;
+        assertEquals(user, userFound.get());
         teardown(user);
     }
 
+    @Test
+    public void test_getByUsername(){
+        //Arrange
+        User user = setUp();
+        //Act
+        repo.addUser(user);
+        Optional<User> userFound = repo.getAUserByUsername("DEMOBob");
+        //Assert;
+        assertEquals(user, userFound.get());
+        teardown(user);
+    }
+
+    @Test
+    public void test_getById(){
+        //Arrange
+        User user = setUp();
+        //Act
+        repo.addUser(user);
+        Optional<User> userFound = repo.getAUserById(user.getUserId());
+        //Assert;
+        assertEquals(user, userFound.get());
+        teardown(user);
+    }
+
+    @Test
+    public void test_getByUsernameAndPassword() throws SQLException {
+        //Arrange
+        User user = setUp();
+        //Act
+        repo.addUser(user);
+        Optional<User> userFound = null;
+        userFound = repo.getAUserByUsernameAndPassword("DEMOBob", "Ross");
+        //Assert;
+        assertEquals(user, userFound.get());
+        teardown(user);
+    }
+
+    @Test
+    public void test_updateUser() throws SQLException {
+        //Arrange
+        User user = setUp();
+        //Act
+        repo.addUser(user);
+        Optional<User> userFound = repo.getAUserById(user.getUserId());
+        userFound.get().setUserRole(1);
+        repo.updateAUser(userFound.get());
+        Optional<User> secondUserFound = repo.getAUserById(user.getUserId());
+        //Assert;
+        assertEquals(secondUserFound.get(), userFound.get());
+        teardown(user);
+    }
 }
