@@ -241,23 +241,26 @@ public class UserServlet extends HttpServlet {
         User requester = (session == null) ? null : (User) req.getSession(false).getAttribute("this-user");
         resp.setContentType("application/json");
 
+        String userIdParam = req.getParameter("userId");
+
         //Delete User
         try {
             //Must be admin
             if (requester != null && requester.getUserRole().compareTo(1) == 0) {
 
-                LOG.info("UserServlet.doDelete() invoked by requester {}", requester);
+                if (userIdParam != null){
+                    int id = Integer.parseInt(userIdParam);
+                    if (id == requester.getUserId()) throw new DatabaseException();
+                    LOG.info("UserServlet.doDelete() invoked by requester {}", requester);
+                    writer.write("Requested User: \n");
 
-                User user = mapper.readValue(req.getInputStream(), User.class);
-                if (user == null) throw new InvalidInputException();
-                if (user == requester) throw new DatabaseException();
-
-                if (userService.deleteUserById(user.getUserId())) {
-                    writer.write("User Deleted: \n");
-                    writer.write(mapper.writeValueAsString(user));
-                    LOG.info("User deleted : {}", user.getUsername());
-                }else throw new InvalidInputException();
-
+                    User user = userService.getUserById(id);
+                    if (userService.deleteUserById(id)) {
+                        writer.write("User Deleted: \n");
+                        writer.write(mapper.writeValueAsString(user));
+                        LOG.info("User deleted : {}", user.getUsername());
+                    }else throw new InvalidInputException();
+                }
             }else {
                 if (requester == null) {
                     //User got past login or using invalidated session
