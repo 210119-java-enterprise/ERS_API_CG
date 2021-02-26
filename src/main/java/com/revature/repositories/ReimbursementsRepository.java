@@ -31,8 +31,7 @@ public class ReimbursementsRepository {
     /**
      * Adds a reimbursement to the database, Does not handle Images!
      * @param reimbursement the reimbursement to be added to the DB
-     * @throws SQLException e
-     * @throws IOException e
+     * @return boolean stating whether transaction worked
      */
     // TODO add support to persist receipt images to data source
     public boolean addReimbursement(Reimbursement reimbursement) {
@@ -48,15 +47,14 @@ public class ReimbursementsRepository {
             if(t != null){
                 t.rollback();
             }
-            logger.error(e.getMessage());
+            logger.error("Error caught while entering new reimbursement {}",e.getMessage());
         }finally{
             session.close();
         }
         return false;
     }
 
-    //---------------------------------- READ -------------------------------------------- //
-
+    //SELECT --------------------------------------------------------
     /**
      * Gets all the reimbursements in the database
      * @return the list of all reimbursements

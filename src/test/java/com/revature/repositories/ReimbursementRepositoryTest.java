@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ReimbursementRepositoryTest {
@@ -68,7 +69,16 @@ public class ReimbursementRepositoryTest {
     }
 
     @Test
-    public void test_NewReimb(){
+    public void test_NewReimb_emptyReimbursement(){
+        //Arrange
+        //Act
+        boolean worked = repo.addReimbursement(new Reimbursement());
+        //Assert
+        assertFalse(worked);
+    }
+
+    @Test
+    public void test_getAllReimb(){
         //Arrange
         Reimbursement reimbursement = setUp();
         //Act

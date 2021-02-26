@@ -18,19 +18,35 @@ public class UserRepository {
 
     //INSERT --------------------------------------------------------
     /**
+     * Adds a new user to the database.
+     * @param newUser   new user without an id
+     * @return          boolean
      */
-    public void addUser(User newUser)  {
+    public boolean addUser(User newUser)  {
         Session session = HibernateUtil.getSession();
         Transaction t = null;
 
-        t = session.beginTransaction();
-        session.save(newUser);
-        session.getTransaction().commit();
-        session.close();
+        try {
+            t = session.beginTransaction();
+            session.save(newUser);
+            t.commit();
+            return true;
+        } catch (HibernateException e) {
+            if (t != null)
+                t.rollback();
+
+            logger.error("Error caught while entering new user {}", e.getMessage());
+        }finally{
+            session.close();
+        }
+        return false;
     }
 
-    //---------------------------------- READ -------------------------------------------- //
-
+    //SELECT --------------------------------------------------------
+    /**
+     * Retrieves a list of all Users
+     * @return  a list of users found in the database
+     */
     public List<User> getAllUsers() {
         List<User> users = null;
 
@@ -40,6 +56,7 @@ public class UserRepository {
         try{
             t = session.beginTransaction();
             users = session.createQuery("FROM User").getResultList();
+            t.commit();
         }catch(HibernateException e){
             if(t != null){
                 t.rollback();

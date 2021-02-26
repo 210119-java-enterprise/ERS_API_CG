@@ -31,3 +31,9 @@
 16:58:14.507 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
 16:59:43.915 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
 17:01:33.067 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+17:20:00.764 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+17:20:37.555 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+17:49:35.106 [main] ERROR com.revature.repositories.ReimbursementsRepository - Error caught while entering new reimbursement could not execute statement
+17:51:26.045 [main] ERROR com.revature.repositories.UserRepository - Error caught while entering new user could not execute statement
+17:54:36.699 [main] ERROR com.revature.repositories.ReimbursementsRepository - Error caught while entering new reimbursement could not execute statement
+17:54:39.599 [main] ERROR com.revature.repositories.UserRepository - Error caught while entering new user could not execute statement
