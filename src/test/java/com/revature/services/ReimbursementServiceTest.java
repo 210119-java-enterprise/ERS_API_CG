@@ -504,7 +504,7 @@ public class ReimbursementServiceTest {
         Optional<Reimbursement> o = Optional.of(r);
         Mockito.when(reimbursementsRepository.getAReimbByReimbId(1)).thenReturn(o);
         Mockito.when(reimbursementsRepository.delete(r)).thenReturn(true);
-        Assert.assertFalse(reimbursementService.delete(1));
+        Assert.assertTrue(reimbursementService.delete(1));
     }
 
     //-----------------------------------------------------------
@@ -571,6 +571,6 @@ public class ReimbursementServiceTest {
         r.setDescription("this is okay");
         r.setAuthorId(10);
         r.setReimbursementType(ReimbursementType.FOOD);
-        Assert.assertFalse(reimbursementService.isReimbursementValid(r));
+        Assert.assertTrue(reimbursementService.isReimbursementValid(r));
     }
 }
