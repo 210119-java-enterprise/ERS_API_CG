@@ -1,5 +1,11 @@
 package com.revature.models;
 
+import com.revature.util.ReimbursementStatusAttributeConverter;
+import com.revature.util.ReimbursementTypeAttributeConverter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
 import java.io.File;
 import java.sql.Timestamp;
 import java.util.Objects;
@@ -7,16 +13,42 @@ import java.util.Objects;
 /**
  * The base unit of the ERS system. ready to include images
  */
+@Entity
+@DynamicInsert
+@DynamicUpdate
+@Table(name = "ers_reimbursements")
 public class Reimbursement {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
+
+    @Column(name = "amount")
     private Double amount;
+
+    @Column(name = "submitted")
     private Timestamp submitted;
+
+    @Column(name = "resolved")
     private Timestamp resolved;
+
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "reciept")
     private File receipt;
+
+    @Column(name = "author_id")
     private int authorId;
+
+    @Column(name = "resolver_id", columnDefinition = "int4 NULL")
     private int resolverId;
+
+    @Column(name = "reimbursement_status_id")
+    @Convert(converter = ReimbursementStatusAttributeConverter.class)
     private ReimbursementStatus reimbursementStatus;
+
+    @Column(name = "reimbursement_type_id")
+    @Convert(converter = ReimbursementTypeAttributeConverter.class)
     private ReimbursementType reimbursementType;
 
     public Reimbursement() {

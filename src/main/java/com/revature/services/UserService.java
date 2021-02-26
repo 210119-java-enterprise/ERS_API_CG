@@ -1,28 +1,48 @@
 package com.revature.services;
 
+import com.revature.exceptions.DatabaseException;
+import com.revature.exceptions.InvalidCredentialsException;
+import com.revature.exceptions.InvalidInputException;
 import com.revature.models.Role;
 import com.revature.models.User;
 import com.revature.repositories.UserRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+
+import static com.revature.util.Encryption.encrypt;
 
 /**
  * Constitutes the SERVICE LAYER for users. concerned with validating all user
  * input before being sent to the database.
  */
 public class UserService {
+
+    private static final Logger logger = LogManager.getLogger(UserService.class);
     private UserRepository userRepo = new UserRepository();
     /**
      * Gets all users from the DataBase
      * @return A list of Users
      */
     public List<User> getAllUsers(){
-        List<User> users = userRepo.getAllusers();
+        List<User> users = userRepo.getAllUsers();
         if (users.isEmpty()){
-            throw new RuntimeException();
+            logger.error("No users in the database", new DatabaseException());
+            return null;
         }
         return users;
+    }
+
+    public User getUserById(int id){
+        Optional<User> user = userRepo.getAUserById(id);
+        if (!user.isPresent()){
+            logger.error("No user matching id in the database", new DatabaseException());
+            return null;
+        }
+        return user.get();
     }
 
     /**
@@ -31,12 +51,19 @@ public class UserService {
      * @param password password of the user
      * @return the object of the requested user
      */
-    public User authenticate(String username, String password){
+    public User authenticate(String username, String password) throws SQLException {
         if (username == null || username.trim().equals("") || password == null || password.trim().equals("")){
-            throw new RuntimeException("Invalid credentials provided");
+            logger.error("Invalid credentials provided", new InvalidCredentialsException());
+            return null;
         }
-        return userRepo.getAUserByUsernameAndPassword(username,password)
-                .orElseThrow(RuntimeException::new);
+        Optional<User> authUser =userRepo.getAUserByUsernameAndPassword(username,encrypt(password));
+        if (authUser .isPresent())
+            return authUser.get();
+        else {
+            logger.error("Authentication failed", new InvalidCredentialsException());
+            return null;
+        }
+
     }
 
     /**
@@ -44,33 +71,41 @@ public class UserService {
      * @param newUser completed user object
      */
     // TODO: encrypt all user passwords before persisting to data source
-    public void register(User newUser) {
+    public boolean register(User newUser) {
         if (!isUserValid(newUser)) {
-            throw new RuntimeException("Invalid user field values provided during registration!");
+            logger.error("Invalid user field values provided during registration!", new InvalidInputException());
+            return false;
         }
         Optional<User> existingUser = userRepo.getAUserByUsername(newUser.getUsername());
         if (existingUser.isPresent()) {
-            throw new RuntimeException("Username is already in use");
+            logger.error("Username is already in use", new InvalidCredentialsException());
+            return false;
         }
         Optional<User> existingUserEmail = userRepo.getAUserByEmail(newUser.getEmail());
         if (existingUserEmail.isPresent()) {
-            throw new RuntimeException("Email is already in use");
+            logger.error("Email is already in use",new InvalidCredentialsException());
+            return false;
         }
         newUser.setUserRole(Role.EMPLOYEE.ordinal() + 1);
+        newUser.setPassword(encrypt(newUser.getPassword()));
         userRepo.addUser(newUser);
+        return true;
     }
 
     /**
      * Update a user in the DB.
      * @param newUser user to update
      */
-    public void update(User newUser) {
+    public boolean update(User newUser) {
         if (!isUserValid(newUser)) {
-            throw new RuntimeException("Invalid user field values provided during registration!");
+            logger.error("Invalid user field values provided during registration!", new InvalidInputException());
+            return false;
         }
         if (!userRepo.updateAUser(newUser)){
-            throw new RuntimeException("There was a problem trying to update the user");
+            logger.error("", new DatabaseException());
+            return false;
         }
+        return true;
     }
 
     /**
@@ -80,7 +115,8 @@ public class UserService {
      */
     public boolean deleteUserById(int id) {
         if (id <= 0){
-            throw new RuntimeException("THE PROVIDED ID CANNOT BE LESS THAN OR EQUAL TO ZERO");
+            logger.error("THE PROVIDED ID CANNOT BE LESS THAN OR EQUAL TO ZERO",new InvalidInputException());
+            return false;
         }
         return userRepo.deleteAUserById(id);
     }
