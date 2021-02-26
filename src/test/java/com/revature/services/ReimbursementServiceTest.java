@@ -30,6 +30,7 @@ public class ReimbursementServiceTest {
 
     @After
     public void tearDownTest(){
+        reimbursementsRepository = null;
         reimbursementService = null;
     }
 
@@ -329,5 +330,31 @@ public class ReimbursementServiceTest {
 
     //-----------------------------------------------------------
 
-    
+    @Test
+    public void test_save_badReimb(){
+        ReimbursementService mock = Mockito.mock(ReimbursementService.class);
+        Reimbursement r = new Reimbursement();
+        Mockito.when(mock.isReimbursementValid(r)).thenReturn(false);
+        Assert.assertFalse(reimbursementService.save(r));
+    }
+
+    @Test
+    public void test_save_badReimbTwo(){
+        ReimbursementService mock = Mockito.mock(ReimbursementService.class);
+        Reimbursement r = new Reimbursement();
+        Mockito.when(mock.isReimbursementValid(r)).thenReturn(true);
+        Mockito.when(reimbursementsRepository.addReimbursement(r)).thenReturn(false);
+        Assert.assertFalse(reimbursementService.save(r));
+    }
+
+    @Test
+    public void test_save_goodReimb(){
+        ReimbursementService mock = Mockito.mock(ReimbursementService.class);
+        Reimbursement r = new Reimbursement();
+        Mockito.when(mock.isReimbursementValid(r)).thenReturn(true);
+        Mockito.when(reimbursementsRepository.addReimbursement(r)).thenReturn(true);
+        Assert.assertTrue(reimbursementService.save(r));
+    }
+
+    //-----------------------------------------------------------
 }
