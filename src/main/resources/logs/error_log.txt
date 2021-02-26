@@ -28,3 +28,6 @@
 13:34:42.514 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
 13:38:37.895 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
 13:38:37.895 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+16:58:14.507 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+16:59:43.915 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+17:01:33.067 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement

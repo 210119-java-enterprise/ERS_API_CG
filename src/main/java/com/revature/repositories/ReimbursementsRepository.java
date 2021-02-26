@@ -14,19 +14,22 @@ import java.sql.*;
 import java.util.*;
 
 /**
- * A class to interact with the database to CRUD reimbursement objects
+ * A repository class that interacts with hibernate to handle all reimbursement transactions
+ *
+ * @author Cole Space
+ * @author Gabrielle Luna
  */
 public class ReimbursementsRepository {
-
+    //Attributes -----------------------------------------------------
     private static final Logger logger = LogManager.getLogger(ReimbursementsRepository.class);
 
     public ReimbursementsRepository(){
         super();
     }
 
-    //---------------------------------- CREATE -------------------------------------------- //
+    //INSERT --------------------------------------------------------
     /**
-     * Adds a reimburement to the database, Does not handle Images!
+     * Adds a reimbursement to the database, Does not handle Images!
      * @param reimbursement the reimbursement to be added to the DB
      * @throws SQLException e
      * @throws IOException e
