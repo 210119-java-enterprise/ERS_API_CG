@@ -368,15 +368,17 @@ public class ReimbursementService {
      * @param resolverId the Id of the fin manager resolving the reimb.
      * @param reimbId id of the Reimb. to approve or disapprove.
      */
-    public void approve(Integer resolverId, Integer reimbId) {
+    public boolean approve(Integer resolverId, Integer reimbId) {
         if (reimbId <= 0 || resolverId <=0){
             logger.error("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
+            return false;
         }
         Reimbursement r = null;
         try {
             Optional<Reimbursement> o = reimbRepo.getAReimbByReimbId(reimbId);
             if(!o.isPresent()){
                 logger.error("No entry in database", new DatabaseException());
+                return false;
             }else {
                 r = o.get();
                 r.setResolverId(resolverId);
@@ -386,7 +388,9 @@ public class ReimbursementService {
             }
         } catch (SQLException e) {
             logger.error(e.getMessage());
+            return false;
         }
+        return true;
     }
 
     /**
@@ -394,15 +398,17 @@ public class ReimbursementService {
      * @param resolverId the Id of the fin manager resolving the reimb.
      * @param reimbId id of the Reimb. to approve or disapprove.
      */
-    public void deny(Integer resolverId, Integer reimbId) {
-        if (reimbId <= 0){
+    public boolean deny(Integer resolverId, Integer reimbId) {
+        if (reimbId <= 0 || resolverId <=0){
             logger.error("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
+            return false;
         }
         Reimbursement r = null;
         try {
             Optional<Reimbursement> o = reimbRepo.getAReimbByReimbId(reimbId);
             if(!o.isPresent()){
                 logger.error("No entry in database", new DatabaseException());
+                return false;
             }else {
                 r = o.get();
                 r.setResolverId(resolverId);
@@ -412,7 +418,9 @@ public class ReimbursementService {
             }
         } catch (SQLException e) {
             logger.error(e.getMessage());
+            return false;
         }
+        return true;
     }
 
     /**

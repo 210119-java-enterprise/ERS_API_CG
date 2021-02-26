@@ -349,14 +349,16 @@ public class ReimbursementServiceTest {
         Assert.assertFalse(reimbursementService.save(r));
     }
 
-//    @Test
-//    public void test_save_goodReimb(){
-//        ReimbursementService mock = Mockito.mock(ReimbursementService.class);
-//        Reimbursement r = new Reimbursement();
-//        Mockito.when(mock.isReimbursementValid(r)).thenReturn(true);
-//        Mockito.when(reimbursementsRepository.addReimbursement(r)).thenReturn(true);
-//        Assert.assertTrue(reimbursementService.save(r));
-//    }
+    @Test
+    public void test_save_goodReimb(){
+        Reimbursement r = new Reimbursement();
+        r.setAmount(10.00);
+        r.setDescription("this is okay");
+        r.setAuthorId(10);
+        r.setReimbursementType(ReimbursementType.FOOD);
+        Mockito.when(reimbursementsRepository.addReimbursement(r)).thenReturn(true);
+        Assert.assertTrue(reimbursementService.save(r));
+    }
 
     //-----------------------------------------------------------
 
@@ -377,14 +379,16 @@ public class ReimbursementServiceTest {
         Assert.assertFalse(reimbursementService.updateEMP(r));
     }
 
-//    @Test
-//    public void test_update_goodReimb(){
-//        ReimbursementService mock = Mockito.mock(ReimbursementService.class);
-//        Reimbursement r = new Reimbursement();
-//        Mockito.when(mock.isReimbursementValid(r)).thenReturn(true);
-//        Mockito.when(reimbursementsRepository.updateEMP(r)).thenReturn(true);
-//        Assert.assertTrue(reimbursementService.updateEMP(r));
-//    }
+    @Test
+    public void test_update_goodReimb(){
+        Reimbursement r = new Reimbursement();
+        r.setAmount(10.00);
+        r.setDescription("this is okay");
+        r.setAuthorId(10);
+        r.setReimbursementType(ReimbursementType.FOOD);
+        Mockito.when(reimbursementsRepository.updateEMP(r)).thenReturn(true);
+        Assert.assertTrue(reimbursementService.updateEMP(r));
+    }
 
     //-----------------------------------------------------------
 
@@ -444,11 +448,12 @@ public class ReimbursementServiceTest {
 
 //    @Test
 //    public void test_updateOverload_goodReimb() throws SQLException {
-//        ReimbursementService mock = Mockito.mock(ReimbursementService.class);
 //        Reimbursement r = new Reimbursement();
 //        r.setAuthorId(1);
+//        r.setAmount(10.00);
+//        r.setDescription("this is okay");
+//        r.setReimbursementType(ReimbursementType.FOOD);
 //        r.setReimbursementStatus(ReimbursementStatus.PENDING);
-//        Mockito.when(mock.isReimbursementValid(r)).thenReturn(true);
 //        Optional<Reimbursement>o = Optional.of(r);
 //        Mockito.when(reimbursementsRepository.getAReimbByReimbId(1)).thenReturn(o);
 //        Mockito.when(reimbursementsRepository.updateEMP(r)).thenReturn(true);
@@ -460,24 +465,54 @@ public class ReimbursementServiceTest {
 
     @Test
     public void test_approve_badResolverId(){
-
+        Assert.assertFalse(reimbursementService.approve(-1, 1));
     }
 
     @Test
     public void test_approve_badReimbId(){
+        Assert.assertFalse(reimbursementService.approve(1, -1));
+    }
 
+    @Test
+    public void test_approve_nullOptional() throws SQLException {
+        Optional<Reimbursement> o = Optional.empty();
+        Mockito.when(reimbursementsRepository.getAReimbByReimbId(1)).thenReturn(o);
+        Assert.assertFalse(reimbursementService.approve(1, 1));
+    }
+
+    @Test
+    public void test_approve_notNullOptional() throws SQLException {
+        Optional<Reimbursement> o = Optional.of(new Reimbursement());
+        Mockito.when(reimbursementsRepository.getAReimbByReimbId(1)).thenReturn(o);
+        Mockito.when(reimbursementsRepository.updateEMP(o.get())).thenReturn(true);
+        Assert.assertTrue(reimbursementService.approve(1, 1));
     }
 
     //-----------------------------------------------------------
 
     @Test
     public void test_deny_badResolverId(){
-
+        Assert.assertFalse(reimbursementService.deny(-1, 1));
     }
 
     @Test
     public void test_deny_badReimbId(){
+        Assert.assertFalse(reimbursementService.deny(1, -1));
+    }
 
+    @Test
+    public void test_deny_nullOptional() throws SQLException {
+        Optional<Reimbursement> o = Optional.empty();
+        Mockito.when(reimbursementsRepository.getAReimbByReimbId(1)).thenReturn(o);
+        Assert.assertFalse(reimbursementService.deny(1, 1));
+    }
+
+    @Test
+    public void test_deny_notNullOptional() throws SQLException {
+        Optional<Reimbursement> o = Optional.of(new Reimbursement());
+        Mockito.when(reimbursementsRepository.getAReimbByReimbId(1)).thenReturn(o);
+        Mockito.when(reimbursementsRepository.updateEMP(o.get())).thenReturn(true);
+        Assert.assertTrue(reimbursementService.deny(1, 1));
     }
 
     //-----------------------------------------------------------
