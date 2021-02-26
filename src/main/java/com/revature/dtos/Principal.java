@@ -13,8 +13,8 @@ import java.util.Objects;
 public class Principal {
 
     private int id;
-    private String username;
-    private String role;
+    private int role;
+    private String email;
 
     public Principal() {
         super();
@@ -22,8 +22,8 @@ public class Principal {
 
     public Principal(User user) {
         this.id = user.getUserId();
-        this.username = user.getUsername();
-        this.role = user.getUserRole().toString();
+        this.role = user.getUserRole();
+        this.email = user.getEmail();
     }
 
     public int getId() {
@@ -34,20 +34,20 @@ public class Principal {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getRole() {
+    public int getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(int role) {
         this.role = role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String stringify() throws JsonProcessingException {
@@ -61,20 +61,20 @@ public class Principal {
         if (o == null || getClass() != o.getClass()) return false;
         Principal principal = (Principal) o;
         return id == principal.id &&
-                Objects.equals(username, principal.username) &&
+                Objects.equals(email, principal.email) &&
                 Objects.equals(role, principal.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, role);
+        return Objects.hash(id, email, role);
     }
 
     @Override
     public String toString() {
         return "Principal{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
                 '}';
     }

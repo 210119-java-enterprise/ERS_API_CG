@@ -1,6 +1,7 @@
 package com.revature.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.dtos.Principal;
 import com.revature.exceptions.DatabaseException;
 import com.revature.exceptions.InvalidInputException;
 import com.revature.exceptions.RegistrationException;
@@ -170,7 +171,7 @@ public class UserServlet extends HttpServlet {
     /**
      * Put updates an existing user
      * @param req               request holds a complete user with updated fields
-     * @param resp              response holds a confirmation with the uspdated users info
+     * @param resp              response holds a confirmation with the updated users info
      * @throws ServletException not thrown
      * @throws IOException      thrown by object mapper
      */
@@ -189,7 +190,12 @@ public class UserServlet extends HttpServlet {
 
                 LOG.info("UserServlet.doPut() invoked by requester {}", requester);
 
-                User newUser = mapper.readValue(req.getInputStream(), User.class);
+                Principal principal = mapper.readValue(req.getInputStream(), Principal.class);
+                User newUser = userService.getUserById(principal.getId());
+                if (newUser == null) throw new InvalidInputException();
+                newUser.setUserRole(principal.getRole());
+                newUser.setEmail(principal.getEmail());
+
                 if (userService.update(newUser)) {
                     //SUCCESS
                     writer.write("User Updated: \n");
@@ -208,7 +214,7 @@ public class UserServlet extends HttpServlet {
                     resp.setStatus(403);
                 }
             }
-        }catch(InvalidInputException e){
+        }catch(InvalidInputException | IOException e){
             //Error in UserService due to invalid input by user
             LOG.error("Invalid User update attempted");
             writer.write("Invalid user update\n");
@@ -263,7 +269,7 @@ public class UserServlet extends HttpServlet {
                 }
 
             }
-        }catch(InvalidInputException e){
+        }catch(InvalidInputException | IOException e){
             LOG.error("Failure to delete user");
             writer.write("Failed to delete user\n");
             resp.setStatus(400);

@@ -91,12 +91,18 @@ public class LoginServlet extends HttpServlet {
             e.printStackTrace();
             LOG.error(e.getMessage());
             resp.setStatus(500);
-        }catch (InvalidCredentialsException | IOException e){
+        }catch (InvalidCredentialsException e){
             //Bad login
             writer.write("Invalid Login!");
             e.printStackTrace();
             LOG.error(e.getMessage());
             resp.setStatus(401);
+        }catch(IOException e){
+            //Bad login format
+            writer.write("Invalid Login format!");
+            e.printStackTrace();
+            LOG.error(e.getMessage());
+            resp.setStatus(400);
         }
     }
 }
