@@ -247,7 +247,6 @@ public class UserServlet extends HttpServlet {
         try {
             //Must be admin
             if (requester != null && requester.getUserRole().compareTo(1) == 0) {
-
                 if (userIdParam != null){
                     int id = Integer.parseInt(userIdParam);
                     if (id == requester.getUserId()) throw new DatabaseException();
@@ -260,7 +259,8 @@ public class UserServlet extends HttpServlet {
                         writer.write(mapper.writeValueAsString(user));
                         LOG.info("User deleted : {}", user.getUsername());
                     }else throw new InvalidInputException();
-                }
+                }else
+                    writer.write("No user provided");
             }else {
                 if (requester == null) {
                     //User got past login or using invalidated session
@@ -271,7 +271,6 @@ public class UserServlet extends HttpServlet {
                     LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
                     resp.setStatus(403);
                 }
-
             }
         }catch(InvalidInputException | IOException e){
             LOG.error("Failure to delete user due to syntax errors");
