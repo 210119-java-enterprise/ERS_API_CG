@@ -207,7 +207,7 @@ public class ReimbursementService {
      * @return the reimbursement
      */
     public Reimbursement getReimbByReimbId(Integer requesterId, Integer reimbId){
-        if (reimbId <= 0){
+        if (reimbId <= 0 || requesterId <= 0){
             logger.error("THE PROVIDED REIMBURSEMENT ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
             return null;
         }
@@ -252,7 +252,7 @@ public class ReimbursementService {
      * @return A list of RbDTO objects
      */
     public List<Reimbursement> getReimbByStatus(Integer statusId){
-        if (statusId <= 0 || statusId >= 4){
+        if (statusId <= 0 || statusId >= 5){
             logger.error("THE PROVIDED STATUS ID CANNOT BE LESS THAN OR EQUAL TO ZERO OR GREATER THAN OR EQUAL TO 4", new InvalidInputException());
             return null;
         }
