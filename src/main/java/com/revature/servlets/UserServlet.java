@@ -250,7 +250,11 @@ public class UserServlet extends HttpServlet {
 
                 LOG.info("UserServlet.doDelete() invoked by requester {}", requester);
 
-                User user = mapper.readValue(req.getInputStream(), User.class);
+                Principal principal = mapper.readValue(req.getInputStream(), Principal.class);
+                User user = userService.getUserById(principal.getId());
+                if (user == null) throw new InvalidInputException();
+                if (user == requester) throw new DatabaseException();
+
                 if (userService.deleteUserById(user.getUserId())) {
                     writer.write("User Deleted: \n");
                     writer.write(mapper.writeValueAsString(user));
@@ -273,8 +277,11 @@ public class UserServlet extends HttpServlet {
             LOG.error("Failure to delete user");
             writer.write("Failed to delete user\n");
             resp.setStatus(400);
-        }
-        catch (Exception e) {
+        }catch(DatabaseException e){
+            LOG.error("Cannot self delete!");
+            writer.write("Cannot self delete!\n");
+            resp.setStatus(400);
+        }catch (Exception e) {
             e.printStackTrace();
             LOG.error(e.getMessage());
             resp.setStatus(500);
