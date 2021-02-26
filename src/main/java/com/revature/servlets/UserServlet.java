@@ -193,12 +193,17 @@ public class UserServlet extends HttpServlet {
                 User user = mapper.readValue(req.getInputStream(), User.class);
                 if (user == null) throw new InvalidInputException();
                 if (user == requester) throw new DatabaseException();
+                User originalUser = userService.getUserById(user.getUserId());
+                originalUser.setUserRole(user.getUserRole());
+                originalUser.setEmail(user.getEmail());
+                originalUser.setLastname(user.getLastname());
+                originalUser.setFirstname(user.getFirstname());
 
-                if (userService.update(user)) {
+                if (userService.update(originalUser)) {
                     //SUCCESS
                     writer.write("User Updated: \n");
-                    writer.write(mapper.writeValueAsString(user));
-                    LOG.info("User updated : {}", user.getUsername());
+                    writer.write(mapper.writeValueAsString(originalUser));
+                    LOG.info("User updated : {}", originalUser.getUsername());
                 }else throw new InvalidInputException();
 
             }else {
