@@ -39,27 +39,20 @@ public class Encryption {
             cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             logger.fatal(e.getMessage());
+            return null;
         }
 
         SecretKey secretKey = new SecretKeySpec(encryptionKeyBytes, "AES");
 
         try {
-            if(cipher == null){
-                logger.error("Cipher is null");
-            }else {
-                cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-                if(message == null || message.trim().equals("")){
-                    return null;
-                }
-                encryptedMessage = cipher.doFinal(message.getBytes(StandardCharsets.UTF_8));
-                logger.info("Encrypted the password");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            if(message == null || message.trim().equals("")){
+                return null;
             }
+            encryptedMessage = cipher.doFinal(message.getBytes(StandardCharsets.UTF_8));
+            logger.info("Encrypted the password");
         } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
             logger.fatal(e.getMessage());
-        }
-
-        if(encryptedMessage == null){
-            logger.error("The encrypted password is null");
             return null;
         }
 

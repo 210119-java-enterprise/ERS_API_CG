@@ -23,7 +23,15 @@ import java.util.Optional;
 public class ReimbursementService {
 
     private static final Logger logger = LogManager.getLogger(ReimbursementService.class);
-    private final ReimbursementsRepository reimbRepo = new ReimbursementsRepository();
+    private final ReimbursementsRepository reimbRepo;
+
+    public ReimbursementService(){
+        reimbRepo = new ReimbursementsRepository();
+    }
+
+    public ReimbursementService(ReimbursementsRepository reimbRepo){
+        this.reimbRepo = reimbRepo;
+    }
 
     /**
      * Gets all Reimbursements from the DataBase
@@ -63,7 +71,7 @@ public class ReimbursementService {
      * @return the list of reimbursements
      */
     public List<Reimbursement> getReimbByAuthorAndStatus(Integer authorId, Integer reStat){
-        if (authorId <= 0){
+        if (authorId <= 0 || reStat < 1 || reStat > 4){
             logger.error("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
             return null;
         }
@@ -91,7 +99,7 @@ public class ReimbursementService {
      * @return a list of all reimbursements of a specific author and type
      */
     public List<Reimbursement> getReimbByAuthorAndType(Integer authorId, Integer reType){
-        if (authorId <= 0){
+        if (authorId <= 0 || reType <= 0 || reType >=5){
             logger.error("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
             return null;
         }
@@ -119,7 +127,7 @@ public class ReimbursementService {
      * @return the list of reimbursements resolved by a user and of a status
      */
     public List<Reimbursement> getReimbByResolverAndStatus(Integer resolverId, Integer reStat){
-        if (resolverId <= 0){
+        if (resolverId <= 0 || reStat < 1 || reStat > 4){
             logger.error("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
             return null;
         }
@@ -147,7 +155,7 @@ public class ReimbursementService {
      * @return a list of all the reimbursements
      */
     public List<Reimbursement> getReimbByResolverAndType(Integer resolverId, Integer reType){
-        if (resolverId <= 0){
+        if (resolverId <= 0 || reType <= 0 || reType >=5){
             logger.error("THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO", new InvalidInputException());
             return null;
         }
