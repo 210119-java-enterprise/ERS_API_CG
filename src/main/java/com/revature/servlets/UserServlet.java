@@ -1,8 +1,10 @@
 package com.revature.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.dtos.Principal;
 import com.revature.exceptions.DatabaseException;
 import com.revature.exceptions.InvalidInputException;
+import com.revature.exceptions.RegistrationException;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -112,6 +114,13 @@ public class UserServlet extends HttpServlet {
 
     }
 
+    /**
+     * Post will add a new user to the database
+     * @param req               request body holds the description of a user
+     * @param resp              response holds a confirmation
+     * @throws ServletException not thrown
+     * @throws IOException      thrown by object mapper
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter writer = resp.getWriter();
@@ -128,19 +137,15 @@ public class UserServlet extends HttpServlet {
                 LOG.info("UserServlet.doPost() invoked by requester {}", requester);
 
                 User newUser = mapper.readValue(req.getInputStream(), User.class);
-                if (userService.isUserValid(newUser)) {
-                    //SUCCESS
-                    userService.register(newUser);
+
+                if (userService.register(newUser)) {
                     writer.write("New User created : \n");
                     writer.write(mapper.writeValueAsString(newUser));
                     LOG.info("New User created : {}", newUser.getUsername());
-                }else{
-                    //FAILURE
-                    LOG.error("Invalid User created {}", newUser.toString());
-                    writer.write("Invalid user created\n");
-                }
-            }else {
+                    resp.setStatus(201);
+                }else throw new RegistrationException();
 
+            }else {
                 if (requester == null) {
                     //User got past login or using invalidated session
                     LOG.warn("Unauthorized request made by unknown requester");
@@ -150,16 +155,26 @@ public class UserServlet extends HttpServlet {
                     LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
                     resp.setStatus(403);
                 }
-
             }
-        }catch (Exception e) {
+        }catch(RegistrationException | IOException e){
+            //Invalid new user
+            LOG.error("Invalid User created");
+            writer.write("Invalid user created\n");
+            resp.setStatus(400);
+        } catch (Exception e) {
             e.printStackTrace();
             LOG.error(e.getMessage());
             resp.setStatus(500);
         }
     }
 
-
+    /**
+     * Put updates an existing user
+     * @param req               request holds a complete user with updated fields
+     * @param resp              response holds a confirmation with the updated users info
+     * @throws ServletException not thrown
+     * @throws IOException      thrown by object mapper
+     */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter writer = resp.getWriter();
@@ -175,17 +190,19 @@ public class UserServlet extends HttpServlet {
 
                 LOG.info("UserServlet.doPut() invoked by requester {}", requester);
 
-                User newUser = mapper.readValue(req.getInputStream(), User.class);
+                Principal principal = mapper.readValue(req.getInputStream(), Principal.class);
+                User newUser = userService.getUserById(principal.getId());
+                if (newUser == null) throw new InvalidInputException();
+                newUser.setUserRole(principal.getRole());
+                newUser.setEmail(principal.getEmail());
+
                 if (userService.update(newUser)) {
                     //SUCCESS
                     writer.write("User Updated: \n");
                     writer.write(mapper.writeValueAsString(newUser));
                     LOG.info("User updated : {}", newUser.getUsername());
-                }else{
-                    //FAILURE
-                    LOG.error("Invalid User update {}", newUser.toString());
-                    writer.write("Invalid user update\n");
-                }
+                }else throw new InvalidInputException();
+
             }else {
                 if (requester == null) {
                     //User got past login or using invalidated session
@@ -196,8 +213,12 @@ public class UserServlet extends HttpServlet {
                     LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
                     resp.setStatus(403);
                 }
-
             }
+        }catch(InvalidInputException | IOException e){
+            //Error in UserService due to invalid input by user
+            LOG.error("Invalid User update attempted");
+            writer.write("Invalid user update\n");
+            resp.setStatus(400);
         }catch (Exception e) {
             writer.write(e.getMessage());
             e.printStackTrace();
@@ -206,6 +227,14 @@ public class UserServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Delete will delete the specified user from the database
+     * @param req               request hold details about a user to be deleted
+     * @param resp              response holds a confirmation of the deleted user
+     * @throws ServletException not thrown
+     * @throws IOException      thrown by object mapper
+     */
+    //Disallow a self delete
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         PrintWriter writer = resp.getWriter();
@@ -221,17 +250,17 @@ public class UserServlet extends HttpServlet {
 
                 LOG.info("UserServlet.doDelete() invoked by requester {}", requester);
 
-                User user = mapper.readValue(req.getInputStream(), User.class);
+                Principal principal = mapper.readValue(req.getInputStream(), Principal.class);
+                User user = userService.getUserById(principal.getId());
+                if (user == null) throw new InvalidInputException();
+                if (user == requester) throw new DatabaseException();
+
                 if (userService.deleteUserById(user.getUserId())) {
-                    //SUCCESS
                     writer.write("User Deleted: \n");
                     writer.write(mapper.writeValueAsString(user));
                     LOG.info("User deleted : {}", user.getUsername());
-                }else{
-                    //FAILURE
-                    LOG.error("Failure to delete user: {}", user.toString());
-                    writer.write("Failed to delete user\n");
-                }
+                }else throw new InvalidInputException();
+
             }else {
                 if (requester == null) {
                     //User got past login or using invalidated session
@@ -244,6 +273,14 @@ public class UserServlet extends HttpServlet {
                 }
 
             }
+        }catch(InvalidInputException | IOException e){
+            LOG.error("Failure to delete user");
+            writer.write("Failed to delete user\n");
+            resp.setStatus(400);
+        }catch(DatabaseException e){
+            LOG.error("Cannot self delete!");
+            writer.write("Cannot self delete!\n");
+            resp.setStatus(400);
         }catch (Exception e) {
             e.printStackTrace();
             LOG.error(e.getMessage());

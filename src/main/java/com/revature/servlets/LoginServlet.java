@@ -97,6 +97,12 @@ public class LoginServlet extends HttpServlet {
             e.printStackTrace();
             LOG.error(e.getMessage());
             resp.setStatus(401);
+        }catch(IOException e){
+            //Bad login format
+            writer.write("Invalid Login format!");
+            e.printStackTrace();
+            LOG.error(e.getMessage());
+            resp.setStatus(400);
         }
     }
 }

@@ -28,6 +28,7 @@
 13:34:42.514 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
 13:38:37.895 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
 13:38:37.895 [main] ERROR com.revature.services.ReimbursementService - Unable to save the reimbursement into the database
+<<<<<<< HEAD
 18:17:09.363 [main] ERROR com.revature.services.ReimbursementService - THE PROVIDED USER ID CANNOT BE LESS THAN OR EQUAL TO ZERO
 com.revature.exceptions.InvalidInputException: null
 	at com.revature.services.ReimbursementService.getReimbByUserId(ReimbursementService.java:48) [classes/:?]
@@ -1409,3 +1410,8 @@ com.revature.exceptions.InvalidInputException: null
 	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85) [surefire-booter-2.12.4.jar:2.12.4]
 	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115) [surefire-booter-2.12.4.jar:2.12.4]
 	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75) [surefire-booter-2.12.4.jar:2.12.4]
+=======
+16:58:14.507 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+16:59:43.915 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+17:01:33.067 [main] ERROR com.revature.repositories.ReimbursementsRepository - could not execute statement
+>>>>>>> 01f5a396ec89947c8517662a79cf6965a3e50796
