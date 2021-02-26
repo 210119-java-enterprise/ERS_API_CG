@@ -215,7 +215,7 @@ public class UserServlet extends HttpServlet {
         }catch(InvalidInputException | IOException e){
             //Error in UserService due to invalid input by user
             LOG.error("Invalid User update attempted");
-            writer.write("Invalid user update\n");
+            writer.write("Error: Your inability to comply with syntax standards is why forms were created.\n");
             resp.setStatus(400);
         }catch (Exception e) {
             writer.write(e.getMessage());
@@ -271,12 +271,12 @@ public class UserServlet extends HttpServlet {
 
             }
         }catch(InvalidInputException | IOException e){
-            LOG.error("Failure to delete user");
-            writer.write("Failed to delete user\n");
+            LOG.error("Failure to delete user due to syntax errors");
+            writer.write("Error: Your inability to comply with syntax standards has resulted in a parsing error\n");
             resp.setStatus(400);
         }catch(DatabaseException e){
-            LOG.error("Cannot self delete!");
-            writer.write("Cannot self delete!\n");
+            LOG.error("User attempted self deletion!");
+            writer.write("Error: Cannot self delete, go get your boss!\n");
             resp.setStatus(400);
         }catch (Exception e) {
             e.printStackTrace();
