@@ -90,15 +90,18 @@ public class ManageServlet extends HttpServlet {
 
                 }else{
                     LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
+                    writer.write("You lack the proper authorization to reach this endpoint. This insubordination has been reported to the authorities");
                     resp.setStatus(403);
                 }
             } else {
                 //User got past login or using invalidated session
                 LOG.warn("Unauthorized request made by unknown requester");
+                writer.write("You are an unknown user. Who are you?");
                 resp.setStatus(401);
             }
         }catch(Exception e){
             LOG.error(e.getMessage());
+            writer.write("Internal server error, sorry about that! Give us one moment to fix this, we strive to provide excellent service");
             resp.setStatus(500);
         }
 
@@ -147,28 +150,34 @@ public class ManageServlet extends HttpServlet {
                                 writer.write("Successfully denied");
                             }else{
                                 LOG.warn("Request made by requester, {}, incorrect reimbursement status id", requester.getUsername());
+                                writer.write("The reimbursement status id provided doesn't match any on record, try again");
                                 resp.setStatus(400);
                             }
                         } else {
                             LOG.warn("Request made by requester, {}, did not specify reimbursement status id", requester.getUsername());
+                            writer.write("You need to provide a reimbursement status id if you want to approve or deny a reimbursement");
                             resp.setStatus(400);
                         }
                     } else {
                         LOG.warn("Request made by requester, {}, did not specify reimbursement id", requester.getUsername());
+                        writer.write("Please provide a reimbursement id, since you cannot update what isn't specified");
                         resp.setStatus(400);
                     }
 
                 }else{
                     LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
+                    writer.write("You lack the proper authorization to reach this endpoint. This insubordination has been reported to the authorities");
                     resp.setStatus(403);
                 }
             } else {
                 //User got past login or using invalidated session
                 LOG.warn("Unauthorized request made by unknown requester");
+                writer.write("You are an unknown user. Who are you?");
                 resp.setStatus(401);
             }
         }catch(Exception e){
             LOG.error(e.getMessage());
+            writer.write("Internal server error, sorry about that! Give us one moment to fix this, we strive to provide excellent service");
             resp.setStatus(500);
         }
     }

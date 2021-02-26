@@ -85,16 +85,19 @@ public class ReimbursementServlet extends HttpServlet {
                 }else{
                     //User is deleted
                     LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
+                    writer.write("You lack the proper authorization to reach this endpoint. This insubordination has been reported to the authorities");
                     resp.setStatus(403);
                 }
             }else{
                 //User got past login or using invalidated session
                 LOG.warn("Unauthorized request made by unknown requester");
+                writer.write("You are an unknown user. Who are you?");
                 resp.setStatus(401);
             }
 
         }catch(Exception e){
             LOG.error(e.getMessage());
+            writer.write("Internal server error, sorry about that! Give us one moment to fix this, we strive to provide excellent service");
             resp.setStatus(500);
         }
 
@@ -134,17 +137,19 @@ public class ReimbursementServlet extends HttpServlet {
                 }else{
                     //User is deleted
                     LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
+                    writer.write("You lack the proper authorization to reach this endpoint. This insubordination has been reported to the authorities");
                     resp.setStatus(403);
                 }
             }else{
                 //User got past login or using invalidated session
                 LOG.warn("Unauthorized request made by unknown requester");
+                writer.write("You are an unknown user. Who are you?");
                 resp.setStatus(401);
             }
 
         }catch(Exception e){
             LOG.error(e.getMessage());
-            writer.write(e.getMessage());
+            writer.write("Internal server error, sorry about that! Give us one moment to fix this, we strive to provide excellent service");
             resp.setStatus(500);
         }
     }
@@ -185,17 +190,19 @@ public class ReimbursementServlet extends HttpServlet {
                 }else{
                     //User is deleted
                     LOG.warn("Request made by requester, {}, who lacks proper authorities", requester.getUsername());
+                    writer.write("You lack the proper authorization to reach this endpoint. This insubordination has been reported to the authorities");
                     resp.setStatus(403);
                 }
             }else{
                 //User got past login or using invalidated session
                 LOG.warn("Unauthorized request made by unknown requester");
+                writer.write("You are an unknown user. Who are you?");
                 resp.setStatus(401);
             }
 
         }catch(Exception e){
             LOG.error(e.getMessage());
-            writer.write(e.getMessage());
+            writer.write("Internal server error, sorry about that! Give us one moment to fix this, we strive to provide excellent service");
             resp.setStatus(500);
         }
     }
